@@ -26,6 +26,15 @@ public class VRPlayer : MonoBehaviour
 	//! 通常の初期化タイミングは Awake() だよ Start() じゃないよ 
 	void Awake()
 	{
+		// メインカメラを乗っ取り、CameraとAudioListenerを無効化 
+		var cam = UnityEngine.Camera.main;
+		cam.GetComponent<Camera>().enabled = false;
+		cam.GetComponent<AudioListener>().enabled = false;
+		// VR用のカメラを有効化 
+		Camera.GetComponent<Camera>().enabled = true;
+		Camera.GetComponent<AudioListener>().enabled = true;
+
+		// VR入力機能開始 
 		_input = PluggableVR.Oculus.Input.Setup();
 		_target = Target.CreateControl();
 		ResetRig();
@@ -103,7 +112,7 @@ public class VRPlayer : MonoBehaviour
 		// リグを操作対象の目位置に合わせる 
 		ve.ToWorldTransform(transform);
 		// カメラリセット 
-		UnityEngine.VR.InputTracking.Recenter();
+		_input.Reset();
 
 		// 入力オフセット 
 		_offset = ve / _target.Origin;

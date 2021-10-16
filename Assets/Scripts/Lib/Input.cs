@@ -62,5 +62,8 @@ namespace PluggableVR
 			t.HandSecondary = t.HandRight = new InputHandFixed();
 			return t;
 		}
+
+		//! トラッキングのリセット 
+		public virtual void Reset(){}
 	}
 }

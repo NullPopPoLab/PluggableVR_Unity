@@ -150,5 +150,10 @@ namespace PluggableVR.Oculus
 			t.HandSecondary = new InputHandSecondary();
 			return t;
 		}
+
+		//! トラッキングのリセット 
+		public override void Reset() {
+			InputTracking.Recenter();
+		}
 	}
 }
