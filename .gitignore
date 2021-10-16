@@ -5,3 +5,7 @@
 /*.csproj
 /*.sln
 /.vs
+/Plugins/PluggableVR_CS/bin
+/Plugins/PluggableVR_CS/obj
+/Plugins/PluggableVR_CS/External/*.dll
+/Plugins/PluggableVR_CS/.vs
