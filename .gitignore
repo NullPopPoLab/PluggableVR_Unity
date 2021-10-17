@@ -10,3 +10,10 @@
 /Plugins/PluggableVR_CS/External/*.dll
 /Plugins/PluggableVR_CS/.vs
 /Built
+/Plugins/PluggableVR_KK/.vs
+/Plugins/PluggableVR_KK/External/*.dll
+/Plugins/PluggableVR_KK/Lib
+/Plugins/PluggableVR_KK/obj
+/Plugins/PluggableVR_KK/bin
+/Plugins/PluggableVR_KK/*.sln
+/Plugins/PluggableVR_KK/*.csproj

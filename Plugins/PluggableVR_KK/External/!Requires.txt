@@ -3,6 +3,7 @@
 Koikatu_Data/Managed/Assembly-CSharp.dll
 Koikatu_Data/Managed/UnityEngine.dll
 BepInEx/core/BepInEx.dll
+BepInEx/core/0Harmony.dll
 
 を拾ってきて、ここに置く。
 絶対commit/push厳禁(特に前の方はプロプラ著作物)

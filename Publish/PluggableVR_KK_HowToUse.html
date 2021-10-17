@@ -1,26 +1,26 @@
 <html lang="ja-JP">
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-<title>PluggableVR for CharaStudio</title>
+<title>PluggableVR for Koikatu</title>
 </head>
 <body>
 
-<h1>PluggableVR for CharaStudio</h1>
+<h1>PluggableVR for Koikatu</h1>
 
-CharaStudio をVRで動作させるためのプラグインです。<br>
+Koikatu をVRで動作させるためのプラグインです。<br>
 <a target="_blank" href="https://www.patreon.com/posts/hf-patch-for-kk-46339224">HF Patch 3.12</a>導入済の環境で動作確認しています。<br>
 
 <h2>内容</h2>
 
 <dl>
 <dt>BepInEx</dt>
-<dt>CharaStudio_Data</dt>
+<dt>Koikatu_Data</dt>
 <dd>ゲームフォルダに追加するファイル群</dd>
-<dt>CharaStudio_novr.bar</dt>
+<dt>Koikatu_novr.bar</dt>
 <dd>通常版起動バッチファイル</dd>
-<dt>CharaStudio_vr.bar</dt>
+<dt>Koikatu_vr.bar</dt>
 <dd>VR版起動バッチファイル</dd>
-<dt>PluggableVR_CS_HowToUse.html</dt>
+<dt>PluggableVR_KK_HowToUse.html</dt>
 <dd>使い方説明</dd>
 </dl>
 
@@ -32,9 +32,9 @@ CharaStudio をVRで動作させるためのプラグインです。<br>
 <h2>導入手順</h2>
 
 <ol>
-<li>付属の BepInEx CharaStudio_Data CharaStudio_novr.bat CharaStudio_vr.bat をゲームフォルダに上書き(というか追加だけのはず)します。</li>
+<li>付属の BepInEx Koikatu_Data Koikatu_novr.bat Koikatu_vr.bat をゲームフォルダに上書き(というか追加だけのはず)します。</li>
 
-<li>CharaStudio_Data/globalgamemanagers のVR版を作成します
+<li>Koikatu_Data/globalgamemanagers のVR版を作成します
 <ol>
 <li>起動時にも自動対応されますが、一応ここで globalgamemanagers のコピーを globalgamemanagers_novr にバックアップしておくと比較的安全です。</li>
 <li><a target="_blank" href="https://github.com/Ooetksh/KoikatuVR">ここ参考</a>(手抜き)に、 globalgamemanagers を書き換えます。ただし、
@@ -54,20 +54,20 @@ CharaStudio をVRで動作させるためのプラグインです。<br>
 
 <h2>起動方法</h2>
 
-CharaStudio_vr.bat で起動するとVR onで動作
-CharaStudio_novr.bat で起動するとVR offで動作
-通常通り CharaStudio.exe で起動すると前回の選択で
+Koikatu_vr.bat で起動するとVR onで動作
+Koikatu_novr.bat で起動するとVR offで動作
+通常通り Koikatu.exe で起動すると前回の選択で
 
 <h2>操作方法</h2>
 
-全くの未実装で、カメラがルームスケールで動くだけです。<br>
-カメラ以外のUI操作は通常通りマウス操作でなんとか。<br>
+全くの未実装で、3Dシーンでカメラがルームスケールで動くだけです。<br>
+というかゲーム自体まともに動作しないです。<br>
 
 <h2>既知の問題点</h2>
 
 <ul>
 <li>UI未対応</li>
-<li>背景の向きが反映されてない</li>
+<li>3Dシーンもカメラが初期化すらされない</li>
 </ul>
 
 <h2>更新履歴</h2>
