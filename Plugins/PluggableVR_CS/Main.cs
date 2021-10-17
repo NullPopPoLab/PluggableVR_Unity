@@ -4,15 +4,17 @@ using HarmonyLib;
 using Studio;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using PluggableVR;
+using System;
 
 namespace PluggableVR_CS
 {
-    [BepInPlugin(GUID, "PluggableVR for CharaStudio", VERSION)]
+    [BepInPlugin(GUID, "PluggableVR.CS", VERSION)]
     [BepInProcess("CharaStudio")]
     public class Main : BaseUnityPlugin
     {
-        private const string GUID = "com.nullpoppo.PluggableVR.CS";
-        public const string VERSION = "0.0.0.1";
+		public const string GUID = "com.nullpoppo.PluggableVR.CS";
+		public const string VERSION = "0.0.1.0";
 
         protected void Awake()
         {
@@ -31,6 +33,11 @@ namespace PluggableVR_CS
 
         private void _onSceneChanged(Scene scn, LoadSceneMode mode)
         {
+//      	Logger.LogInfo("* Scene: "+scn.name);
+//			Logger.LogInfo("* Objs:");
+//			Hierarchy.Dump((o,a)=>{
+//				Logger.LogInfo(new string('\t',a.Count)+o.name);
+//			});
 		}
     }
 }

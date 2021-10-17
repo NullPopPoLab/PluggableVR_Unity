@@ -17,7 +17,7 @@ Oculus Integrationの古いバージョンを入手しなければならない�
 ## ブランチ説明
 
 - master: 通常の機能実装用
-- Plugin_CS: CharaStudio用プラグイン (の予定)
+- Plugin_CS: CharaStudio用プラグイン
 
 
 ## 能書きはさておき、ひとまず動作デモ

@@ -51,8 +51,33 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Lib\AvatarControl.cs" />
+    <Compile Include="Lib\Cycle.cs" />
+    <Compile Include="Lib\Hierarchy.cs" />
+    <Compile Include="Lib\Input.cs" />
+    <Compile Include="Lib\Loc.cs" />
+    <Compile Include="Lib\Oculus\Input.cs" />
+    <Compile Include="Lib\Oculus\ThirdParty\openvr_api.cs" />
+    <Compile Include="Lib\Oculus\ThirdParty\SimpleJSON.cs" />
+    <Compile Include="Lib\Oculus\VR\OVRBoundary.cs" />
+    <Compile Include="Lib\Oculus\VR\OVRCameraRig.cs" />
+    <Compile Include="Lib\Oculus\VR\OVRCommon.cs" />
+    <Compile Include="Lib\Oculus\VR\OVRDisplay.cs" />
+    <Compile Include="Lib\Oculus\VR\OVRHaptics.cs" />
+    <Compile Include="Lib\Oculus\VR\OVRHapticsClip.cs" />
+    <Compile Include="Lib\Oculus\VR\OVRInput.cs" />
+    <Compile Include="Lib\Oculus\VR\OVRManager.cs" />
+    <Compile Include="Lib\Oculus\VR\OVRPlugin.cs" />
+    <Compile Include="Lib\Oculus\VR\OVRProfile.cs" />
+    <Compile Include="Lib\Oculus\VR\OVRTracker.cs" />
+    <Compile Include="Lib\Oculus\VR\Util\OVRNetwork.cs" />
+    <Compile Include="Lib\Oculus\VR\Util\OVRSystemPerfMetrics.cs" />
+    <Compile Include="Lib\Rot2D.cs" />
+    <Compile Include="Lib\RotUt.cs" />
+    <Compile Include="Lib\SafeMathf.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
