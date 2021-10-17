@@ -5,7 +5,7 @@
 /*.csproj
 /*.sln
 /.vs
-/Plugins/PluggableVR_BepInEx/External_CS/*.dll
+/Plugins/PluggableVR_BepInEx/External_*/*.dll
 /Plugins/PluggableVR_BepInEx/bin
 /Plugins/PluggableVR_BepInEx/obj
 /Plugins/PluggableVR_BepInEx/.vs
