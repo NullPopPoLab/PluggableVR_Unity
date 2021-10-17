@@ -15,7 +15,7 @@ permissions and limitations under the License.
 ************************************************************************************/
 
 #if !UNITY_5_6_OR_NEWER
-//#error Oculus Utilities require Unity 5.6 or higher.
+#error Oculus Utilities require Unity 5.6 or higher.
 #endif
 
 using System;
@@ -756,7 +756,7 @@ public class OVRManager : MonoBehaviour
 		{
 			if (!OVRPlugin.tiledMultiResSupported)
 			{
-				UnityEngine.Debug.LogWarning("Tiled-based Multi-resolution feature is not supported");
+				Debug.LogWarning("Tiled-based Multi-resolution feature is not supported");
 			}
 			return (TiledMultiResLevel)OVRPlugin.tiledMultiResLevel;
 		}
@@ -764,7 +764,7 @@ public class OVRManager : MonoBehaviour
 		{
 			if (!OVRPlugin.tiledMultiResSupported)
 			{
-				UnityEngine.Debug.LogWarning("Tiled-based Multi-resolution feature is not supported");
+				Debug.LogWarning("Tiled-based Multi-resolution feature is not supported");
 			}
 			OVRPlugin.tiledMultiResLevel = (OVRPlugin.TiledMultiResLevel)value;
 		}
@@ -792,7 +792,7 @@ public class OVRManager : MonoBehaviour
 		{
 			if (!OVRPlugin.gpuUtilSupported)
 			{
-				UnityEngine.Debug.LogWarning("GPU Util is not supported");
+				Debug.LogWarning("GPU Util is not supported");
 			}
 			return OVRPlugin.gpuUtilLevel;
 		}
@@ -1075,7 +1075,7 @@ public class OVRManager : MonoBehaviour
 
 		instance = this;
 
-		UnityEngine.Debug.Log("Unity v" + Application.unityVersion + ", " +
+		Debug.Log("Unity v" + Application.unityVersion + ", " +
 				  "Oculus Utilities v" + OVRPlugin.wrapperVersion + ", " +
 				  "OVRPlugin v" + OVRPlugin.version + ", " +
 				  "SDK v" + OVRPlugin.nativeSDKVersion + ".");
@@ -1083,7 +1083,7 @@ public class OVRManager : MonoBehaviour
 #if !UNITY_EDITOR
 		if (IsUnityAlphaOrBetaVersion())
 		{
-			UnityEngine.Debug.LogWarning(UnityAlphaOrBetaVersionWarningMessage);
+			Debug.LogWarning(UnityAlphaOrBetaVersionWarningMessage);
 		}
 #endif
 
@@ -1093,7 +1093,7 @@ public class OVRManager : MonoBehaviour
 			UnityEngine.Rendering.GraphicsDeviceType.Direct3D12.ToString();
 
 		if (!supportedTypes.Contains(SystemInfo.graphicsDeviceType.ToString()))
-			UnityEngine.Debug.LogWarning("VR rendering requires one of the following device types: (" + supportedTypes + "). Your graphics device: " + SystemInfo.graphicsDeviceType.ToString());
+			Debug.LogWarning("VR rendering requires one of the following device types: (" + supportedTypes + "). Your graphics device: " + SystemInfo.graphicsDeviceType.ToString());
 #endif
 
 		// Detect whether this platform is a supported platform
@@ -1113,7 +1113,7 @@ public class OVRManager : MonoBehaviour
 		}
 		if (!isSupportedPlatform)
 		{
-			UnityEngine.Debug.LogWarning("This platform is unsupported");
+			Debug.LogWarning("This platform is unsupported");
 			return;
 		}
 
@@ -1153,7 +1153,7 @@ public class OVRManager : MonoBehaviour
 
 		if (enableMixedReality)
 		{
-			UnityEngine.Debug.Log("OVR: Mixed Reality mode enabled");
+			Debug.Log("OVR: Mixed Reality mode enabled");
 			if (UseDirectCompositionFromCmd())
 			{
 				compositionMethod = CompositionMethod.Direct;
@@ -1162,7 +1162,7 @@ public class OVRManager : MonoBehaviour
 			{
 				compositionMethod = CompositionMethod.External;
 			}
-			UnityEngine.Debug.Log("OVR: CompositionMethod : " + compositionMethod);
+			Debug.Log("OVR: CompositionMethod : " + compositionMethod);
 		}
 #endif
 
@@ -1170,7 +1170,7 @@ public class OVRManager : MonoBehaviour
 		if (enableAdaptiveResolution && !OVRManager.IsAdaptiveResSupportedByEngine())
 		{
 			enableAdaptiveResolution = false;
-			UnityEngine.UnityEngine.Debug.LogError("Your current Unity Engine " + Application.unityVersion + " might have issues to support adaptive resolution, please disable it under OVRManager");
+			UnityEngine.Debug.LogError("Your current Unity Engine " + Application.unityVersion + " might have issues to support adaptive resolution, please disable it under OVRManager");
 		}
 #endif
 
@@ -1284,7 +1284,7 @@ public class OVRManager : MonoBehaviour
 
 		if (useRecommendedMSAALevel && QualitySettings.antiAliasing != display.recommendedMSAALevel)
 		{
-			UnityEngine.Debug.Log("The current MSAA level is " + QualitySettings.antiAliasing +
+			Debug.Log("The current MSAA level is " + QualitySettings.antiAliasing +
 			", but the recommended MSAA level is " + display.recommendedMSAALevel +
 			". Switching to the recommended level.");
 
@@ -1315,7 +1315,7 @@ public class OVRManager : MonoBehaviour
 			}
 			catch (Exception e)
 			{
-				UnityEngine.Debug.LogError("Caught Exception: " + e);
+				Debug.LogError("Caught Exception: " + e);
 			}
 		}
 
@@ -1328,7 +1328,7 @@ public class OVRManager : MonoBehaviour
 			}
 			catch (Exception e)
 			{
-				UnityEngine.Debug.LogError("Caught Exception: " + e);
+				Debug.LogError("Caught Exception: " + e);
 			}
 		}
 
@@ -1347,7 +1347,7 @@ public class OVRManager : MonoBehaviour
 			}
 			catch (Exception e)
 			{
-				UnityEngine.Debug.LogError("Caught Exception: " + e);
+				Debug.LogError("Caught Exception: " + e);
 			}
 		}
 
@@ -1360,7 +1360,7 @@ public class OVRManager : MonoBehaviour
 			}
 			catch (Exception e)
 			{
-				UnityEngine.Debug.LogError("Caught Exception: " + e);
+				Debug.LogError("Caught Exception: " + e);
 			}
 		}
 
@@ -1379,7 +1379,7 @@ public class OVRManager : MonoBehaviour
 			}
 			catch (Exception e)
 			{
-				UnityEngine.Debug.LogError("Caught Exception: " + e);
+				Debug.LogError("Caught Exception: " + e);
 			}
 		}
 
@@ -1392,7 +1392,7 @@ public class OVRManager : MonoBehaviour
 			}
 			catch (Exception e)
 			{
-				UnityEngine.Debug.LogError("Caught Exception: " + e);
+				Debug.LogError("Caught Exception: " + e);
 			}
 		}
 
@@ -1411,7 +1411,7 @@ public class OVRManager : MonoBehaviour
 			}
 			catch (Exception e)
 			{
-				UnityEngine.Debug.LogError("Caught Exception: " + e);
+				Debug.LogError("Caught Exception: " + e);
 			}
 		}
 
@@ -1424,7 +1424,7 @@ public class OVRManager : MonoBehaviour
 			}
 			catch (Exception e)
 			{
-				UnityEngine.Debug.LogError("Caught Exception: " + e);
+				Debug.LogError("Caught Exception: " + e);
 			}
 		}
 
@@ -1488,7 +1488,7 @@ public class OVRManager : MonoBehaviour
 			}
 			catch (Exception e)
 			{
-				UnityEngine.Debug.LogError("Caught Exception: " + e);
+				Debug.LogError("Caught Exception: " + e);
 			}
 
 			prevAudioOutId = audioOutId;
@@ -1509,7 +1509,7 @@ public class OVRManager : MonoBehaviour
 			}
 			catch (Exception e)
 			{
-				UnityEngine.Debug.LogError("Caught Exception: " + e);
+				Debug.LogError("Caught Exception: " + e);
 			}
 
 			prevAudioInId = audioInId;
@@ -1526,7 +1526,7 @@ public class OVRManager : MonoBehaviour
 			}
 			catch (Exception e)
 			{
-				UnityEngine.Debug.LogError("Caught Exception: " + e);
+				Debug.LogError("Caught Exception: " + e);
 			}
 		}
 
@@ -1539,7 +1539,7 @@ public class OVRManager : MonoBehaviour
 			}
 			catch (Exception e)
 			{
-				UnityEngine.Debug.LogError("Caught Exception: " + e);
+				Debug.LogError("Caught Exception: " + e);
 			}
 		}
 
@@ -1577,7 +1577,7 @@ public class OVRManager : MonoBehaviour
 			{
 				if (!suppressDisableMixedRealityBecauseOfNoMainCameraWarning)
 				{
-					UnityEngine.Debug.LogWarning("Main Camera is not set, Mixed Reality disabled");
+					Debug.LogWarning("Main Camera is not set, Mixed Reality disabled");
 					suppressDisableMixedRealityBecauseOfNoMainCameraWarning = true;
 				}
 			}
@@ -1614,7 +1614,7 @@ public class OVRManager : MonoBehaviour
 		{
 			if (!multipleMainCameraWarningPresented)
 			{
-				UnityEngine.Debug.LogWarning("Multiple MainCamera found. Assume the real MainCamera is the camera with the least depth");
+				Debug.LogWarning("Multiple MainCamera found. Assume the real MainCamera is the camera with the least depth");
 				multipleMainCameraWarningPresented = true;
 			}
 			// return the camera with least depth
