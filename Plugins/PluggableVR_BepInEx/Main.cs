@@ -8,11 +8,11 @@ using System;
 
 namespace PluggableVR_EC
 {
-    [BepInPlugin(GUID, "PluggableVR.EC", VERSION)]
-    [BepInProcess("EmotionCreaters")]
+    [BepInPlugin(GUID, "PluggableVR.SN2", VERSION)]
+    [BepInProcess("StudioNEOV2")]
     public class Main : BaseUnityPlugin
     {
-		public const string GUID = "com.nullpoppo.PluggableVR.EC";
+		public const string GUID = "com.nullpoppo.PluggableVR.SN2";
 		public const string VERSION = "0.0.1.0";
 
         protected void Awake()
