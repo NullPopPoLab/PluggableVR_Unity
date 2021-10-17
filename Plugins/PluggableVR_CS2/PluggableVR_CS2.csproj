@@ -7,8 +7,8 @@
     <ProjectGuid>{5ED194FF-D8A2-435B-B54A-011668B00F16}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PluggableVR_CS</RootNamespace>
-    <AssemblyName>PluggableVR_CS</AssemblyName>
+    <RootNamespace>PluggableVR_CS2</RootNamespace>
+    <AssemblyName>PluggableVR_CS2</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

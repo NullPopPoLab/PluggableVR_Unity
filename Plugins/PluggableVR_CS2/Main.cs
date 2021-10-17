@@ -1,19 +1,18 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
-using Studio;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using PluggableVR;
 using System;
 
-namespace PluggableVR_CS
+namespace PluggableVR_CS2
 {
-    [BepInPlugin(GUID, "PluggableVR.CS", VERSION)]
+    [BepInPlugin(GUID, "PluggableVR.CS2", VERSION)]
     [BepInProcess("CharaStudio")]
     public class Main : BaseUnityPlugin
     {
-		public const string GUID = "com.nullpoppo.PluggableVR.CS";
+		public const string GUID = "com.nullpoppo.PluggableVR.CS2";
 		public const string VERSION = "0.0.1.0";
 
         protected void Awake()

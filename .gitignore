@@ -12,3 +12,7 @@
 /Built
 /.vsconfig
 /Logs
+/Plugins/PluggableVR_CS2/obj
+/Plugins/PluggableVR_CS2/.vs
+/Plugins/PluggableVR_CS2/bin
+/Plugins/PluggableVR_CS2/External/*.dll
