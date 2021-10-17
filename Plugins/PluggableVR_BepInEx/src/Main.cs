@@ -6,13 +6,13 @@ using UnityEngine.SceneManagement;
 using PluggableVR;
 using System;
 
-namespace PluggableVR_CS2
+namespace PluggableVR_KKS
 {
-    [BepInPlugin(GUID, "PluggableVR.CS2", VERSION)]
-    [BepInProcess("CharaStudio")]
+    [BepInPlugin(GUID, "PluggableVR.KKS", VERSION)]
+    [BepInProcess("Koikatsu Sunshine")]
     public class Main : BaseUnityPlugin
     {
-		public const string GUID = "com.nullpoppo.PluggableVR.CS2";
+		public const string GUID = "com.nullpoppo.PluggableVR.KKS";
 		public const string VERSION = "0.0.1.0";
 
         protected void Awake()
@@ -32,7 +32,7 @@ namespace PluggableVR_CS2
 
         private void _onSceneChanged(Scene scn, LoadSceneMode mode)
         {
-//      	Logger.LogInfo("* Scene: "+scn.name);
+          	Logger.LogInfo("* Scene: "+scn.name);
 //			Logger.LogInfo("* Objs:");
 //			Hierarchy.Dump((o,a)=>{
 //				Logger.LogInfo(new string('\t',a.Count)+o.name);
