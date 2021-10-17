@@ -1,4 +1,5 @@
 /Library
+/Logs
 /obj
 /Temp
 /*.vrmanifest
@@ -10,3 +11,8 @@
 /Plugins/PluggableVR_CS/External/*.dll
 /Plugins/PluggableVR_CS/.vs
 /Built
+/Plugins/PluggableVR_BepInEx/.vs
+/Plugins/PluggableVR_BepInEx/bin
+/Plugins/PluggableVR_BepInEx/obj
+/Plugins/PluggableVR_BepInEx/External/*.dll
+/.vsconfig
