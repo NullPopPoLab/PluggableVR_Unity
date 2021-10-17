@@ -6,13 +6,13 @@ using UnityEngine.SceneManagement;
 using PluggableVR;
 using System;
 
-namespace PluggableVR_EC
+namespace PluggableVR_HS2
 {
-    [BepInPlugin(GUID, "PluggableVR.EC", VERSION)]
-    [BepInProcess("EmotionCreaters")]
+    [BepInPlugin(GUID, "PluggableVR.HS2", VERSION)]
+    [BepInProcess("HoneySelect2")]
     public class Main : BaseUnityPlugin
     {
-		public const string GUID = "com.nullpoppo.PluggableVR.EC";
+		public const string GUID = "com.nullpoppo.PluggableVR.HS2";
 		public const string VERSION = "0.0.1.0";
 
         protected void Awake()

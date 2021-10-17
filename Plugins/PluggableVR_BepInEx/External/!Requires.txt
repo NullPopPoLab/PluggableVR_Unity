@@ -5,6 +5,7 @@ EmotionCreators_Data/Managed/UnityEngine.dll
 EmotionCreators_Data/Managed/UnityEngine.AudioModule.dll
 EmotionCreators_Data/Managed/UnityEngine.CoreModule.dll
 EmotionCreators_Data/Managed/UnityEngine.VRModule.dll
+EmotionCreators_Data/Managed/UnityEngine.XRModule.dll
 BepInEx/core/BepInEx.dll
 BepInEx/core/0Harmony.dll
 

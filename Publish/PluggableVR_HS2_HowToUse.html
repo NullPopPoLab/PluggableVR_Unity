@@ -1,26 +1,26 @@
 <html lang="ja-JP">
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-<title>PluggableVR for EmotionCreators</title>
+<title>PluggableVR for HoneySelect2</title>
 </head>
 <body>
 
-<h1>PluggableVR for EmotionCreators</h1>
+<h1>PluggableVR for HoneySelect2</h1>
 
-EmotionCreators をVRで動作させるためのプラグインです。<br>
+HoneySelect2 をVRで動作させるためのプラグインです。<br>
 <a target="_blank" href="https://www.patreon.com/posts/hf-patch-for-kk-46339224">HF Patch 3.12</a>導入済の環境で動作確認しています。<br>
 
 <h2>内容</h2>
 
 <dl>
 <dt>BepInEx</dt>
-<dt>EmotionCreators_Data</dt>
+<dt>HoneySelect2_Data</dt>
 <dd>ゲームフォルダに追加するファイル群</dd>
-<dt>EmotionCreators_novr.bar</dt>
+<dt>HoneySelect2_novr.bar</dt>
 <dd>通常版起動バッチファイル</dd>
-<dt>EmotionCreators_vr.bar</dt>
+<dt>HoneySelect2_vr.bar</dt>
 <dd>VR版起動バッチファイル</dd>
-<dt>PluggableVR_EC_HowToUse.html</dt>
+<dt>PluggableVR_HS2_HowToUse.html</dt>
 <dd>使い方説明</dd>
 </dl>
 
@@ -32,9 +32,9 @@ EmotionCreators をVRで動作させるためのプラグインです。<br>
 <h2>導入手順</h2>
 
 <ol>
-<li>付属の BepInEx EmotionCreators_Data EmotionCreators_novr.bat EmotionCreators_vr.bat をゲームフォルダに上書き(というか追加だけのはず)します。</li>
+<li>付属の BepInEx HoneySelect2_Data HoneySelect2_novr.bat HoneySelect2_vr.bat をゲームフォルダに上書き(というか追加だけのはず)します。</li>
 
-<li>EmotionCreators_Data/globalgamemanagers のVR版を作成します
+<li>HoneySelect2_Data/globalgamemanagers のVR版を作成します
 <ol>
 <li>起動時にも自動対応されますが、一応ここで globalgamemanagers のコピーを globalgamemanagers_novr にバックアップしておくと比較的安全です。</li>
 <li><a target="_blank" href="https://github.com/Ooetksh/KoikatuVR">ここ参考</a>(手抜き)に、 globalgamemanagers を書き換えます。ただし、
@@ -55,9 +55,9 @@ EmotionCreators をVRで動作させるためのプラグインです。<br>
 <h2>起動方法</h2>
 
 <ul>
-<li>EmotionCreators_vr.bat で起動するとVR onで動作</li>
-<li>EmotionCreators_novr.bat で起動するとVR offで動作</li>
-<li>通常通り EmotionCreators.exe で起動すると前回の選択で</li>
+<li>HoneySelect2_vr.bat で起動するとVR onで動作</li>
+<li>HoneySelect2_novr.bat で起動するとVR offで動作</li>
+<li>通常通り HoneySelect2.exe で起動すると前回の選択で</li>
 </ul>
 
 <h2>操作方法</h2>
