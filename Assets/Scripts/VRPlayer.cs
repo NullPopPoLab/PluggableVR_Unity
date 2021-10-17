@@ -86,9 +86,13 @@ public class VRPlayer : MonoBehaviour
 			_target.Origin.Pos += new Vector3(mzx.y, 0, mzx.x);
 		}
 
+		// カメラ位置をトラッキングに合わせる 
+		var eye = _input.Head.GetEyeTracking();
+		eye.ToLocalTransform(Camera.transform);
+
 		// アバター位置反映 
 		var ofs = _target.Origin * _offset;
-		_target.WorldEye = ofs * _input.Head.GetEyeTracking();
+		_target.WorldEye = ofs * eye;
 		_target.WorldLeftHand = ofs * _input.HandLeft.GetHandTracking();
 		_target.WorldRightHand = ofs * _input.HandRight.GetHandTracking();
 		Target.UpdateControl(_target);
