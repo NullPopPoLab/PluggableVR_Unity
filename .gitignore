@@ -6,7 +6,7 @@
 /*.sln
 /.vs
 /Built
-/Plugins/PluggableVR_BepInEx/External_KK/*.dll
+/Plugins/PluggableVR_BepInEx/External*/*.dll
 /Plugins/PluggableVR_BepInEx/.vs
 /Plugins/PluggableVR_BepInEx/Lib
 /Plugins/PluggableVR_BepInEx/obj
