@@ -9,39 +9,46 @@ using UnityEngine.SceneManagement;
 
 namespace PluggableVR
 {
-	public class VRManager: PlugCommon
+	internal class VRManager : PlugCommon
 	{
-		internal static VRManager Instance;
+		internal VRController VRController { get; private set; }
 
 		private Camera _prevMainCamera;
 
-		internal VRManager(){
+		internal VRManager()
+		{
 		}
 
-		public void SceneChanged(Scene scn){
+		internal void SceneChanged(Scene scn)
+		{
 
-			if(VRController.Instance!=null)VRController.Instance.SceneChanged(scn);
+			if (VRController != null) VRController.SceneChanged(scn);
 		}
 
-		private void _switchVRController(){
+		private void _switchVRController()
+		{
 
 			// メインカメラが捕捉できないうちは何もしない 
-			var mc=Camera.main;
-			if(mc==null)return;
+			var mc = Camera.main;
+			if (mc == null) return;
 
-			if(VRController.Instance==null){
+			if (VRController == null)
+			{
 				// ここでVR操作開始可 
-				VRController.Instance=new VRController(mc);
+				VRController = new VRController(mc);
 			}
-			else if(mc!=_prevMainCamera){
+			else if (mc != _prevMainCamera)
+			{
 				// メインカメラ変更捕捉 
-				_prevMainCamera=mc;
-				VRController.Instance.MainCameraChanged(mc);
+				_prevMainCamera = mc;
+				VRController.MainCameraChanged(mc);
 			}
 		}
 
-		public void Update(){
+		internal void Update()
+		{
 			_switchVRController();
+			if (VRController != null) VRController.Update();
 		}
 	}
 }

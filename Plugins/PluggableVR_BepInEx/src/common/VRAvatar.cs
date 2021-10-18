@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 namespace PluggableVR
 {
 	//! VR操作先 
-	public class VRAvatar : PlugCommon
+	internal class VRAvatar : PlugCommon
 	{
 		public Transform Origin { get; private set; }
 		public Transform Eye { get; private set; }
@@ -53,6 +53,30 @@ namespace PluggableVR
 			lz.startColor = lz.endColor = new Color(128, 255, 128);
 			lz.numCapVertices = 5;
 			lz.widthMultiplier = 0.05f;
+		}
+
+		//! 操作構造生成 
+		/*!	@note 位置参照の正確性および書き込み手順の正当性を確保するため、
+				直接transformへのアクセスをさせるべきではない。
+		*/
+		internal AvatarControl CreateControl()
+		{
+			var t = new AvatarControl();
+			t.Origin = Loc.FromWorldTransform(Origin);
+			var inv = t.Origin.Inversed;
+			t.LocalEye = inv * Loc.FromWorldTransform(Eye);
+//			t.LocalLeftHand = inv * Loc.FromWorldTransform(LeftHand);
+//			t.LocalRightHand = inv * Loc.FromWorldTransform(RightHand);
+			return t;
+		}
+
+		//! 操作構造反映 
+		internal void UpdateControl(AvatarControl cs)
+		{
+			cs.Origin.ToWorldTransform(Origin);
+			cs.LocalEye.ToLocalTransform(Eye);
+//			cs.LocalLeftHand.ToLocalTransform(LeftHand);
+//			cs.LocalRightHand.ToLocalTransform(RightHand);
 		}
 	}
 }

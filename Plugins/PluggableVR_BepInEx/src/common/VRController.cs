@@ -8,10 +8,8 @@ using UnityEngine.SceneManagement;
 
 namespace PluggableVR
 {
-	public class VRController: PlugCommon
+	internal class VRController: PlugCommon
 	{
-		internal static VRController Instance;
-
 		private Camera _mainCamera;
 		private VRPlayer _player;
 		private VRAvatar _avatar;
@@ -28,20 +26,22 @@ namespace PluggableVR
 			if(cam!=null)cam.enabled=false;
 			var lsn=mc.GetComponent<AudioListener>();
 			if(lsn!=null)lsn.enabled=false;
-
-Hierarchy.Dump2File("Hierarchy","VRControllerCreated");
 		}
 
 		//! シーン変更捕捉 
-		public void SceneChanged(Scene scn){
+		internal void SceneChanged(Scene scn){
 
 			// 現在のメインカメラ位置でリセット 
 		}
 
 		//! メインカメラ変更捕捉 
-		public void MainCameraChanged(Camera mc){
+		internal void MainCameraChanged(Camera mc){
 
 			// 変更されたメインカメラ位置でリセット 
+		}
+
+		internal void Update(){
+			_player.Update();
 		}
 	}
 }
