@@ -1,4 +1,9 @@
-﻿using BepInEx;
+﻿/*!	@file
+	@brief PluggableVR: プラグイン起動部 
+	@author NullPopPoLab
+	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
+*/
+using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
 using Studio;
@@ -8,42 +13,52 @@ using UnityEngine.SceneManagement;
 using PluggableVR;
 using System;
 
-namespace PluggableVR_CS
+namespace PluggableVR.CS
 {
-    [BepInPlugin(GUID, "PluggableVR.CS", VERSION)]
-    [BepInProcess("CharaStudio")]
-    public class Main : BaseUnityPlugin
-    {
-        public const string GUID = "com.nullpoppo.PluggableVR.CS";
-        public const string VERSION = "0.0.1.1";
+	[BepInPlugin(GUID, "PluggableVR.CS", VERSION)]
+	[BepInProcess("CharaStudio")]
+	public class Main : BaseUnityPlugin
+	{
+		public const string GUID = "com.nullpoppo.PluggableVR.CS";
+		public const string VERSION = "0.0.1.2";
 
-        public static bool Enabled{ get; private set; }
+		public static bool Enabled{ get; private set; }
+		public static VRManager VRManager{ get; private set; }
 
-        protected void Awake()
-        {
-            Enabled = VRSettings.enabled;
-            if (!Enabled) return;
+		protected void Awake()
+		{
+			Enabled = VRSettings.enabled;
+			if (!Enabled) return;
 
-            Harmony.CreateAndPatchAll(typeof(Main));
-        }
+			PlugCommon.Logger=Logger;
+			VRManager=new VRManager();
+			Harmony.CreateAndPatchAll(typeof(Main));
+		}
 
-        protected void OnEnable()
-        {
-            if (!Enabled) return;
-            SceneManager.sceneLoaded += _onSceneChanged;
-        }
+		protected void OnEnable()
+		{
+			if (!Enabled) return;
 
-        protected void OnDisable()
-        {
-            if (!Enabled) return;
-            SceneManager.sceneLoaded -= _onSceneChanged;
-        }
+			SceneManager.sceneLoaded += _onSceneChanged;
+		}
 
-        private void _onSceneChanged(Scene scn, LoadSceneMode mode)
-        {
-            Logger.LogInfo("* Scene: " + scn.name);
+		protected void OnDisable()
+		{
+			if (!Enabled) return;
 
-//            Hierarchy.Dump2File("Hierarchy", scn.name);
-        }
-    }
+			SceneManager.sceneLoaded -= _onSceneChanged;
+		}
+
+		private void _onSceneChanged(Scene scn, LoadSceneMode mode)
+		{
+			VRManager.SceneChanged(scn);
+		}
+
+		protected void Update()
+		{
+			if (!Enabled) return;
+
+			VRManager.Update();
+		}
+	}
 }
