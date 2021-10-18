@@ -127,13 +127,14 @@ namespace PluggableVR
 		}
 
 		//! GameObject 全列挙してファイルに書き出す 
-		public static void Dump2File(string prefix)
+		public static void Dump2File(string prefix, string suffix = "")
 		{
-
 			string path;
 			do
 			{
-				path = prefix + DateTime.Now.ToString("_yyymmdd_HHmmss_fff") + ".log";
+				path = prefix + DateTime.Now.ToString("_yyymmdd_HHmmss_fff");
+				if (suffix != "") path += "_" + suffix;
+				path += ".log";
 			} while (File.Exists(path));
 
 			var fs = new FileStream(path, FileMode.Create);

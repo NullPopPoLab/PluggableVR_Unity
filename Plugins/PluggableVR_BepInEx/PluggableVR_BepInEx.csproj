@@ -72,6 +72,7 @@
     <Compile Include="src\PluggableVR\Input.cs" />
     <Compile Include="src\PluggableVR\Loc.cs" />
     <Compile Include="src\PluggableVR\Oculus\Input.cs" />
+    <Compile Include="src\PluggableVR\Relative.cs" />
     <Compile Include="src\PluggableVR\Rot2D.cs" />
     <Compile Include="src\PluggableVR\RotUt.cs" />
     <Compile Include="src\PluggableVR\SafeMathf.cs" />
