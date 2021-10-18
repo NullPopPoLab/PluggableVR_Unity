@@ -7,7 +7,6 @@ using UnityEngine;
 
 namespace PluggableVR
 {
-
 	//! 頭の入力状態 
 	public class InputHead
 	{
@@ -24,6 +23,8 @@ namespace PluggableVR
 		public virtual bool IsResting() { return false; }
 		//! スティック指載せ状態 
 		public virtual bool IsStickTouching() { return false; }
+		//! スティック押し状態 
+		public virtual bool IsStickPushing() { return false; }
 
 		//! スティック倒し状態 
 		/*!	@note +x=右 +y=前

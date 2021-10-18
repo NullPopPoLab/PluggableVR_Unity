@@ -7,7 +7,6 @@ using UnityEngine;
 
 namespace PluggableVR
 {
-
 	public class TestCommon
 	{
 

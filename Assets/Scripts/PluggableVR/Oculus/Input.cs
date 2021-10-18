@@ -57,6 +57,12 @@ namespace PluggableVR.Oculus
 			return OVRInput.Get(OVRInput.RawTouch.LThumbstick);
 		}
 
+		//! スティック押し状態 
+		public override bool IsStickPushing()
+		{
+			return OVRInput.Get(OVRInput.RawButton.LThumbstick);
+		}
+
 		//! スティック倒し状態 
 		public override Vector2 GetStickTilting()
 		{
@@ -83,11 +89,19 @@ namespace PluggableVR.Oculus
 		{
 			return OVRInput.Get(OVRInput.RawTouch.RThumbRest);
 		}
+
 		//! スティック指載せ状態 
 		public override bool IsStickTouching()
 		{
 			return OVRInput.Get(OVRInput.RawTouch.RThumbstick);
 		}
+
+		//! スティック押し状態 
+		public override bool IsStickPushing()
+		{
+			return OVRInput.Get(OVRInput.RawButton.LThumbstick);
+		}
+
 		//! スティック倒し状態 
 		public override Vector2 GetStickTilting()
 		{
@@ -110,6 +124,12 @@ namespace PluggableVR.Oculus
 			return OVRInput.Get(OVRInput.Touch.PrimaryThumbstick);
 		}
 
+		//! スティック押し状態 
+		public override bool IsStickPushing()
+		{
+			return OVRInput.Get(OVRInput.Button.PrimaryThumbstick);
+		}
+
 		//! スティック倒し状態 
 		public override Vector2 GetStickTilting()
 		{
@@ -125,11 +145,19 @@ namespace PluggableVR.Oculus
 		{
 			return OVRInput.Get(OVRInput.Touch.SecondaryThumbRest);
 		}
+
 		//! スティック指載せ状態 
 		public override bool IsStickTouching()
 		{
 			return OVRInput.Get(OVRInput.Touch.SecondaryThumbstick);
 		}
+
+		//! スティック押し状態 
+		public override bool IsStickPushing()
+		{
+			return OVRInput.Get(OVRInput.Button.SecondaryThumbstick);
+		}
+
 		//! スティック倒し状態 
 		public override Vector2 GetStickTilting()
 		{
@@ -152,7 +180,8 @@ namespace PluggableVR.Oculus
 		}
 
 		//! トラッキングのリセット 
-		public override void Reset() {
+		public override void Reset()
+		{
 			InputTracking.Recenter();
 		}
 	}
