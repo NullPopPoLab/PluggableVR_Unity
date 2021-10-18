@@ -51,11 +51,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\common\PlugCommon.cs" />
-    <Compile Include="src\common\VRAvatar.cs" />
-    <Compile Include="src\common\VRController.cs" />
-    <Compile Include="src\common\VRManager.cs" />
-    <Compile Include="src\common\VRPlayer.cs" />
+    <Compile Include="src\PluggableVR\PlugCommon.cs" />
+    <Compile Include="src\PluggableVR\VRAvatar.cs" />
+    <Compile Include="src\PluggableVR\VRController.cs" />
+    <Compile Include="src\PluggableVR\VRManager.cs" />
+    <Compile Include="src\PluggableVR\VRPlayer.cs" />
     <Compile Include="src\Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\Oculus\OVRBoundary.cs" />
