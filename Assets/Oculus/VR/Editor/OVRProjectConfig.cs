@@ -34,9 +34,8 @@ public class OVRProjectConfig : ScriptableObject
 {
 	public enum DeviceType
 	{
-		//GearVrOrGo = 0, // DEPRECATED
-		Quest = 1,
-		Quest2 = 2
+		GearVrOrGo = 0,
+		Quest = 1
 	}
 
 	public enum HandTrackingSupport
@@ -45,7 +44,6 @@ public class OVRProjectConfig : ScriptableObject
 		ControllersAndHands = 1,
 		HandsOnly = 2
 	}
-
 
 	public List<DeviceType> targetDeviceTypes;
 	public HandTrackingSupport handTrackingSupport;
@@ -56,7 +54,6 @@ public class OVRProjectConfig : ScriptableObject
 
 	public bool skipUnneededShaders;
 	public bool focusAware;
-	public bool requiresSystemKeyboard;
 
 	//public const string OculusProjectConfigAssetPath = "Assets/Oculus/OculusProjectConfig.asset";
 
@@ -109,27 +106,12 @@ public class OVRProjectConfig : ScriptableObject
 			projectConfig = ScriptableObject.CreateInstance<OVRProjectConfig>();
 			projectConfig.targetDeviceTypes = new List<DeviceType>();
 			projectConfig.targetDeviceTypes.Add(DeviceType.Quest);
-			projectConfig.targetDeviceTypes.Add(DeviceType.Quest2);
 			projectConfig.handTrackingSupport = HandTrackingSupport.ControllersOnly;
 			projectConfig.disableBackups = true;
 			projectConfig.enableNSCConfig = true;
 			projectConfig.skipUnneededShaders = false;
 			projectConfig.focusAware = true;
-			projectConfig.requiresSystemKeyboard = false;
 			AssetDatabase.CreateAsset(projectConfig, oculusProjectConfigAssetPath);
-		}
-		// Force migration to Quest device if still on legacy GearVR/Go device type
-		if (projectConfig.targetDeviceTypes.Contains((DeviceType)0)) // deprecated GearVR/Go device
-		{
-			projectConfig.targetDeviceTypes.Remove((DeviceType)0); // deprecated GearVR/Go device
-			if (!projectConfig.targetDeviceTypes.Contains(DeviceType.Quest))
-			{
-				projectConfig.targetDeviceTypes.Add(DeviceType.Quest);
-			}
-			if (!projectConfig.targetDeviceTypes.Contains(DeviceType.Quest2))
-			{
-				projectConfig.targetDeviceTypes.Add(DeviceType.Quest2);
-			}
 		}
 		return projectConfig;
 	}

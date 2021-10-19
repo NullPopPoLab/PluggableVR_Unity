@@ -8,7 +8,6 @@ using NUnit.Framework;
 
 namespace PluggableVR
 {
-
 	public class Rot2DTest : TestCommon
 	{
 
