@@ -66,5 +66,12 @@ namespace PluggableVR
 
 		//! トラッキングのリセット 
 		public virtual void Reset(){}
+
+		//! 物理フレーム毎の更新 
+		public virtual void FixedUpdate(){}
+		//! 描画フレーム毎の更新 
+		public virtual void Update(){}
+		//! アニメーション処理後の更新 
+		public virtual void LateUpdate(){}
 	}
 }
