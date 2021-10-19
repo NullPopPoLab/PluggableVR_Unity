@@ -4,7 +4,6 @@
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace PluggableVR
 {
@@ -28,8 +27,7 @@ namespace PluggableVR
 
 			var cam = _cam.gameObject.AddComponent<Camera>();
 			_cam.gameObject.AddComponent<AudioListener>();
-			cam.nearClipPlane = 0.05f;
-
+			cam.nearClipPlane = 0.01f;
 
 			_targetView = target;
 			_targetCtrl = _targetView.CreateControl();
@@ -93,7 +91,7 @@ namespace PluggableVR
 			if (stk2)
 			{
 				var tilt = inp.HandSecondary.GetStickTilting();
-				_targetCtrl.Origin.Rot *= PluggableVR.RotUt.RotY(90.0f * Mathf.Deg2Rad * tilt.x * Time.deltaTime);
+				_targetCtrl.Origin.Rot *= RotUt.RotY(90.0f * Mathf.Deg2Rad * tilt.x * Time.deltaTime);
 			}
 
 			// スティック移動 
@@ -102,7 +100,7 @@ namespace PluggableVR
 				// スティック倒し状態 
 				var tilt = inp.HandPrimary.GetStickTilting();
 				// zx平面上のy軸2D回転 
-				var dir = PluggableVR.RotUt.PlaneZX(_cam.rotation);
+				var dir = RotUt.PlaneZX(_cam.rotation);
 				if (_elevating)
 				{
 					// スティックy方向はy軸と一致 
@@ -141,9 +139,9 @@ namespace PluggableVR
 			var ve = _targetCtrl.WorldEye;
 
 			// 回転Y軸を真上に戻した状態で判定 
-			ce.Rot = PluggableVR.RotUt.ReturnY(ce.Rot);
-			re.Rot = PluggableVR.RotUt.ReturnY(re.Rot);
-			ve.Rot = PluggableVR.RotUt.ReturnY(ve.Rot);
+			ce.Rot = RotUt.ReturnY(ce.Rot);
+			re.Rot = RotUt.ReturnY(re.Rot);
+			ve.Rot = RotUt.ReturnY(ve.Rot);
 
 			// リグを操作対象の目位置に合わせる 
 			ve.ToWorldTransform(_rig);
@@ -152,6 +150,16 @@ namespace PluggableVR
 
 			// 入力オフセット 
 			_offset = ve / _targetCtrl.Origin;
+		}
+
+		//! カメラ切り替え 
+		internal void ChangeCamera(Loc loc){
+
+			// 回転Y軸を真上に戻す 
+			loc.Rot = RotUt.ReturnY(loc.Rot);
+
+			loc.ToWorldTransform(_rig);
+			ResetRig();
 		}
 	}
 }
