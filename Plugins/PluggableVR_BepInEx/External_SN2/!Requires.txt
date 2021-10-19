@@ -4,6 +4,8 @@ StudioNEOV2_Data/Managed/Assembly-CSharp.dll
 StudioNEOV2_Data/Managed/UnityEngine.dll
 StudioNEOV2_Data/Managed/UnityEngine.AudioModule.dll
 StudioNEOV2_Data/Managed/UnityEngine.CoreModule.dll
+StudioNEOV2_Data/Managed/UnityEngine.JSONSerializeModule.dll
+StudioNEOV2_Data/Managed/UnityEngine.PhisicsModule.dll
 StudioNEOV2_Data/Managed/UnityEngine.VRModule.dll
 StudioNEOV2_Data/Managed/UnityEngine.XRModule.dll
 BepInEx/core/BepInEx.dll

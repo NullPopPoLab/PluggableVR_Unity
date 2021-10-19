@@ -1,12 +1,12 @@
 /************************************************************************************
 Copyright : Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
 
-Licensed under the Oculus Utilities SDK License Version 1.31 (the "License"); you may not use
+Licensed under the Oculus Master SDK License Version 1.0 (the "License"); you may not use
 the Utilities SDK except in compliance with the License, which is provided at the time of installation
 or download, or which otherwise accompanies this software in either electronic or hard copy form.
 
 You may obtain a copy of the License at
-https://developer.oculus.com/licenses/utilities-1.31
+https://developer.oculus.com/licenses/oculusmastersdk-1.0/
 
 Unless required by applicable law or agreed to in writing, the Utilities SDK distributed
 under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
@@ -24,7 +24,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using UnityEngine;
 
-//using Debug = UnityEngine.Debug;
+using Debug = UnityEngine.Debug;
 
 public class OVRNetwork
 {
@@ -86,28 +86,29 @@ public class OVRNetwork
 		{
 			if (tcpListener != null)
 			{
-				UnityEngine.Debug.LogWarning("[OVRNetworkTcpServer] tcpListener is not null");
+				Debug.LogWarning("[OVRNetworkTcpServer] tcpListener is not null");
 				return;
 			}
 
-			IPAddress localAddr = IPAddress.Parse("127.0.0.1");
+			IPAddress localAddr = IPAddress.Any;
 
 			tcpListener = new TcpListener(localAddr, listeningPort);
 			try
 			{
 				tcpListener.Start();
+				Debug.LogFormat("TcpListener started. Local endpoint: {0}", tcpListener.LocalEndpoint.ToString());
 			}
 			catch (SocketException e)
 			{
-				UnityEngine.Debug.LogWarningFormat("[OVRNetworkTcpServer] Unsable to start TcpListener. Socket exception: {0}", e.Message);
-				UnityEngine.Debug.LogWarning("It could be caused by multiple instances listening at the same port, or the port is forwarded to the Android device through ADB");
-				UnityEngine.Debug.LogWarning("If the port is forwarded through ADB, use the Android Tools in Tools/Oculus/System Metrics Profiler to kill the server");
+				Debug.LogWarningFormat("[OVRNetworkTcpServer] Unsable to start TcpListener. Socket exception: {0}", e.Message);
+				Debug.LogWarning("It could be caused by multiple instances listening at the same port, or the port is forwarded to the Android device through ADB");
+				Debug.LogWarning("If the port is forwarded through ADB, use the Android Tools in Tools/Oculus/System Metrics Profiler to kill the server");
 				tcpListener = null;
 			}
 
 			if (tcpListener != null)
 			{
-				UnityEngine.Debug.LogFormat("[OVRNetworkTcpServer] Start Listening on port {0}", listeningPort);
+				Debug.LogFormat("[OVRNetworkTcpServer] Start Listening on port {0}", listeningPort);
 
 				try
 				{
@@ -115,7 +116,7 @@ public class OVRNetwork
 				}
 				catch (Exception e)
 				{
-					UnityEngine.Debug.LogWarningFormat("[OVRNetworkTcpServer] can't accept new client: {0}", e.Message);
+					Debug.LogWarningFormat("[OVRNetworkTcpServer] can't accept new client: {0}", e.Message);
 				}
 			}
 		}
@@ -124,7 +125,7 @@ public class OVRNetwork
 		{
 			if (tcpListener == null)
 			{
-				UnityEngine.Debug.LogWarning("[OVRNetworkTcpServer] tcpListener is null");
+				Debug.LogWarning("[OVRNetworkTcpServer] tcpListener is null");
 				return;
 			}
 
@@ -135,7 +136,7 @@ public class OVRNetwork
 			tcpListener.Stop();
 			tcpListener = null;
 
-			UnityEngine.Debug.Log("[OVRNetworkTcpServer] Stopped listening");
+			Debug.Log("[OVRNetworkTcpServer] Stopped listening");
 		}
 
 		private void DoAcceptTcpClientCallback(IAsyncResult ar)
@@ -147,7 +148,7 @@ public class OVRNetwork
 				lock (clientsLock)
 				{
 					clients.Add(client);
-					UnityEngine.Debug.Log("[OVRNetworkTcpServer] client added");
+					Debug.Log("[OVRNetworkTcpServer] client added");
 				}
 
 				try
@@ -156,7 +157,7 @@ public class OVRNetwork
 				}
 				catch (Exception e)
 				{
-					UnityEngine.Debug.LogWarningFormat("[OVRNetworkTcpServer] can't accept new client: {0}", e.Message);
+					Debug.LogWarningFormat("[OVRNetworkTcpServer] can't accept new client: {0}", e.Message);
 				}
 			}
 			catch (ObjectDisposedException)
@@ -165,7 +166,7 @@ public class OVRNetwork
 			}
 			catch (Exception e)
 			{
-				UnityEngine.Debug.LogWarningFormat("[OVRNetworkTcpServer] EndAcceptTcpClient failed: {0}", e.Message);
+				Debug.LogWarningFormat("[OVRNetworkTcpServer] EndAcceptTcpClient failed: {0}", e.Message);
 			}
 		}
 
@@ -188,7 +189,7 @@ public class OVRNetwork
 		{
 			if (payload.Length > OVRNetwork.MaxPayloadLength)
 			{
-				UnityEngine.Debug.LogWarningFormat("[OVRNetworkTcpServer] drop payload because it's too long: {0} bytes", payload.Length);
+				Debug.LogWarningFormat("[OVRNetworkTcpServer] drop payload because it's too long: {0} bytes", payload.Length);
 			}
 
 			FrameHeader header = new FrameHeader();
@@ -214,7 +215,7 @@ public class OVRNetwork
 						}
 						catch (SocketException e)
 						{
-							UnityEngine.Debug.LogWarningFormat("[OVRNetworkTcpServer] close client because of socket error: {0}", e.Message);
+							Debug.LogWarningFormat("[OVRNetworkTcpServer] close client because of socket error: {0}", e.Message);
 							client.GetStream().Close();
 							client.Close();
 						}
@@ -298,7 +299,7 @@ public class OVRNetwork
 			}
 			else
 			{
-				UnityEngine.Debug.LogWarning("[OVRNetworkTcpClient] already connected");
+				Debug.LogWarning("[OVRNetworkTcpClient] already connected");
 			}
 		}
 
@@ -308,11 +309,11 @@ public class OVRNetwork
 			{
 				TcpClient client = ar.AsyncState as TcpClient;
 				client.EndConnect(ar);
-				UnityEngine.Debug.LogFormat("[OVRNetworkTcpClient] connected to {0}", client.ToString());
+				Debug.LogFormat("[OVRNetworkTcpClient] connected to {0}", client.ToString());
 			}
 			catch (Exception e)
 			{
-				UnityEngine.Debug.LogWarningFormat("[OVRNetworkTcpClient] connect error {0}", e.Message);
+				Debug.LogWarningFormat("[OVRNetworkTcpClient] connect error {0}", e.Message);
 			}
 
 			if (connectionStateChangedCallback != null)
@@ -327,10 +328,10 @@ public class OVRNetwork
 			{
 				if (!readyReceiveDataEvent.WaitOne(5))
 				{
-					UnityEngine.Debug.LogWarning("[OVRNetworkTcpClient] readyReceiveDataEvent not signaled. data receiving timeout?");
+					Debug.LogWarning("[OVRNetworkTcpClient] readyReceiveDataEvent not signaled. data receiving timeout?");
 				}
 
-				UnityEngine.Debug.Log("[OVRNetworkTcpClient] close tcpClient");
+				Debug.Log("[OVRNetworkTcpClient] close tcpClient");
 				try
 				{
 					tcpClient.GetStream().Close();
@@ -338,7 +339,7 @@ public class OVRNetwork
 				}
 				catch (Exception e)
 				{
-					UnityEngine.Debug.LogWarning("[OVRNetworkTcpClient] " + e.Message);
+					Debug.LogWarning("[OVRNetworkTcpClient] " + e.Message);
 				}
 				tcpClient = null;
 
@@ -349,7 +350,7 @@ public class OVRNetwork
 			}
 			else
 			{
-				UnityEngine.Debug.LogWarning("[OVRNetworkTcpClient] not connected");
+				Debug.LogWarning("[OVRNetworkTcpClient] not connected");
 			}
 		}
 
@@ -366,7 +367,7 @@ public class OVRNetwork
 				{
 					if (receivedBufferDataSize >= OVRNetwork.MaxBufferLength)
 					{
-						UnityEngine.Debug.LogWarning("[OVRNetworkTcpClient] receive buffer overflow. It should not happen since we have the constraint on message size");
+						Debug.LogWarning("[OVRNetworkTcpClient] receive buffer overflow. It should not happen since we have the constraint on message size");
 						Disconnect();
 						return;
 					}
@@ -392,14 +393,14 @@ public class OVRNetwork
 					FrameHeader header = FrameHeader.FromBytes(receivedBuffers[receivedBufferIndex]);
 					if (header.protocolIdentifier != OVRNetwork.FrameHeaderMagicIdentifier)
 					{
-						UnityEngine.Debug.LogWarning("[OVRNetworkTcpClient] header mismatch");
+						Debug.LogWarning("[OVRNetworkTcpClient] header mismatch");
 						Disconnect();
 						return;
 					}
 
 					if (header.payloadLength < 0 || header.payloadLength > OVRNetwork.MaxPayloadLength)
 					{
-						UnityEngine.Debug.LogWarningFormat("[OVRNetworkTcpClient] Sanity check failed. PayloadLength %d", header.payloadLength);
+						Debug.LogWarningFormat("[OVRNetworkTcpClient] Sanity check failed. PayloadLength %d", header.payloadLength);
 						Disconnect();
 						return;
 					}
@@ -426,7 +427,7 @@ public class OVRNetwork
 			}
 			catch (SocketException e)
 			{
-				UnityEngine.Debug.LogErrorFormat("[OVRNetworkTcpClient] OnReadDataCallback: socket error: {0}", e.Message);
+				Debug.LogErrorFormat("[OVRNetworkTcpClient] OnReadDataCallback: socket error: {0}", e.Message);
 				Disconnect();
 			}
 		}

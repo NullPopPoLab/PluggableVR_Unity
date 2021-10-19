@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG; UNITY_STANDALONE_WIN;UNITY_2018_3_OR_NEWER;UNITY_2017_2_OR_NEWER</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -27,7 +27,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE; UNITY_STANDALONE_WIN;UNITY_2018_3_OR_NEWER;UNITY_2017_2_OR_NEWER</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -62,6 +62,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>External_SN2\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.JSONSerializeModule">
+      <HintPath>External_SN2\UnityEngine.JSONSerializeModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>External_SN2\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.VRModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>External_SN2\UnityEngine.VRModule.dll</HintPath>
@@ -72,14 +78,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\PluggableVR\AvatarControl.cs" />
-    <Compile Include="src\PluggableVR\Cycle.cs" />
-    <Compile Include="src\PluggableVR\Hierarchy.cs" />
-    <Compile Include="src\PluggableVR\Input.cs" />
-    <Compile Include="src\PluggableVR\Loc.cs" />
-    <Compile Include="src\PluggableVR\Oculus\Input.cs" />
-    <Compile Include="src\ThirdParty\openvr_api.cs" />
-    <Compile Include="src\ThirdParty\SimpleJSON.cs" />
+    <Compile Include="src\Oculus\Composition\OVRCameraComposition.cs" />
+    <Compile Include="src\Oculus\Composition\OVRComposition.cs" />
+    <Compile Include="src\Oculus\Composition\OVRCompositionUtil.cs" />
+    <Compile Include="src\Oculus\Composition\OVRDirectComposition.cs" />
+    <Compile Include="src\Oculus\Composition\OVRExternalComposition.cs" />
+    <Compile Include="src\Oculus\Composition\OVRSandwichComposition.cs" />
     <Compile Include="src\Oculus\OVRBoundary.cs" />
     <Compile Include="src\Oculus\OVRCameraRig.cs" />
     <Compile Include="src\Oculus\OVRCommon.cs" />
@@ -88,11 +92,27 @@
     <Compile Include="src\Oculus\OVRHapticsClip.cs" />
     <Compile Include="src\Oculus\OVRInput.cs" />
     <Compile Include="src\Oculus\OVRManager.cs" />
+    <Compile Include="src\Oculus\OVRMixedReality.cs" />
     <Compile Include="src\Oculus\OVRPlugin.cs" />
     <Compile Include="src\Oculus\OVRProfile.cs" />
     <Compile Include="src\Oculus\OVRTracker.cs" />
+    <Compile Include="src\Oculus\Util\OVRMixedRealityCaptureSettings.cs" />
     <Compile Include="src\Oculus\Util\OVRNetwork.cs" />
     <Compile Include="src\Oculus\Util\OVRSystemPerfMetrics.cs" />
+    <Compile Include="src\PluggableVR\AvatarControl.cs" />
+    <Compile Include="src\PluggableVR\Cycle.cs" />
+    <Compile Include="src\PluggableVR\Hierarchy.cs" />
+    <Compile Include="src\PluggableVR\Input.cs" />
+    <Compile Include="src\PluggableVR\Loc.cs" />
+    <Compile Include="src\PluggableVR\Oculus\Input.cs" />
+    <Compile Include="src\PluggableVR\PlugCommon.cs" />
+    <Compile Include="src\PluggableVR\Relative.cs" />
+    <Compile Include="src\PluggableVR\VRAvatar.cs" />
+    <Compile Include="src\PluggableVR\VRController.cs" />
+    <Compile Include="src\PluggableVR\VRManager.cs" />
+    <Compile Include="src\PluggableVR\VRPlayer.cs" />
+    <Compile Include="src\ThirdParty\openvr_api.cs" />
+    <Compile Include="src\ThirdParty\SimpleJSON.cs" />
     <Compile Include="src\PluggableVR\Rot2D.cs" />
     <Compile Include="src\PluggableVR\RotUt.cs" />
     <Compile Include="src\PluggableVR\SafeMathf.cs" />
