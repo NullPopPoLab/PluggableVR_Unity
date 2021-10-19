@@ -45,20 +45,14 @@ namespace PluggableVR.Oculus
 			return t;
 		}
 
-		//! 指休め状態 
-		public override bool IsResting()
-		{
-			return OVRInput.Get(OVRInput.RawTouch.LThumbRest);
-		}
-
-		//! スティック指載せ状態 
+		//! スティック載せ状態 
 		public override bool IsStickTouching()
 		{
 			return OVRInput.Get(OVRInput.RawTouch.LThumbstick);
 		}
 
-		//! スティック押し状態 
-		public override bool IsStickPushing()
+		//! スティック押し込み状態 
+		public override bool IsStickPressed()
 		{
 			return OVRInput.Get(OVRInput.RawButton.LThumbstick);
 		}
@@ -67,6 +61,50 @@ namespace PluggableVR.Oculus
 		public override Vector2 GetStickTilting()
 		{
 			return OVRInput.Get(OVRInput.RawAxis2D.LThumbstick);
+		}
+
+		//! 掌トリガ押し状態 
+		public override float GetHandPressing() {
+			return OVRInput.Get(OVRInput.RawAxis1D.LHandTrigger);
+		}
+		//! 掌トリガ押し込み状態 
+		public override bool IsHandPressed()
+		{
+			return OVRInput.Get(OVRInput.RawButton.LHandTrigger);
+		}
+		//! 指トリガ押し状態 
+		public override float GetIndexPressing()
+		{
+			return OVRInput.Get(OVRInput.RawAxis1D.LIndexTrigger);
+		}
+		//! 指トリガ載せ状態 
+		public override bool IsIndexTouching()
+		{
+			return OVRInput.Get(OVRInput.RawTouch.LIndexTrigger);
+		}
+		//! 指トリガ押し込み状態 
+		public override bool IsIndexPressed()
+		{
+			return OVRInput.Get(OVRInput.RawButton.LIndexTrigger);
+		}
+
+		//! ボタン1載せ状態 
+		public override bool IsButton1Touching()
+		{
+			return OVRInput.Get(OVRInput.RawTouch.X);
+		}
+		//! ボタン1押し込み状態 
+		public override bool IsButton1Pressed() {
+			return OVRInput.Get(OVRInput.RawButton.X);
+		}
+		//! ボタン2載せ状態 
+		public override bool IsButton2Touching()
+		{
+			return OVRInput.Get(OVRInput.RawTouch.Y);
+		}
+		//! ボタン2押し込み状態 
+		public override bool IsButton2Pressed() {
+			return OVRInput.Get(OVRInput.RawButton.Y);
 		}
 	}
 
@@ -84,22 +122,16 @@ namespace PluggableVR.Oculus
 			return t;
 		}
 
-		//! 指休め状態 
-		public override bool IsResting()
-		{
-			return OVRInput.Get(OVRInput.RawTouch.RThumbRest);
-		}
-
-		//! スティック指載せ状態 
+		//! スティック載せ状態 
 		public override bool IsStickTouching()
 		{
 			return OVRInput.Get(OVRInput.RawTouch.RThumbstick);
 		}
 
-		//! スティック押し状態 
-		public override bool IsStickPushing()
+		//! スティック押し込み状態 
+		public override bool IsStickPressed()
 		{
-			return OVRInput.Get(OVRInput.RawButton.LThumbstick);
+			return OVRInput.Get(OVRInput.RawButton.RThumbstick);
 		}
 
 		//! スティック倒し状態 
@@ -107,25 +139,66 @@ namespace PluggableVR.Oculus
 		{
 			return OVRInput.Get(OVRInput.RawAxis2D.RThumbstick);
 		}
+
+		//! 掌トリガ押し状態 
+		public override float GetHandPressing()
+		{
+			return OVRInput.Get(OVRInput.RawAxis1D.RHandTrigger);
+		}
+		//! 掌トリガ押し込み状態 
+		public override bool IsHandPressed()
+		{
+			return OVRInput.Get(OVRInput.RawButton.RHandTrigger);
+		}
+		//! 指トリガ載せ状態 
+		public override bool IsIndexTouching()
+		{
+			return OVRInput.Get(OVRInput.RawTouch.RIndexTrigger);
+		}
+		//! 指トリガ押し状態 
+		public override float GetIndexPressing()
+		{
+			return OVRInput.Get(OVRInput.RawAxis1D.RIndexTrigger);
+		}
+		//! 指トリガ押し込み状態 
+		public override bool IsIndexPressed()
+		{
+			return OVRInput.Get(OVRInput.RawButton.RIndexTrigger);
+		}
+
+		//! ボタン1載せ状態 
+		public override bool IsButton1Touching()
+		{
+			return OVRInput.Get(OVRInput.RawTouch.A);
+		}
+		//! ボタン1押し込み状態 
+		public override bool IsButton1Pressed()
+		{
+			return OVRInput.Get(OVRInput.RawButton.A);
+		}
+		//! ボタン2載せ状態 
+		public override bool IsButton2Touching()
+		{
+			return OVRInput.Get(OVRInput.RawTouch.B);
+		}
+		//! ボタン2押し込み状態 
+		public override bool IsButton2Pressed()
+		{
+			return OVRInput.Get(OVRInput.RawButton.B);
+		}
 	}
 
 	//! 手の入力状態(主コントローラ) 
 	public class InputHandPrimary : PluggableVR.InputHandSwitchable
 	{
-		//! 指休め状態 
-		public override bool IsResting()
-		{
-			return OVRInput.Get(OVRInput.Touch.PrimaryThumbRest);
-		}
-
 		//! スティック指載せ状態 
 		public override bool IsStickTouching()
 		{
 			return OVRInput.Get(OVRInput.Touch.PrimaryThumbstick);
 		}
 
-		//! スティック押し状態 
-		public override bool IsStickPushing()
+		//! スティック押し込み状態 
+		public override bool IsStickPressed()
 		{
 			return OVRInput.Get(OVRInput.Button.PrimaryThumbstick);
 		}
@@ -135,25 +208,45 @@ namespace PluggableVR.Oculus
 		{
 			return OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick);
 		}
+
+		//! 掌トリガ押し状態 
+		public override float GetHandPressing()
+		{
+			return OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger);
+		}
+		//! 掌トリガ押し込み状態 
+		public override bool IsHandPressed()
+		{
+			return OVRInput.Get(OVRInput.Button.PrimaryHandTrigger);
+		}
+		//! 指トリガ載せ状態 
+		public override bool IsIndexTouching()
+		{
+			return OVRInput.Get(OVRInput.Touch.PrimaryIndexTrigger);
+		}
+		//! 指トリガ押し状態 
+		public override float GetIndexPressing()
+		{
+			return OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger);
+		}
+		//! 指トリガ押し込み状態 
+		public override bool IsIndexPressed()
+		{
+			return OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger);
+		}
 	}
 
 	//! 手の入力状態(副コントローラ) 
 	public class InputHandSecondary : PluggableVR.InputHandSwitchable
 	{
-		//! 指休め状態 
-		public override bool IsResting()
-		{
-			return OVRInput.Get(OVRInput.Touch.SecondaryThumbRest);
-		}
-
 		//! スティック指載せ状態 
 		public override bool IsStickTouching()
 		{
 			return OVRInput.Get(OVRInput.Touch.SecondaryThumbstick);
 		}
 
-		//! スティック押し状態 
-		public override bool IsStickPushing()
+		//! スティック押し込み状態 
+		public override bool IsStickPressed()
 		{
 			return OVRInput.Get(OVRInput.Button.SecondaryThumbstick);
 		}
@@ -162,6 +255,29 @@ namespace PluggableVR.Oculus
 		public override Vector2 GetStickTilting()
 		{
 			return OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
+		}
+
+		//! 掌トリガ押し状態 
+		public override float GetHandPressing()
+		{
+			return OVRInput.Get(OVRInput.Axis1D.SecondaryHandTrigger);
+		}
+		//! 掌トリガ押し込み状態 
+		public override bool IsHandPressed() {
+			return OVRInput.Get(OVRInput.Button.SecondaryHandTrigger);
+		}
+		//! 指トリガ載せ状態 
+		public override bool IsIndexTouching() {
+			return OVRInput.Get(OVRInput.Touch.SecondaryIndexTrigger);
+		}
+		//! 指トリガ押し状態 
+		public override float GetIndexPressing()
+		{
+			return OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger);
+		}
+		//! 指トリガ押し込み状態 
+		public override bool IsIndexPressed() {
+			return OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger);
 		}
 	}
 
