@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;UNITY_5_6_OR_NEWER</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;UNITY_5_6_OR_NEWER; UNITY_STANDALONE_WIN</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -26,7 +26,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;UNITY_5_6_OR_NEWER</DefineConstants>
+    <DefineConstants>TRACE;UNITY_5_6_OR_NEWER; UNITY_STANDALONE_WIN</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -51,6 +51,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\Oculus\Composition\OVRCameraComposition.cs" />
+    <Compile Include="src\Oculus\Composition\OVRComposition.cs" />
+    <Compile Include="src\Oculus\Composition\OVRCompositionUtil.cs" />
+    <Compile Include="src\Oculus\Composition\OVRDirectComposition.cs" />
+    <Compile Include="src\Oculus\Composition\OVRExternalComposition.cs" />
+    <Compile Include="src\Oculus\Composition\OVRSandwichComposition.cs" />
+    <Compile Include="src\Oculus\OVRMixedReality.cs" />
+    <Compile Include="src\Oculus\Util\OVRMixedRealityCaptureSettings.cs" />
     <Compile Include="src\PluggableVR\PlugCommon.cs" />
     <Compile Include="src\PluggableVR\VRAvatar.cs" />
     <Compile Include="src\PluggableVR\VRController.cs" />
