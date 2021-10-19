@@ -184,5 +184,21 @@ namespace PluggableVR.Oculus
 		{
 			InputTracking.Recenter();
 		}
+
+		//! 物理フレーム毎の更新 
+		public override void FixedUpdate()
+		{
+			OVRInput.FixedUpdate();
+		}
+		//! 描画フレーム毎の更新 
+		public override void Update()
+		{
+			OVRInput.Update();
+		}
+		//! アニメーション処理後の更新 
+		public override void LateUpdate()
+		{
+			OVRHaptics.Process();
+		}
 	}
 }
