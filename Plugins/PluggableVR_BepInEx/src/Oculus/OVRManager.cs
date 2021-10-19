@@ -1,21 +1,26 @@
 /************************************************************************************
-Copyright : Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
 
-Licensed under the Oculus Utilities SDK License Version 1.31 (the "License"); you may not use
-the Utilities SDK except in compliance with the License, which is provided at the time of installation
-or download, or which otherwise accompanies this software in either electronic or hard copy form.
+Copyright   :   Copyright 2017 Oculus VR, LLC. All Rights reserved.
+
+Licensed under the Oculus VR Rift SDK License Version 3.4.1 (the "License");
+you may not use the Oculus VR Rift SDK except in compliance with the License,
+which is provided at the time of installation or download, or which
+otherwise accompanies this software in either electronic or hard copy form.
 
 You may obtain a copy of the License at
-https://developer.oculus.com/licenses/utilities-1.31
 
-Unless required by applicable law or agreed to in writing, the Utilities SDK distributed
-under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
-ANY KIND, either express or implied. See the License for the specific language governing
-permissions and limitations under the License.
+https://developer.oculus.com/licenses/sdk-3.4.1
+
+Unless required by applicable law or agreed to in writing, the Oculus VR SDK
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
 ************************************************************************************/
 
 #if !UNITY_5_6_OR_NEWER
-//#error Oculus Utilities require Unity 5.6 or higher.
+#error Oculus Utilities require Unity 5.6 or higher.
 #endif
 
 using System;
@@ -23,14 +28,6 @@ using System.Collections.Generic;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
-#endif
-
-#if true
-using Settings = UnityEngine.XR.XRSettings;
-using Node = UnityEngine.XR.XRNode;
-#else
-using Settings = UnityEngine.VR.VRSettings;
-using Node = UnityEngine.VR.VRNode;
 #endif
 
 /// <summary>
@@ -57,13 +54,6 @@ public class OVRManager : MonoBehaviour
 		LMSLow = OVRPlugin.TiledMultiResLevel.LMSLow,
 		LMSMedium = OVRPlugin.TiledMultiResLevel.LMSMedium,
 		LMSHigh = OVRPlugin.TiledMultiResLevel.LMSHigh,
-	}
-
-	public enum XRDevice
-	{
-		Unknown			= 0,
-		Oculus			= 1,
-		OpenVR			= 2,
 	}
 
 	/// <summary>
@@ -184,7 +174,7 @@ public class OVRManager : MonoBehaviour
 			if (!_isHmdPresentCached)
 			{
 				_isHmdPresentCached = true;
-				_isHmdPresent = OVRNodeStateProperties.IsHmdPresent();
+				_isHmdPresent = OVRPlugin.hmdPresent;
 			}
 
 			return _isHmdPresent;
@@ -274,6 +264,26 @@ public class OVRManager : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// If true, both eyes will see the same image, rendered from the center eye pose, saving performance.
+	/// </summary>
+	public bool monoscopic
+	{
+		get {
+			if (!isHmdPresent)
+				return true;
+
+			return OVRPlugin.monoscopic;
+		}
+
+		set {
+			if (!isHmdPresent)
+				return;
+
+			OVRPlugin.monoscopic = value;
+		}
+	}
+
 	[Header("Performance/Quality")]
 	/// <summary>
 	/// If true, distortion rendering work is submitted a quarter-frame early to avoid pipeline stalls and increase CPU-GPU parallelism.
@@ -288,40 +298,13 @@ public class OVRManager : MonoBehaviour
 	public bool useRecommendedMSAALevel = false;
 
 	/// <summary>
-	/// If true, both eyes will see the same image, rendered from the center eye pose, saving performance.
-	/// </summary>
-	[SerializeField]
-	[Tooltip("If true, both eyes will see the same image, rendered from the center eye pose, saving performance.")]
-	private bool _monoscopic = false;
-
-	public bool monoscopic
-	{
-		get
-		{
-			if (!isHmdPresent)
-				return _monoscopic;
-
-			return OVRPlugin.monoscopic;
-		}
-
-		set
-		{
-			if (!isHmdPresent)
-				return;
-
-			OVRPlugin.monoscopic = value;
-			_monoscopic = value;
-		}
-	}
-
-	/// <summary>
 	/// If true, dynamic resolution will be enabled
 	/// </summary>
 	[Tooltip("If true, dynamic resolution will be enabled On PC")]
 	public bool enableAdaptiveResolution = false;
 
 	/// <summary>
-	/// Adaptive Resolution is based on Unity engine's renderViewportScale/eyeTextureResolutionScale feature
+	/// Adaptive Resolution is based on Unity engine's renderViewportScale/eyeTextureResolutionScale feature 
 	/// But renderViewportScale was broken in an array of Unity engines, this function help to filter out those broken engines
 	/// </summary>
 	public static bool IsAdaptiveResSupportedByEngine()
@@ -346,66 +329,6 @@ public class OVRManager : MonoBehaviour
 	[RangeAttribute(0.5f, 2.0f)]
 	[Tooltip("Max RenderScale the app can reach under adaptive resolution mode")]
 	public float maxRenderScale = 1.0f;
-
-	/// <summary>
-	/// Set the relative offset rotation of head poses
-	/// </summary>
-	[SerializeField]
-	[Tooltip("Set the relative offset rotation of head poses")]
-	private Vector3 _headPoseRelativeOffsetRotation;
-	public Vector3 headPoseRelativeOffsetRotation
-	{
-		get
-		{
-			return _headPoseRelativeOffsetRotation;
-		}
-		set
-		{
-			OVRPlugin.Quatf rotation;
-			OVRPlugin.Vector3f translation;
-			if (OVRPlugin.GetHeadPoseModifier(out rotation, out translation))
-			{
-				Quaternion finalRotation = Quaternion.Euler(value);
-				rotation = finalRotation.ToQuatf();
-				OVRPlugin.SetHeadPoseModifier(ref rotation, ref translation);
-			}
-			_headPoseRelativeOffsetRotation = value;
-		}
-	}
-
-	/// <summary>
-	/// Set the relative offset translation of head poses
-	/// </summary>
-	[SerializeField]
-	[Tooltip("Set the relative offset translation of head poses")]
-	private Vector3 _headPoseRelativeOffsetTranslation;
-	public Vector3 headPoseRelativeOffsetTranslation
-	{
-		get
-		{
-			return _headPoseRelativeOffsetTranslation;
-		}
-		set
-		{
-			OVRPlugin.Quatf rotation;
-			OVRPlugin.Vector3f translation;
-			if (OVRPlugin.GetHeadPoseModifier(out rotation, out translation))
-			{
-				if (translation.FromFlippedZVector3f() != value)
-				{
-					translation = value.ToFlippedZVector3f();
-					OVRPlugin.SetHeadPoseModifier(ref rotation, ref translation);
-				}
-			}
-			_headPoseRelativeOffsetTranslation = value;
-		}
-	}
-
-	/// <summary>
-	/// The TCP listening port of Oculus Profiler Service, which will be activated in Debug/Developerment builds
-	/// When the app is running on editor or device, open "Tools/Oculus/Oculus Profiler Panel" to view the realtime system metrics
-	/// </summary>
-	public int profilerTcpPort = OVRSystemPerfMetrics.TcpListeningPort;
 
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 	/// <summary>
@@ -601,11 +524,6 @@ public class OVRManager : MonoBehaviour
 		}
 	}
 
-	public static string OCULUS_UNITY_NAME_STR = "Oculus";
-	public static string OPENVR_UNITY_NAME_STR = "OpenVR";
-
-	public static XRDevice loadedXRDevice;
-
 	/// <summary>
 	/// Gets the current battery level.
 	/// </summary>
@@ -756,7 +674,7 @@ public class OVRManager : MonoBehaviour
 		{
 			if (!OVRPlugin.tiledMultiResSupported)
 			{
-				UnityEngine.Debug.LogWarning("Tiled-based Multi-resolution feature is not supported");
+				Debug.LogWarning("Tiled-based Multi-resolution feature is not supported");
 			}
 			return (TiledMultiResLevel)OVRPlugin.tiledMultiResLevel;
 		}
@@ -764,7 +682,7 @@ public class OVRManager : MonoBehaviour
 		{
 			if (!OVRPlugin.tiledMultiResSupported)
 			{
-				UnityEngine.Debug.LogWarning("Tiled-based Multi-resolution feature is not supported");
+				Debug.LogWarning("Tiled-based Multi-resolution feature is not supported");
 			}
 			OVRPlugin.tiledMultiResLevel = (OVRPlugin.TiledMultiResLevel)value;
 		}
@@ -792,58 +710,10 @@ public class OVRManager : MonoBehaviour
 		{
 			if (!OVRPlugin.gpuUtilSupported)
 			{
-				UnityEngine.Debug.LogWarning("GPU Util is not supported");
+				Debug.LogWarning("GPU Util is not supported");
 			}
 			return OVRPlugin.gpuUtilLevel;
 		}
-	}
-
-	/// <summary>
-	/// Sets the Color Scale and Offset which is commonly used for effects like fade-to-black.
-	/// In our compositor, once a given frame is rendered, warped, and ready to be displayed, we then multiply
-	/// each pixel by colorScale and add it to colorOffset, whereby newPixel = oldPixel * colorScale + colorOffset.
-	/// Note that for mobile devices (Quest, Go, etc.), colorOffset is not supported, so colorScale is all that can
-	/// be used. A colorScale of (1, 1, 1, 1) and colorOffset of (0, 0, 0, 0) will lead to an identity multiplication
-	/// and have no effect.
-	/// </summary>
-	public static void SetColorScaleAndOffset(Vector4 colorScale, Vector4 colorOffset, bool applyToAllLayers)
-	{
-		OVRPlugin.SetColorScaleAndOffset(colorScale, colorOffset, applyToAllLayers);
-	}
-
-	/// <summary>
-	/// Specifies OpenVR pose local to tracking space
-	/// </summary>
-	public static void SetOpenVRLocalPose(Vector3 leftPos, Vector3 rightPos, Quaternion leftRot, Quaternion rightRot)
-	{
-		if (loadedXRDevice == XRDevice.OpenVR)
-			OVRInput.SetOpenVRLocalPose(leftPos, rightPos, leftRot, rightRot);
-	}
-
-	//Series of offsets that line up the virtual controllers to the phsyical world.
-	private static Vector3 OpenVRTouchRotationOffsetEulerLeft = new Vector3(40.0f, 0.0f, 0.0f);
-	private static Vector3 OpenVRTouchRotationOffsetEulerRight = new Vector3(40.0f, 0.0f, 0.0f);
-	private static Vector3 OpenVRTouchPositionOffsetLeft = new Vector3(0.0075f, -0.005f, -0.0525f);
-	private static Vector3 OpenVRTouchPositionOffsetRight = new Vector3(-0.0075f, -0.005f, -0.0525f);
-
-	/// <summary>
-	/// Specifies the pose offset required to make an OpenVR controller's reported pose match the virtual pose.
-	/// Currently we only specify this offset for Oculus Touch on OpenVR.
-	/// </summary>
-	public static OVRPose GetOpenVRControllerOffset(Node hand)
-	{
-		OVRPose poseOffset = OVRPose.identity;
-		if ((hand == Node.LeftHand || hand == Node.RightHand) && loadedXRDevice == XRDevice.OpenVR)
-		{
-			int index = (hand == Node.LeftHand) ? 0 : 1;
-			if (OVRInput.openVRControllerDetails[index].controllerType == OVRInput.OpenVRController.OculusTouch)
-			{
-				Vector3 offsetOrientation = (hand == Node.LeftHand) ? OpenVRTouchRotationOffsetEulerLeft : OpenVRTouchRotationOffsetEulerRight;
-				poseOffset.orientation = Quaternion.Euler(offsetOrientation.x, offsetOrientation.y, offsetOrientation.z);
-				poseOffset.position = (hand == Node.LeftHand) ? OpenVRTouchPositionOffsetLeft : OpenVRTouchPositionOffsetRight;
-			}
-		}
-		return poseOffset;
 	}
 
 
@@ -900,42 +770,16 @@ public class OVRManager : MonoBehaviour
 	public bool resetTrackerOnLoad = false;
 
 	/// <summary>
-	/// If true, the Reset View in the universal menu will cause the pose to be reset. This should generally be
-	/// enabled for applications with a stationary position in the virtual world and will allow the View Reset
-	/// command to place the person back to a predefined location (such as a cockpit seat).
-	/// Set this to false if you have a locomotion system because resetting the view would effectively teleport
+	/// If true, the Reset View in the universal menu will cause the pose to be reset. This should generally be 
+	/// enabled for applications with a stationary position in the virtual world and will allow the View Reset 
+	/// command to place the person back to a predefined location (such as a cockpit seat). 
+	/// Set this to false if you have a locomotion system because resetting the view would effectively teleport 
 	/// the player to potentially invalid locations.
 	/// </summary>
 	[Tooltip("If true, the Reset View in the universal menu will cause the pose to be reset. This should generally be enabled for applications with a stationary position in the virtual world and will allow the View Reset command to place the person back to a predefined location (such as a cockpit seat). Set this to false if you have a locomotion system because resetting the view would effectively teleport the player to potentially invalid locations.")]
     public bool AllowRecenter = true;
 
-	[SerializeField]
-	[Tooltip("Specifies HMD recentering behavior when controller recenter is performed. True recenters the HMD as well, false does not.")]
-	private bool _reorientHMDOnControllerRecenter = true;
-	/// <summary>
-	/// Defines the recentering mode specified in the tooltip above.
-	/// </summary>
-	public bool reorientHMDOnControllerRecenter
-	{
-		get
-		{
-			if (!isHmdPresent)
-				return false;
-
-			return OVRPlugin.GetReorientHMDOnControllerRecenter();
-		}
-
-		set
-		{
-			if (!isHmdPresent)
-				return;
-
-			OVRPlugin.SetReorientHMDOnControllerRecenter(value);
-
-		}
-	}
-
-	/// <summary>
+    /// <summary>
 	/// True if the current platform supports virtual reality.
 	/// </summary>
 	public bool isSupportedPlatform { get; private set; }
@@ -1043,24 +887,6 @@ public class OVRManager : MonoBehaviour
 	}
 #endif
 
-	internal static bool IsUnityAlphaOrBetaVersion()
-	{
-		string ver = Application.unityVersion;
-		int pos = ver.Length - 1;
-
-		while (pos >= 0 && ver[pos] >= '0' && ver[pos] <= '9')
-		{
-			--pos;
-		}
-
-		if (pos >= 0 && (ver[pos] == 'a' || ver[pos] == 'b'))
-			return true;
-
-		return false;
-	}
-
-	internal static string UnityAlphaOrBetaVersionWarningMessage = "WARNING: It's not recommended to use Unity alpha/beta release in Oculus development. Use a stable release if you encounter any issue.";
-
 #region Unity Messages
 
 	private void Awake()
@@ -1075,17 +901,10 @@ public class OVRManager : MonoBehaviour
 
 		instance = this;
 
-		UnityEngine.Debug.Log("Unity v" + Application.unityVersion + ", " +
+		Debug.Log("Unity v" + Application.unityVersion + ", " +
 				  "Oculus Utilities v" + OVRPlugin.wrapperVersion + ", " +
 				  "OVRPlugin v" + OVRPlugin.version + ", " +
 				  "SDK v" + OVRPlugin.nativeSDKVersion + ".");
-
-#if !UNITY_EDITOR
-		if (IsUnityAlphaOrBetaVersion())
-		{
-			UnityEngine.Debug.LogWarning(UnityAlphaOrBetaVersionWarningMessage);
-		}
-#endif
 
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 		var supportedTypes =
@@ -1093,27 +912,20 @@ public class OVRManager : MonoBehaviour
 			UnityEngine.Rendering.GraphicsDeviceType.Direct3D12.ToString();
 
 		if (!supportedTypes.Contains(SystemInfo.graphicsDeviceType.ToString()))
-			UnityEngine.Debug.LogWarning("VR rendering requires one of the following device types: (" + supportedTypes + "). Your graphics device: " + SystemInfo.graphicsDeviceType.ToString());
+			Debug.LogWarning("VR rendering requires one of the following device types: (" + supportedTypes + "). Your graphics device: " + SystemInfo.graphicsDeviceType.ToString());
 #endif
 
 		// Detect whether this platform is a supported platform
 		RuntimePlatform currPlatform = Application.platform;
-		if (currPlatform == RuntimePlatform.Android ||
-			// currPlatform == RuntimePlatform.LinuxPlayer ||
-			currPlatform == RuntimePlatform.OSXEditor ||
-			currPlatform == RuntimePlatform.OSXPlayer ||
-			currPlatform == RuntimePlatform.WindowsEditor ||
-			currPlatform == RuntimePlatform.WindowsPlayer)
-		{
-			isSupportedPlatform = true;
-		}
-		else
-		{
-			isSupportedPlatform = false;
-		}
+		isSupportedPlatform |= currPlatform == RuntimePlatform.Android;
+		//isSupportedPlatform |= currPlatform == RuntimePlatform.LinuxPlayer;
+		isSupportedPlatform |= currPlatform == RuntimePlatform.OSXEditor;
+		isSupportedPlatform |= currPlatform == RuntimePlatform.OSXPlayer;
+		isSupportedPlatform |= currPlatform == RuntimePlatform.WindowsEditor;
+		isSupportedPlatform |= currPlatform == RuntimePlatform.WindowsPlayer;
 		if (!isSupportedPlatform)
 		{
-			UnityEngine.Debug.LogWarning("This platform is unsupported");
+			Debug.LogWarning("This platform is unsupported");
 			return;
 		}
 
@@ -1153,7 +965,7 @@ public class OVRManager : MonoBehaviour
 
 		if (enableMixedReality)
 		{
-			UnityEngine.Debug.Log("OVR: Mixed Reality mode enabled");
+			Debug.Log("OVR: Mixed Reality mode enabled");
 			if (UseDirectCompositionFromCmd())
 			{
 				compositionMethod = CompositionMethod.Direct;
@@ -1162,7 +974,7 @@ public class OVRManager : MonoBehaviour
 			{
 				compositionMethod = CompositionMethod.External;
 			}
-			UnityEngine.Debug.Log("OVR: CompositionMethod : " + compositionMethod);
+			Debug.Log("OVR: CompositionMethod : " + compositionMethod);
 		}
 #endif
 
@@ -1170,7 +982,7 @@ public class OVRManager : MonoBehaviour
 		if (enableAdaptiveResolution && !OVRManager.IsAdaptiveResSupportedByEngine())
 		{
 			enableAdaptiveResolution = false;
-			UnityEngine.UnityEngine.Debug.LogError("Your current Unity Engine " + Application.unityVersion + " might have issues to support adaptive resolution, please disable it under OVRManager");
+			UnityEngine.Debug.LogError("Your current Unity Engine " + Application.unityVersion + " might have issues to support adaptive resolution, please disable it under OVRManager");
 		}
 #endif
 
@@ -1179,23 +991,8 @@ public class OVRManager : MonoBehaviour
 		if (resetTrackerOnLoad)
 			display.RecenterPose();
 
-		if (UnityEngine.Debug.isDebugBuild)
-		{
-			// Activate system metrics collection in Debug/Developerment build
-			if (GetComponent<OVRSystemPerfMetrics.OVRSystemPerfMetricsTcpServer>() == null)
-			{
-				gameObject.AddComponent<OVRSystemPerfMetrics.OVRSystemPerfMetricsTcpServer>();
-			}
-			OVRSystemPerfMetrics.OVRSystemPerfMetricsTcpServer perfTcpServer = GetComponent<OVRSystemPerfMetrics.OVRSystemPerfMetricsTcpServer>();
-			perfTcpServer.listeningPort = profilerTcpPort;
-			if (!perfTcpServer.enabled)
-			{
-				perfTcpServer.enabled = true;
-			}
-		}
-
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-		// Force OcculusionMesh on all the time, you can change the value to false if you really need it be off for some reasons,
+		// Force OcculusionMesh on all the time, you can change the value to false if you really need it be off for some reasons, 
 		// be aware there are performance drops if you don't use occlusionMesh.
 		OVRPlugin.occlusionMesh = true;
 #endif
@@ -1211,26 +1008,6 @@ public class OVRManager : MonoBehaviour
 	}
 #endif
 
-	void SetCurrentXRDevice()
-	{
-		if (OVRPlugin.initialized)
-		{
-			loadedXRDevice = XRDevice.Oculus;
-		}
-		else if (Settings.enabled)
-		{
-			String loadedXRDeviceName = Settings.loadedDeviceName;
-			if (loadedXRDeviceName == OPENVR_UNITY_NAME_STR)
-				loadedXRDevice = XRDevice.OpenVR;
-			else
-				loadedXRDevice = XRDevice.Unknown;
-		}
-		else
-		{
-			loadedXRDevice = XRDevice.Unknown;
-		}
-	}
-
 	void Initialize()
 	{
 		if (display == null)
@@ -1239,10 +1016,6 @@ public class OVRManager : MonoBehaviour
 			tracker = new OVRTracker();
 		if (boundary == null)
 			boundary = new OVRBoundary();
-
-		reorientHMDOnControllerRecenter = _reorientHMDOnControllerRecenter;
-		SetCurrentXRDevice();
-
 	}
 
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
@@ -1259,12 +1032,10 @@ public class OVRManager : MonoBehaviour
 		}
 #endif
 
-		SetCurrentXRDevice();
-
 		if (OVRPlugin.shouldQuit)
 			Application.Quit();
 
-		if (AllowRecenter && OVRPlugin.shouldRecenter)
+        if (AllowRecenter && OVRPlugin.shouldRecenter)
 		{
 			OVRManager.display.RecenterPose();
 		}
@@ -1280,30 +1051,15 @@ public class OVRManager : MonoBehaviour
 
 		// Dispatch HMD events.
 
-		isHmdPresent = OVRNodeStateProperties.IsHmdPresent();
+		isHmdPresent = OVRPlugin.hmdPresent;
 
 		if (useRecommendedMSAALevel && QualitySettings.antiAliasing != display.recommendedMSAALevel)
 		{
-			UnityEngine.Debug.Log("The current MSAA level is " + QualitySettings.antiAliasing +
+			Debug.Log("The current MSAA level is " + QualitySettings.antiAliasing +
 			", but the recommended MSAA level is " + display.recommendedMSAALevel +
 			". Switching to the recommended level.");
 
 			QualitySettings.antiAliasing = display.recommendedMSAALevel;
-		}
-
-		if (monoscopic != _monoscopic)
-		{
-			monoscopic = _monoscopic;
-		}
-
-		if (headPoseRelativeOffsetRotation != _headPoseRelativeOffsetRotation)
-		{
-			headPoseRelativeOffsetRotation = _headPoseRelativeOffsetRotation;
-		}
-
-		if (headPoseRelativeOffsetTranslation != _headPoseRelativeOffsetTranslation)
-		{
-			headPoseRelativeOffsetTranslation = _headPoseRelativeOffsetTranslation;
 		}
 
 		if (_wasHmdPresent && !isHmdPresent)
@@ -1315,7 +1071,7 @@ public class OVRManager : MonoBehaviour
 			}
 			catch (Exception e)
 			{
-				UnityEngine.Debug.LogError("Caught Exception: " + e);
+				Debug.LogError("Caught Exception: " + e);
 			}
 		}
 
@@ -1328,7 +1084,7 @@ public class OVRManager : MonoBehaviour
 			}
 			catch (Exception e)
 			{
-				UnityEngine.Debug.LogError("Caught Exception: " + e);
+				Debug.LogError("Caught Exception: " + e);
 			}
 		}
 
@@ -1347,7 +1103,7 @@ public class OVRManager : MonoBehaviour
 			}
 			catch (Exception e)
 			{
-				UnityEngine.Debug.LogError("Caught Exception: " + e);
+				Debug.LogError("Caught Exception: " + e);
 			}
 		}
 
@@ -1360,7 +1116,7 @@ public class OVRManager : MonoBehaviour
 			}
 			catch (Exception e)
 			{
-				UnityEngine.Debug.LogError("Caught Exception: " + e);
+				Debug.LogError("Caught Exception: " + e);
 			}
 		}
 
@@ -1379,7 +1135,7 @@ public class OVRManager : MonoBehaviour
 			}
 			catch (Exception e)
 			{
-				UnityEngine.Debug.LogError("Caught Exception: " + e);
+				Debug.LogError("Caught Exception: " + e);
 			}
 		}
 
@@ -1392,7 +1148,7 @@ public class OVRManager : MonoBehaviour
 			}
 			catch (Exception e)
 			{
-				UnityEngine.Debug.LogError("Caught Exception: " + e);
+				Debug.LogError("Caught Exception: " + e);
 			}
 		}
 
@@ -1411,7 +1167,7 @@ public class OVRManager : MonoBehaviour
 			}
 			catch (Exception e)
 			{
-				UnityEngine.Debug.LogError("Caught Exception: " + e);
+				Debug.LogError("Caught Exception: " + e);
 			}
 		}
 
@@ -1424,7 +1180,7 @@ public class OVRManager : MonoBehaviour
 			}
 			catch (Exception e)
 			{
-				UnityEngine.Debug.LogError("Caught Exception: " + e);
+				Debug.LogError("Caught Exception: " + e);
 			}
 		}
 
@@ -1488,7 +1244,7 @@ public class OVRManager : MonoBehaviour
 			}
 			catch (Exception e)
 			{
-				UnityEngine.Debug.LogError("Caught Exception: " + e);
+				Debug.LogError("Caught Exception: " + e);
 			}
 
 			prevAudioOutId = audioOutId;
@@ -1509,7 +1265,7 @@ public class OVRManager : MonoBehaviour
 			}
 			catch (Exception e)
 			{
-				UnityEngine.Debug.LogError("Caught Exception: " + e);
+				Debug.LogError("Caught Exception: " + e);
 			}
 
 			prevAudioInId = audioInId;
@@ -1526,7 +1282,7 @@ public class OVRManager : MonoBehaviour
 			}
 			catch (Exception e)
 			{
-				UnityEngine.Debug.LogError("Caught Exception: " + e);
+				Debug.LogError("Caught Exception: " + e);
 			}
 		}
 
@@ -1539,7 +1295,7 @@ public class OVRManager : MonoBehaviour
 			}
 			catch (Exception e)
 			{
-				UnityEngine.Debug.LogError("Caught Exception: " + e);
+				Debug.LogError("Caught Exception: " + e);
 			}
 		}
 
@@ -1549,11 +1305,6 @@ public class OVRManager : MonoBehaviour
 		OVRInput.Update();
 
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-		if (enableMixedReality && !prevEnableMixedReality)
-		{
-			OVRPlugin.SendEvent("mixed_reality_capture", "activated");
-		}
-
 		if (enableMixedReality || prevEnableMixedReality)
 		{
 			Camera mainCamera = FindMainCamera();
@@ -1577,7 +1328,7 @@ public class OVRManager : MonoBehaviour
 			{
 				if (!suppressDisableMixedRealityBecauseOfNoMainCameraWarning)
 				{
-					UnityEngine.Debug.LogWarning("Main Camera is not set, Mixed Reality disabled");
+					Debug.LogWarning("Main Camera is not set, Mixed Reality disabled");
 					suppressDisableMixedRealityBecauseOfNoMainCameraWarning = true;
 				}
 			}
@@ -1614,7 +1365,7 @@ public class OVRManager : MonoBehaviour
 		{
 			if (!multipleMainCameraWarningPresented)
 			{
-				UnityEngine.Debug.LogWarning("Multiple MainCamera found. Assume the real MainCamera is the camera with the least depth");
+				Debug.LogWarning("Multiple MainCamera found. Assume the real MainCamera is the camera with the least depth");
 				multipleMainCameraWarningPresented = true;
 			}
 			// return the camera with least depth
@@ -1625,12 +1376,6 @@ public class OVRManager : MonoBehaviour
 
 	private void OnDisable()
 	{
-		OVRSystemPerfMetrics.OVRSystemPerfMetricsTcpServer perfTcpServer = GetComponent<OVRSystemPerfMetrics.OVRSystemPerfMetricsTcpServer>();
-		if (perfTcpServer != null)
-		{
-			perfTcpServer.enabled = false;
-		}
-
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 		OVRMixedReality.Cleanup();
 #endif

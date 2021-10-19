@@ -7,7 +7,7 @@
 
 <h1>PluggableVR for EmotionCreators</h1>
 
-EmotionCreators をVRで動作させるためのプラグインです。<br>
+エモーデョンクリエイターズをVRで動作させるためのプラグインです。<br>
 <a target="_blank" href="https://www.patreon.com/posts/hf-patch-for-kk-46339224">HF Patch 3.12</a>導入済の環境で動作確認しています。<br>
 
 <h2>内容</h2>
@@ -16,9 +16,9 @@ EmotionCreators をVRで動作させるためのプラグインです。<br>
 <dt>BepInEx</dt>
 <dt>EmotionCreators_Data</dt>
 <dd>ゲームフォルダに追加するファイル群</dd>
-<dt>EmotionCreators_novr.bar</dt>
+<dt>EmotionCreators_novr.bat</dt>
 <dd>通常版起動バッチファイル</dd>
-<dt>EmotionCreators_vr.bar</dt>
+<dt>EmotionCreators_vr.bat</dt>
 <dd>VR版起動バッチファイル</dd>
 <dt>PluggableVR_EC_HowToUse.html</dt>
 <dd>使い方説明</dd>
@@ -62,13 +62,24 @@ EmotionCreators をVRで動作させるためのプラグインです。<br>
 
 <h2>操作方法</h2>
 
-全くの未実装で、カメラがルームスケールで動くだけです。<br>
-というか現状ではまともに動作しないです。<br>
+<ul>
+<li>VRヘッドセット</li>
+<ul>
+<li>カメラをルームスケールで移動させます</li>
+</ul>
+<li>主スティック (右利き設定では左スティック)でカメラ位置マークを前後左右または上下左右に移動させます<br>(主スティックを押し込むことで移動方法を切り替えます)</li>
+<li>副スティック (右利き設定では右スティック)でカメラ位置マークを左右に回転させます</li>
+<li>両方のスティックから指を離すことで、カメラを位置マーク地点に移します</li>
+<li>あと、当面の調査用として、Yボタン押しながらBボタン押すと現在のHierarchy状態ごっそりファイルに書き出します</li>
+</ul>
+
+UI操作は通常通りPC画面のマウス操作で。<br>
 
 <h2>既知の問題点</h2>
 
 <ul>
 <li>UI未対応</li>
+<li>エディット画面以外入れない</li>
 </ul>
 
 <h2>更新履歴</h2>
