@@ -13,19 +13,17 @@ namespace PluggableVR
 	internal class VRController : PlugCommon
 	{
 		private Camera _mainCamera;
-		internal VRPlayer Player { get; private set; }
-		internal VRAvatar Avatar { get; private set; }
+		private VRPlayer _player;
+		private VRAvatar _avatar;
 
 		internal VRController(Camera mc)
 		{
+
 			_mainCamera = mc;
 
 			var loc = Loc.FromWorldTransform(mc.transform);
-			Avatar = new VRAvatar(loc);
-			Player = new VRPlayer(loc, Avatar);
-
-			Avatar.LeftHand.SetActive(false);
-			Avatar.RightHand.SetActive(false);
+			_avatar = new VRAvatar(loc);
+			_player = new VRPlayer(loc, _avatar);
 
 			var cam = mc.GetComponent<Camera>();
 			if (cam != null) cam.enabled = false;
@@ -36,21 +34,20 @@ namespace PluggableVR
 		//! シーン変更捕捉 
 		internal void SceneChanged(Scene scn)
 		{
+
 			// 現在のメインカメラ位置でリセット 
-			Player.ChangeCamera(Loc.FromWorldTransform(_mainCamera.transform));
 		}
 
 		//! メインカメラ変更捕捉 
 		internal void MainCameraChanged(Camera mc)
 		{
+
 			// 変更されたメインカメラ位置でリセット 
-			_mainCamera = mc;
-			Player.ChangeCamera(Loc.FromWorldTransform(mc.transform));
 		}
 
 		internal void Update()
 		{
-			Player.Update();
+			_player.Update();
 		}
 	}
 }

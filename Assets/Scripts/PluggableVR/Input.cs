@@ -19,17 +19,26 @@ namespace PluggableVR
 	//! 手の入力状態(左右可換) 
 	public class InputHandSwitchable
 	{
-		//! 指休め状態 
-		public virtual bool IsResting() { return false; }
-		//! スティック指載せ状態 
+		//! スティック載せ状態 
 		public virtual bool IsStickTouching() { return false; }
-		//! スティック押し状態 
-		public virtual bool IsStickPushing() { return false; }
+		//! スティック押し込み状態 
+		public virtual bool IsStickPressed() { return false; }
 
 		//! スティック倒し状態 
 		/*!	@note +x=右 +y=前
 		*/
 		public virtual Vector2 GetStickTilting() { return new Vector2(); }
+
+		//! 掌トリガ押し状態 
+		public virtual float GetHandPressing() { return 0.0f; }
+		//! 掌トリガ押し込み状態 
+		public virtual bool IsHandPressed() { return false; }
+		//! 指トリガ載せ状態 
+		public virtual bool IsIndexTouching() { return false; }
+		//! 指トリガ押し状態 
+		public virtual float GetIndexPressing() { return 0.0f; }
+		//! 指トリガ押し込み状態 
+		public virtual bool IsIndexPressed() { return false; }
 	}
 
 	//! 手の入力状態(左右固定) 
@@ -40,6 +49,15 @@ namespace PluggableVR
 				右手は +x=先 +y=甲 +z=親指 @n
 		*/
 		public virtual Loc GetHandTracking() { return Loc.Identity; }
+
+		//! ボタン1載せ状態 
+		public virtual bool IsButton1Touching() { return false; }
+		//! ボタン1押し込み状態 
+		public virtual bool IsButton1Pressed() { return false; }
+		//! ボタン2載せ状態 
+		public virtual bool IsButton2Touching() { return false; }
+		//! ボタン2押し込み状態 
+		public virtual bool IsButton2Pressed() { return false; }
 	}
 
 	//! 入力機能基底 

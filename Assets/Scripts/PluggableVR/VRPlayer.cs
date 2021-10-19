@@ -78,7 +78,7 @@ namespace PluggableVR
 			}
 
 			// 上下/前後 移動切り替え 
-			_push_pstk.Update(inp.HandPrimary.IsStickPushing());
+			_push_pstk.Update(inp.HandPrimary.IsStickPressed());
 			if (_sticking)
 			{
 				if (_push_pstk.Delta > 0)
