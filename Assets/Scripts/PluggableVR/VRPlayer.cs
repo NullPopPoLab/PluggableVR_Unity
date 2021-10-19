@@ -26,8 +26,10 @@ namespace PluggableVR
 			_cam = CreateChildObject("VRCamera", _rig, Loc.Identity, false).transform;
 			GameObject.DontDestroyOnLoad(_rig.gameObject);
 
-			_cam.gameObject.AddComponent<Camera>();
+			var cam = _cam.gameObject.AddComponent<Camera>();
 			_cam.gameObject.AddComponent<AudioListener>();
+			cam.nearClipPlane = 0.05f;
+
 
 			_targetView = target;
 			_targetCtrl = _targetView.CreateControl();
