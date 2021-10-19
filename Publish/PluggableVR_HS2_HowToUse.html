@@ -7,7 +7,7 @@
 
 <h1>PluggableVR for HoneySelect2</h1>
 
-HoneySelect2 をVRで動作させるためのプラグインです。<br>
+ハニーセレクト2 をVRで動作させるためのプラグインです。<br>
 <a target="_blank" href="https://www.patreon.com/posts/hf-patch-for-kk-46339224">HF Patch 3.12</a>導入済の環境で動作確認しています。<br>
 
 <h2>内容</h2>
@@ -16,9 +16,9 @@ HoneySelect2 をVRで動作させるためのプラグインです。<br>
 <dt>BepInEx</dt>
 <dt>HoneySelect2_Data</dt>
 <dd>ゲームフォルダに追加するファイル群</dd>
-<dt>HoneySelect2_novr.bar</dt>
+<dt>HoneySelect2_novr.bat</dt>
 <dd>通常版起動バッチファイル</dd>
-<dt>HoneySelect2_vr.bar</dt>
+<dt>HoneySelect2_vr.bat</dt>
 <dd>VR版起動バッチファイル</dd>
 <dt>PluggableVR_HS2_HowToUse.html</dt>
 <dd>使い方説明</dd>
@@ -62,16 +62,32 @@ HoneySelect2 をVRで動作させるためのプラグインです。<br>
 
 <h2>操作方法</h2>
 
-全くの未実装で、カメラがルームスケールで動くだけです。<br>
-というか現状ではまともに動作しないです。<br>
+<ul>
+<li>VRヘッドセット</li>
+<ul>
+<li>カメラをルームスケールで移動させます</li>
+</ul>
+<li>主スティック (右利き設定では左スティック)でカメラ位置マークを前後左右または上下左右に移動させます<br>(主スティックを押し込むことで移動方法を切り替えます)</li>
+<li>副スティック (右利き設定では右スティック)でカメラ位置マークを左右に回転させます</li>
+<li>両方のスティックから指を離すことで、カメラを位置マーク地点に移します</li>
+<li>あと、当面の調査用として、Yボタン押しながらBボタン押すと現在のHierarchy状態ごっそりファイルに書き出します</li>
+</ul>
+
+UI操作は通常通りPC画面のマウス操作で。<br>
 
 <h2>既知の問題点</h2>
 
 <ul>
 <li>UI未対応</li>
+<li>足元位置未対応のため、スティック回転の軸が怪しげ</li>
+<li>なんか世界が巨大</li>
+<li>えっち中は乗っ取ったVR用カメラとは別のカメラから映してるようでなんか遠い</li>
 </ul>
 
 <h2>更新履歴</h2>
+
+<h3>0.0.2</h3>
+プレイヤー操作によるカメラ移動に対応<br>
 
 <h3>0.0.1</h3>
 とりあえず3DシーンをVRで観られるようにしただけ。<br>

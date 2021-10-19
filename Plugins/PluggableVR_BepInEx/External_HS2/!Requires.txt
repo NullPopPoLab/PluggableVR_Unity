@@ -4,6 +4,8 @@ HoneySelect2_Data/Managed/Assembly-CSharp.dll
 HoneySelect2_Data/Managed/UnityEngine.dll
 HoneySelect2_Data/Managed/UnityEngine.AudioModule.dll
 HoneySelect2_Data/Managed/UnityEngine.CoreModule.dll
+HoneySelect2_Data/Managed/UnityEngine.JSONSerializeModule.dll
+HoneySelect2_Data/Managed/UnityEngine.PhysicsModule.dll
 HoneySelect2_Data/Managed/UnityEngine.VRModule.dll
 HoneySelect2_Data/Managed/UnityEngine.XRModule.dll
 BepInEx/core/BepInEx.dll
