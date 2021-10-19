@@ -28,6 +28,8 @@ namespace PluggableVR.CS
 		internal static BepInEx.Logging.ManualLogSource PlugLog { get; private set; }
 		internal static VRManager VRManager{ get; private set; }
 
+		private RelativeBool _push_rbtn2 = new RelativeBool();
+
 		protected void Awake()
 		{
 			Instance = this;
@@ -58,8 +60,6 @@ namespace PluggableVR.CS
 		private void _onSceneChanged(Scene scn, LoadSceneMode mode)
 		{
 			VRManager.SceneChanged(scn);
-
-//			Hierarchy.Dump2File("Hierarchy", "SceneChanged");
 		}
 
 		protected void FixedUpdate()
@@ -74,6 +74,13 @@ namespace PluggableVR.CS
 			if (!Enabled) return;
 
 			VRManager.Update();
+
+			var inp = VRManager.Input;
+			_push_rbtn2.Update(inp.HandRight.IsButton2Pressed());
+			if (inp.HandLeft.IsButton2Pressed() && _push_rbtn2.Delta > 0)
+			{
+				Hierarchy.Dump2File("Hierarchy");
+			}
 		}
 
 		protected void LateUpdate()
