@@ -7,7 +7,7 @@
 
 <h1>PluggableVR for KoikatsuSunshine</h1>
 
-KoikatsuSunshine をVRで動作させるためのプラグインです。<br>
+コイカツサンシャインをVRで動作させるためのプラグインです。<br>
 <a target="_blank" href="https://www.patreon.com/posts/hf-patch-for-kk-46339224">HF Patch 3.12</a>導入済の環境で動作確認しています。<br>
 
 <h2>内容</h2>
@@ -16,9 +16,9 @@ KoikatsuSunshine をVRで動作させるためのプラグインです。<br>
 <dt>BepInEx</dt>
 <dt>KoikatsuSunshine_Data</dt>
 <dd>ゲームフォルダに追加するファイル群</dd>
-<dt>KoikatsuSunshine_novr.bar</dt>
+<dt>KoikatsuSunshine_novr.bat</dt>
 <dd>通常版起動バッチファイル</dd>
-<dt>KoikatsuSunshine_vr.bar</dt>
+<dt>KoikatsuSunshine_vr.bat</dt>
 <dd>VR版起動バッチファイル</dd>
 <dt>PluggableVR_KKS_HowToUse.html</dt>
 <dd>使い方説明</dd>
@@ -54,23 +54,40 @@ KoikatsuSunshine をVRで動作させるためのプラグインです。<br>
 
 <h2>起動方法</h2>
 
-KoikatsuSunshine_vr.bat で起動するとVR onで動作
-KoikatsuSunshine_novr.bat で起動するとVR offで動作
-通常通り KoikatsuSunshine.exe で起動すると前回の選択で
+<ul>
+<li>KoikatsuSunshine_vr.bat で起動するとVR onで動作</li>
+<li>KoikatsuSunshine_novr.bat で起動するとVR offで動作</li>
+<li>通常通り KoikatsuSunshine.exe で起動すると前回の選択で</li>
+</ul>
 
 <h2>操作方法</h2>
 
-全くの未実装で、カメラがルームスケールで動くだけです。<br>
-というか、ゲームまともに動作しないです。<br>
+<ul>
+<li>VRヘッドセット</li>
+<ul>
+<li>カメラをルームスケールで移動させます</li>
+</ul>
+<li>主スティック (右利き設定では左スティック)でカメラ位置マークを前後左右または上下左右に移動させます<br>(主スティックを押し込むことで移動方法を切り替えます)</li>
+<li>副スティック (右利き設定では右スティック)でカメラ位置マークを左右に回転させます</li>
+<li>両方のスティックから指を離すことで、カメラを位置マーク地点に移します</li>
+<li>あと、当面の調査用として、Yボタン押しながらBボタン押すと現在のHierarchy状態ごっそりファイルに書き出します</li>
+</ul>
+
+UI操作は通常通りPC画面のマウス操作で。<br>
 
 <h2>既知の問題点</h2>
 
 <ul>
 <li>UI未対応</li>
 <li>背景の向きが反映されてない</li>
+<li>足元位置未対応のため、スティック回転の軸が怪しげ</li>
+<li>エディタしか入れない模様</li>
 </ul>
 
 <h2>更新履歴</h2>
+
+<h3>0.0.2</h3>
+プレイヤー操作によるカメラ移動に対応<br>
 
 <h3>0.0.1</h3>
 とりあえず3DシーンをVRで観られるようにしただけ。<br>

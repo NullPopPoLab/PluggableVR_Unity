@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;UNITY_2017_2_OR_NEWER;UNITY_2018_3_OR_NEWER</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;UNITY_2017_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_STANDALONE_WIN</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -27,7 +27,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;UNITY_2017_2_OR_NEWER;UNITY_2018_3_OR_NEWER</DefineConstants>
+    <DefineConstants>TRACE;UNITY_2017_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_STANDALONE_WIN</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -36,8 +36,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>External_KKS\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>External_CS2\Assembly-CSharp.dll</HintPath>
+    <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>External_KKS\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="BepInEx, Version=5.4.16.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -61,6 +62,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>External_KKS\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.JSONSerializeModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>External_KKS\UnityEngine.JSONSerializeModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>External_KKS\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.VRModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>External_KKS\UnityEngine.VRModule.dll</HintPath>
@@ -71,6 +80,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\Oculus\Composition\OVRCameraComposition.cs" />
+    <Compile Include="src\Oculus\Composition\OVRComposition.cs" />
+    <Compile Include="src\Oculus\Composition\OVRCompositionUtil.cs" />
+    <Compile Include="src\Oculus\Composition\OVRDirectComposition.cs" />
+    <Compile Include="src\Oculus\Composition\OVRExternalComposition.cs" />
+    <Compile Include="src\Oculus\Composition\OVRSandwichComposition.cs" />
     <Compile Include="src\Oculus\OVRBoundary.cs" />
     <Compile Include="src\Oculus\OVRCameraRig.cs" />
     <Compile Include="src\Oculus\OVRCommon.cs" />
@@ -79,11 +94,19 @@
     <Compile Include="src\Oculus\OVRHapticsClip.cs" />
     <Compile Include="src\Oculus\OVRInput.cs" />
     <Compile Include="src\Oculus\OVRManager.cs" />
+    <Compile Include="src\Oculus\OVRMixedReality.cs" />
     <Compile Include="src\Oculus\OVRPlugin.cs" />
     <Compile Include="src\Oculus\OVRProfile.cs" />
     <Compile Include="src\Oculus\OVRTracker.cs" />
+    <Compile Include="src\Oculus\Util\OVRMixedRealityCaptureSettings.cs" />
+    <Compile Include="src\PluggableVR\PlugCommon.cs" />
+    <Compile Include="src\PluggableVR\Relative.cs" />
     <Compile Include="src\Oculus\Util\OVRNetwork.cs" />
     <Compile Include="src\Oculus\Util\OVRSystemPerfMetrics.cs" />
+    <Compile Include="src\PluggableVR\VRAvatar.cs" />
+    <Compile Include="src\PluggableVR\VRController.cs" />
+    <Compile Include="src\PluggableVR\VRManager.cs" />
+    <Compile Include="src\PluggableVR\VRPlayer.cs" />
     <Compile Include="src\PluggableVR\AvatarControl.cs" />
     <Compile Include="src\PluggableVR\Cycle.cs" />
     <Compile Include="src\PluggableVR\Hierarchy.cs" />
