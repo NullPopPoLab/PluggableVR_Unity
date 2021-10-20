@@ -3,6 +3,7 @@
 	@author NullPopPoLab
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,42 +13,47 @@ namespace PluggableVR
 {
 	internal class VRController : PlugCommon
 	{
-		private Camera _mainCamera;
-		private VRPlayer _player;
-		private VRAvatar _avatar;
+		internal VRPlayer Player { get; private set; }
+		internal VRAvatar Avatar { get; private set; }
 
-		internal VRController(Camera mc)
+		//! VRAvatar 生成時の付加動作 
+		internal Action<VRAvatar> OnCreateAvatar = null;
+		//! VRPlayer 生成時の付加動作 
+		internal Action<VRPlayer> OnCreatePlayer = null;
+
+		internal VRController() { }
+
+		//! 初期設定 
+		internal void Initialize(Camera cam)
+		{
+			var loc = Loc.FromWorldTransform(cam.transform);
+			Avatar = new VRAvatar(loc);
+			if (OnCreateAvatar != null) OnCreateAvatar(Avatar);
+			Player = new VRPlayer(Avatar);
+			if (OnCreatePlayer != null) OnCreatePlayer(Player);
+		}
+
+		//! 機能終了 
+		internal void Shutdown()
 		{
 
-			_mainCamera = mc;
-
-			var loc = Loc.FromWorldTransform(mc.transform);
-			_avatar = new VRAvatar(loc);
-			_player = new VRPlayer(loc, _avatar);
-
-			var cam = mc.GetComponent<Camera>();
-			if (cam != null) cam.enabled = false;
-			var lsn = mc.GetComponent<AudioListener>();
-			if (lsn != null) lsn.enabled = false;
 		}
 
 		//! シーン変更捕捉 
 		internal void SceneChanged(Scene scn)
 		{
-
-			// 現在のメインカメラ位置でリセット 
 		}
 
-		//! メインカメラ変更捕捉 
-		internal void MainCameraChanged(Camera mc)
+		//! カメラ変更捕捉 
+		internal void CameraChanged(Camera cam)
 		{
-
 			// 変更されたメインカメラ位置でリセット 
+			Player.ChangeCamera(Loc.FromWorldTransform(cam.transform));
 		}
 
 		internal void Update()
 		{
-			_player.Update();
+			Player.Update();
 		}
 	}
 }

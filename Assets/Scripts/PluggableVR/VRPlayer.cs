@@ -20,9 +20,9 @@ namespace PluggableVR
 		private bool _elevating = false;
 		private RelativeBool _push_pstk = new RelativeBool();
 
-		internal VRPlayer(Loc loc, VRAvatar target)
+		internal VRPlayer(VRAvatar target)
 		{
-			_rig = CreateRootObject("VRPlayer", loc).transform;
+			_rig = CreateRootObject("VRPlayer", Loc.FromWorldTransform(target.Eye)).transform;
 			_cam = CreateChildObject("VRCamera", _rig, Loc.Identity, false).transform;
 			GameObject.DontDestroyOnLoad(_rig.gameObject);
 
@@ -52,7 +52,6 @@ namespace PluggableVR
 
 		internal void Update()
 		{
-
 			var inp = VRManager.Input;
 
 			// スティックの指載せで操作の主観/俯瞰を切り替える 
@@ -141,9 +140,9 @@ namespace PluggableVR
 			var ve = _targetCtrl.WorldEye;
 
 			// 回転Y軸を真上に戻した状態で判定 
-			ce.Rot = PluggableVR.RotUt.ReturnY(ce.Rot);
-			re.Rot = PluggableVR.RotUt.ReturnY(re.Rot);
-			ve.Rot = PluggableVR.RotUt.ReturnY(ve.Rot);
+			ce.Rot = RotUt.ReturnY(ce.Rot);
+			re.Rot = RotUt.ReturnY(re.Rot);
+			ve.Rot = RotUt.ReturnY(ve.Rot);
 
 			// リグを操作対象の目位置に合わせる 
 			ve.ToWorldTransform(_rig);
@@ -152,6 +151,16 @@ namespace PluggableVR
 
 			// 入力オフセット 
 			_offset = ve / _targetCtrl.Origin;
+		}
+
+		//! カメラ位置変更 
+		internal void ChangeCamera(Loc loc){
+
+			// 操作対象の目位置からの差分をOriginに反映 
+			var d = loc / _targetCtrl.WorldEye;
+			_targetCtrl.Origin *= d;
+			_targetView.UpdateControl(_targetCtrl);
+			ResetRig();
 		}
 	}
 }

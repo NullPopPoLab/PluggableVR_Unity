@@ -11,7 +11,7 @@ using UnityEngine;
 public class VRPlug : MonoBehaviour
 {
 #if UNITY_EDITOR
-	[SerializeField] private bool _dumpHierarchy;
+	[SerializeField,Tooltip("Hierarchy状態をファイルに書き出す")] private bool _dumpHierarchy;
 
 	[SerializeField,Space(10)] private Vector3 _eyePos;
 	[SerializeField, Range(-1, 1)] private float _eyeRotXx;
@@ -97,25 +97,39 @@ public class VRPlug : MonoBehaviour
 
 	private PluggableVR.VRManager _vrmng = new PluggableVR.VRManager();
 
+	//! 初期設定 
 	protected void Awake()
 	{
+		var mc = Camera.main;
+		_vrmng.Initialize(mc);
 
-		_vrmng.Initialize();
+		// VRカメラ生成後、本来のメインカメラは無効化 
+		if (mc == null) return;
+		var cam = mc.GetComponent<Camera>();
+		if (cam != null) cam.enabled = false;
+		var lsn = mc.GetComponent<AudioListener>();
+		if (lsn != null) lsn.enabled = false;
 	}
 
+	//! 終了 
+	protected void OnDestroy()
+	{
+		_vrmng.Shutdown();
+	}
+
+	//! 物理フレーム毎の更新 
 	protected void FixedUpdate()
 	{
-
 		_vrmng.FixedUpdate();
 	}
 
+	//! 描画フレーム毎の更新 
 	protected void Update()
 	{
-
 		_vrmng.Update();
 
-		var inp = PluggableVR.VRManager.Input;
 #if UNITY_EDITOR
+		var inp = PluggableVR.VRManager.Input;
 		var eye = inp.Head.GetEyeTracking();
 		_eyePos = eye.Pos;
 		_eyeRotXx = PluggableVR.RotUt.Xx(eye.Rot);
@@ -203,15 +217,17 @@ public class VRPlug : MonoBehaviour
 		_secondaryIndexPressing=inp.HandSecondary.GetIndexPressing();
 		_secondaryHandPressed=inp.HandSecondary.IsHandPressed();
 		_secondaryHandPressing=inp.HandSecondary.GetHandPressing();
-#endif
+
 		// Hierarchy書き出し 
 		if (_dumpHierarchy)
 		{
-			_dumpHierarchy=false;
+			_dumpHierarchy = false;
 			PluggableVR.Hierarchy.Dump2File("Hierarchy");
 		}
+#endif
 	}
 
+	//! アニメーション処理後の更新 
 	protected void LateUpdate()
 	{
 		_vrmng.LateUpdate();
