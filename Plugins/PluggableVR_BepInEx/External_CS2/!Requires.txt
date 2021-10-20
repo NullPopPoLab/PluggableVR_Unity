@@ -2,6 +2,12 @@
 
 CharaStudio_Data/Managed/Assembly-CSharp.dll
 CharaStudio_Data/Managed/UnityEngine.dll
+CharaStudio_Data/Managed/UnityEngine.AudioModule.dll
+CharaStudio_Data/Managed/UnityEngine.CoreModule.dll
+CharaStudio_Data/Managed/UnityEngine.JSONSerializeModule.dll
+CharaStudio_Data/Managed/UnityEngine.PhysicsModule.dll
+CharaStudio_Data/Managed/UnityEngine.VRModule.dll
+CharaStudio_Data/Managed/UnityEngine.XRModule.dll
 BepInEx/core/BepInEx.dll
 BepInEx/core/0Harmony.dll
 

@@ -8,6 +8,6 @@ goto End
 @echo .
 @echo *** Error ***
 @echo It needs the VR-hacked globalgamemanagers
-@echo see PluggableVR_HowToUse.html
+@echo see PluggableVR_CS2_HowToUse.html
 pause
 :End
