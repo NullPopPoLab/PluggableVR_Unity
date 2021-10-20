@@ -124,12 +124,6 @@ namespace PluggableVR
 			);
 		}
 
-		//! 位置差分 
-		public static Loc operator /(Loc target, Loc parent)
-		{
-			return parent.Inversed * target;
-		}
-
 		//! Unity World Transform への設定 
 		public void ToWorldTransform(Transform t)
 		{

@@ -150,15 +150,38 @@ namespace PluggableVR
 			inp.Reset();
 
 			// 入力オフセット 
-			_offset = ve / _targetCtrl.Origin;
+			_offset = _targetCtrl.Origin.Inversed*ve;
 		}
 
-		//! カメラ位置変更 
-		internal void ChangeCamera(Loc loc){
+		//! 位置だけ変更 
+		internal void Repos(Vector3 pos){
 
 			// 操作対象の目位置からの差分をOriginに反映 
-			var d = loc / _targetCtrl.WorldEye;
-			_targetCtrl.Origin *= d;
+			_targetCtrl.Origin.Pos += pos- _targetCtrl.WorldEye.Pos;
+
+			_targetView.UpdateControl(_targetCtrl);
+			ResetRig();
+		}
+
+		//! 向きだけ変更 
+		internal void Rerot(Quaternion rot){
+
+			// 操作対象の目向きからの差分をOriginに反映 
+			// ただしY軸を真上に戻す 
+			_targetCtrl.Origin.Rot *= Quaternion.Inverse(RotUt.ReturnY(_targetCtrl.WorldEye.Rot))*RotUt.ReturnY(rot);
+
+			_targetView.UpdateControl(_targetCtrl);
+			ResetRig();
+		}
+
+		//! 位置,向き変更 
+		internal void Reloc(Loc loc){
+
+			// 操作対象の目位置からの差分をOriginに反映 
+			// ただしY軸を真上に戻す 
+			_targetCtrl.Origin *= _targetCtrl.WorldEye.Inversed* loc;
+			_targetCtrl.Origin.Rot=RotUt.ReturnY(_targetCtrl.Origin.Rot);
+
 			_targetView.UpdateControl(_targetCtrl);
 			ResetRig();
 		}

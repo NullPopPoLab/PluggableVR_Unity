@@ -48,7 +48,22 @@ namespace PluggableVR
 		internal void CameraChanged(Camera cam)
 		{
 			// 変更されたメインカメラ位置でリセット 
-			Player.ChangeCamera(Loc.FromWorldTransform(cam.transform));
+			Player.Reloc(Loc.FromWorldTransform(cam.transform));
+		}
+
+		//! 位置だけ変更 
+		internal void Repos(Vector3 pos){
+			Player.Repos(pos);
+		}
+
+		//! 向きだけ変更 
+		internal void Rerot(Quaternion rot){
+			Player.Rerot(rot);
+		}
+
+		//! 位置,向き変更 
+		internal void Reloc(Loc loc){
+			Player.Reloc(loc);
 		}
 
 		internal void Update()

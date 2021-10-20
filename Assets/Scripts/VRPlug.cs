@@ -13,6 +13,11 @@ public class VRPlug : MonoBehaviour
 #if UNITY_EDITOR
 	[SerializeField,Tooltip("Hierarchy状態をファイルに書き出す")] private bool _dumpHierarchy;
 
+	[SerializeField,Space(10)] private Transform _teleportTarget;
+	[SerializeField,Tooltip("Teleport Target 位置に移動")] private bool _repos;
+	[SerializeField,Tooltip("Teleport Target 向きを合わせる")] private bool _rerot;
+	[SerializeField,Tooltip("Teleport Target 位置に移動して向きを合わせる")] private bool _reloc;
+
 	[SerializeField,Space(10)] private Vector3 _eyePos;
 	[SerializeField, Range(-1, 1)] private float _eyeRotXx;
 	[SerializeField, Range(-1, 1)] private float _eyeRotXy;
@@ -126,6 +131,21 @@ public class VRPlug : MonoBehaviour
 	//! 描画フレーム毎の更新 
 	protected void Update()
 	{
+#if UNITY_EDITOR
+		if(_repos){
+			_repos=false;
+			_vrmng.Repos(_teleportTarget.position);
+		}
+		if(_rerot){
+			_rerot=false;
+			_vrmng.Rerot(_teleportTarget.rotation);
+		}
+		if(_reloc){
+			_reloc=false;
+			_vrmng.Reloc(PluggableVR.Loc.FromWorldTransform(_teleportTarget));
+		}
+#endif
+
 		_vrmng.Update();
 
 #if UNITY_EDITOR

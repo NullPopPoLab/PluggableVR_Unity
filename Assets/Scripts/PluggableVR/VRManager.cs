@@ -66,6 +66,21 @@ namespace PluggableVR
 			if (Controller != null) Controller.CameraChanged(cam);
 		}
 
+		//! 位置だけ変更 
+		internal void Repos(Vector3 pos){
+			if (Controller != null) Controller.Repos(pos);
+		}
+
+		//! 向きだけ変更 
+		internal void Rerot(Quaternion rot){
+			if (Controller != null) Controller.Rerot(rot);
+		}
+
+		//! 位置,向き変更 
+		internal void Reloc(Loc loc){
+			if (Controller != null) Controller.Reloc(loc);
+		}
+
 		//! 物理フレーム毎の更新 
 		internal void FixedUpdate()
 		{

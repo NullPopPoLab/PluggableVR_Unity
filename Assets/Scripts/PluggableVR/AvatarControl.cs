@@ -20,19 +20,19 @@ namespace PluggableVR
 		public Loc WorldEye
 		{
 			get { return Origin * LocalEye; }
-			set { LocalEye = value / Origin; }
+			set { LocalEye = Origin.Inversed*value; }
 		}
 		//! ワールド左手位置 
 		public Loc WorldLeftHand
 		{
 			get { return Origin * LocalLeftHand; }
-			set { LocalLeftHand = value / Origin; }
+			set { LocalLeftHand = Origin.Inversed*value; }
 		}
 		//! ワールド右手位置 
 		public Loc WorldRightHand
 		{
 			get { return Origin * LocalRightHand; }
-			set { LocalRightHand = value / Origin; }
+			set { LocalRightHand = Origin.Inversed*value; }
 		}
 	}
 }
