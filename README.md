@@ -16,7 +16,7 @@ Oculus Integrationの古いバージョンを入手しなければならない�
 
 ## ブランチ説明
 
-- master: 通常の機能実装用
+- main: 通常の機能実装用
 - Plugin_CS: (コイカツ版)CharaStudio用プラグイン (Unity 5.6.2f1)
 - Plugin_CS2: (コイカツサンシャイン版)CharaStudio用プラグイン (Unity 2019.4.9f1)
 - Plugin_EC: エモーションクリエイターズ用プラグイン (Unity 2017.4.24f1)

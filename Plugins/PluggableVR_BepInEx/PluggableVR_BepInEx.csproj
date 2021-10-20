@@ -49,8 +49,33 @@
     <Reference Include="UnityEngine">
       <HintPath>External_CS\UnityEngine.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>External_CS\UnityEngine.UI.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\Dumper\Dumper_Animator.cs" />
+    <Compile Include="src\Dumper\Dumper_Avatar.cs" />
+    <Compile Include="src\Dumper\Dumper_Button.cs" />
+    <Compile Include="src\Dumper\Dumper_Camera.cs" />
+    <Compile Include="src\Dumper\Dumper_Canvas.cs" />
+    <Compile Include="src\Dumper\Dumper_CanvasScaler.cs" />
+    <Compile Include="src\Dumper\Dumper_Dropdown.cs" />
+    <Compile Include="src\Dumper\Dumper_GameObject.cs" />
+    <Compile Include="src\Dumper\Dumper_InputField.cs" />
+    <Compile Include="src\Dumper\Dumper_Light.cs" />
+    <Compile Include="src\Dumper\Dumper_LineRenderer.cs" />
+    <Compile Include="src\Dumper\Dumper_MeshRenderer.cs" />
+    <Compile Include="src\Dumper\Dumper_RectTransform.cs" />
+    <Compile Include="src\Dumper\Dumper_Renderer.cs" />
+    <Compile Include="src\Dumper\Dumper_Selectable.cs" />
+    <Compile Include="src\Dumper\Dumper_SkinnedMeshRenderer.cs" />
+    <Compile Include="src\Dumper\Dumper_Slider.cs" />
+    <Compile Include="src\Dumper\Dumper_Text.cs" />
+    <Compile Include="src\Dumper\Dumper_Toggle.cs" />
+    <Compile Include="src\Dumper\Dumper_Transform.cs" />
+    <Compile Include="src\Dumper\DumpForm.cs" />
+    <Compile Include="src\Dumper\SpecialDumper.cs" />
     <Compile Include="src\Oculus\Composition\OVRCameraComposition.cs" />
     <Compile Include="src\Oculus\Composition\OVRComposition.cs" />
     <Compile Include="src\Oculus\Composition\OVRCompositionUtil.cs" />

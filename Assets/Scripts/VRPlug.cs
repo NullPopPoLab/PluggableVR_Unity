@@ -11,7 +11,9 @@ using UnityEngine;
 public class VRPlug : MonoBehaviour
 {
 #if UNITY_EDITOR
-	[SerializeField] private Vector3 _eyePos;
+	[SerializeField] private bool _dumpHierarchy;
+
+	[SerializeField,Space(10)] private Vector3 _eyePos;
 	[SerializeField, Range(-1, 1)] private float _eyeRotXx;
 	[SerializeField, Range(-1, 1)] private float _eyeRotXy;
 	[SerializeField, Range(-1, 1)] private float _eyeRotXz;
@@ -22,7 +24,7 @@ public class VRPlug : MonoBehaviour
 	[SerializeField, Range(-1, 1)] private float _eyeRotZy;
 	[SerializeField, Range(-1, 1)] private float _eyeRotZz;
 
-	[SerializeField] private Vector3 _leftPos;
+	[SerializeField,Space(10)] private Vector3 _leftPos;
 	[SerializeField, Range(-1, 1)] private float _leftRotXx;
 	[SerializeField, Range(-1, 1)] private float _leftRotXy;
 	[SerializeField, Range(-1, 1)] private float _leftRotXz;
@@ -46,7 +48,7 @@ public class VRPlug : MonoBehaviour
 	[SerializeField] private bool _leftButton2Touch;
 	[SerializeField] private bool _leftButton2Pressed;
 
-	[SerializeField] private Vector3 _rightPos;
+	[SerializeField,Space(10)] private Vector3 _rightPos;
 	[SerializeField, Range(-1, 1)] private float _rightRotXx;
 	[SerializeField, Range(-1, 1)] private float _rightRotXy;
 	[SerializeField, Range(-1, 1)] private float _rightRotXz;
@@ -70,7 +72,7 @@ public class VRPlug : MonoBehaviour
 	[SerializeField] private bool _rightButton2Touch;
 	[SerializeField] private bool _rightButton2Pressed;
 
-	[SerializeField] private bool _primaryStickTouch;
+	[SerializeField,Space(10)] private bool _primaryStickTouch;
 	[SerializeField] private bool _primaryStickPressed;
 	[SerializeField,Range(-1,1)] private float _primaryStickTiltingX;
 	[SerializeField,Range(-1,1)] private float _primaryStickTiltingY;
@@ -81,7 +83,7 @@ public class VRPlug : MonoBehaviour
 	[SerializeField] private bool _primaryHandPressed;
 	[SerializeField,Range(0,1)] private float _primaryHandPressing;
 
-	[SerializeField] private bool _secondaryStickTouch;
+	[SerializeField,Space(10)] private bool _secondaryStickTouch;
 	[SerializeField] private bool _secondaryStickPressed;
 	[SerializeField,Range(-1,1)] private float _secondaryStickTiltingX;
 	[SerializeField,Range(-1,1)] private float _secondaryStickTiltingY;
@@ -93,24 +95,27 @@ public class VRPlug : MonoBehaviour
 	[SerializeField,Range(0,1)] private float _secondaryHandPressing;
 #endif
 
-	private PluggableVR.VRManager _vrmng=new PluggableVR.VRManager();
+	private PluggableVR.VRManager _vrmng = new PluggableVR.VRManager();
 
-	protected void Awake(){
+	protected void Awake()
+	{
 
 		_vrmng.Initialize();
 	}
 
-	protected void FixedUpdate(){
+	protected void FixedUpdate()
+	{
 
 		_vrmng.FixedUpdate();
 	}
 
-	protected void Update(){
+	protected void Update()
+	{
 
 		_vrmng.Update();
 
-#if UNITY_EDITOR
 		var inp = PluggableVR.VRManager.Input;
+#if UNITY_EDITOR
 		var eye = inp.Head.GetEyeTracking();
 		_eyePos = eye.Pos;
 		_eyeRotXx = PluggableVR.RotUt.Xx(eye.Rot);
@@ -157,7 +162,7 @@ public class VRPlug : MonoBehaviour
 		_leftIndexPressing=inp.HandLeft.GetIndexPressing();
 		_leftHandPressed=inp.HandLeft.IsHandPressed();
 		_leftHandPressing=inp.HandLeft.GetHandPressing();
-		_leftButton1Touch=inp.HandLeft.IsButton2Touching();
+		_leftButton1Touch=inp.HandLeft.IsButton1Touching();
 		_leftButton1Pressed=inp.HandLeft.IsButton1Pressed();
 		_leftButton2Touch=inp.HandLeft.IsButton2Touching();
 		_leftButton2Pressed=inp.HandLeft.IsButton2Pressed();
@@ -172,7 +177,7 @@ public class VRPlug : MonoBehaviour
 		_rightIndexPressing=inp.HandRight.GetIndexPressing();
 		_rightHandPressed=inp.HandRight.IsHandPressed();
 		_rightHandPressing=inp.HandRight.GetHandPressing();
-		_rightButton1Touch=inp.HandRight.IsButton2Touching();
+		_rightButton1Touch=inp.HandRight.IsButton1Touching();
 		_rightButton1Pressed=inp.HandRight.IsButton1Pressed();
 		_rightButton2Touch=inp.HandRight.IsButton2Touching();
 		_rightButton2Pressed=inp.HandRight.IsButton2Pressed();
@@ -199,10 +204,16 @@ public class VRPlug : MonoBehaviour
 		_secondaryHandPressed=inp.HandSecondary.IsHandPressed();
 		_secondaryHandPressing=inp.HandSecondary.GetHandPressing();
 #endif
+		// Hierarchy書き出し 
+		if (_dumpHierarchy)
+		{
+			_dumpHierarchy=false;
+			PluggableVR.Hierarchy.Dump2File("Hierarchy");
+		}
 	}
 
-	protected void LateUpdate(){
-
+	protected void LateUpdate()
+	{
 		_vrmng.LateUpdate();
 	}
 }

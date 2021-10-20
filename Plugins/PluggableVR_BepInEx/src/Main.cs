@@ -20,7 +20,7 @@ namespace PluggableVR.CS
 	public class Main : BaseUnityPlugin
 	{
 		public const string GUID = "com.nullpoppo.PluggableVR.CS";
-		public const string VERSION = "0.0.2.0";
+		public const string VERSION = "0.0.2.1";
 
 		public static Main Instance;
 		public static bool Enabled{ get; private set; }
@@ -60,6 +60,8 @@ namespace PluggableVR.CS
 		private void _onSceneChanged(Scene scn, LoadSceneMode mode)
 		{
 			VRManager.SceneChanged(scn);
+
+//			Hierarchy.Dump2File("Hierarchy","Scene-"+scn.name);
 		}
 
 		protected void FixedUpdate()
