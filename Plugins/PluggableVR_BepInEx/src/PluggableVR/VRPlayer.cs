@@ -27,8 +27,8 @@ namespace PluggableVR
 			GameObject.DontDestroyOnLoad(_rig.gameObject);
 
 			var cam = _cam.gameObject.AddComponent<Camera>();
+			cam.nearClipPlane = 0.01f;
 			_cam.gameObject.AddComponent<AudioListener>();
-			cam.nearClipPlane = 0.05f;
 
 
 			_targetView = target;
