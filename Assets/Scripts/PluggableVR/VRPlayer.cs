@@ -186,7 +186,10 @@ namespace PluggableVR
 			_targetCtrl.Origin.Rot = RotUt.ReturnY(_targetCtrl.Origin.Rot);
 
 			_targetView.UpdateControl(_targetCtrl);
+
+			_sticking = false;
 			ResetRig();
+			_targetView.Head.gameObject.SetActive(false);
 		}
 	}
 }
