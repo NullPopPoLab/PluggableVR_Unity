@@ -11,7 +11,12 @@ using UnityEngine;
 public class VRPlug : MonoBehaviour
 {
 #if UNITY_EDITOR
-	[SerializeField] private bool _dumpHierarchy;
+	[SerializeField,Tooltip("Hierarchy状態をファイルに書き出す")] private bool _dumpHierarchy;
+
+	[SerializeField,Space(10)] private Transform _teleportTarget;
+	[SerializeField,Tooltip("Teleport Target 位置に移動")] private bool _repos;
+	[SerializeField,Tooltip("Teleport Target 向きを合わせる")] private bool _rerot;
+	[SerializeField,Tooltip("Teleport Target 位置に移動して向きを合わせる")] private bool _reloc;
 
 	[SerializeField,Space(10)] private Vector3 _eyePos;
 	[SerializeField, Range(-1, 1)] private float _eyeRotXx;
@@ -97,25 +102,46 @@ public class VRPlug : MonoBehaviour
 
 	private PluggableVR.VRManager _vrmng = new PluggableVR.VRManager();
 
+	//! 初期設定 
 	protected void Awake()
 	{
-
-		_vrmng.Initialize();
+		_vrmng.Initialize(new Flow_Startup());
 	}
 
+	//! 終了 
+	protected void OnDestroy()
+	{
+		_vrmng.Shutdown();
+	}
+
+	//! 物理フレーム毎の更新 
 	protected void FixedUpdate()
 	{
-
 		_vrmng.FixedUpdate();
 	}
 
+	//! 描画フレーム毎の更新 
 	protected void Update()
 	{
+#if UNITY_EDITOR
+		if(_repos){
+			_repos=false;
+			_vrmng.Repos(_teleportTarget.position);
+		}
+		if(_rerot){
+			_rerot=false;
+			_vrmng.Rerot(_teleportTarget.rotation);
+		}
+		if(_reloc){
+			_reloc=false;
+			_vrmng.Reloc(PluggableVR.Loc.FromWorldTransform(_teleportTarget));
+		}
+#endif
 
 		_vrmng.Update();
 
-		var inp = PluggableVR.VRManager.Input;
 #if UNITY_EDITOR
+		var inp = PluggableVR.VRManager.Input;
 		var eye = inp.Head.GetEyeTracking();
 		_eyePos = eye.Pos;
 		_eyeRotXx = PluggableVR.RotUt.Xx(eye.Rot);
@@ -203,15 +229,17 @@ public class VRPlug : MonoBehaviour
 		_secondaryIndexPressing=inp.HandSecondary.GetIndexPressing();
 		_secondaryHandPressed=inp.HandSecondary.IsHandPressed();
 		_secondaryHandPressing=inp.HandSecondary.GetHandPressing();
-#endif
+
 		// Hierarchy書き出し 
 		if (_dumpHierarchy)
 		{
-			_dumpHierarchy=false;
+			_dumpHierarchy = false;
 			PluggableVR.Hierarchy.Dump2File("Hierarchy");
 		}
+#endif
 	}
 
+	//! アニメーション処理後の更新 
 	protected void LateUpdate()
 	{
 		_vrmng.LateUpdate();

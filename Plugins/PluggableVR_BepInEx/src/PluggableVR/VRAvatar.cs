@@ -32,6 +32,7 @@ namespace PluggableVR
 			// 表示部 
 			Head = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 			Head.name = "Head";
+			GameObject.Destroy(Head.GetComponent<SphereCollider>());
 			Head.transform.SetParent(View.transform);
 			Loc.Identity.ToLocalTransform(Head.transform);
 			Head.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
@@ -39,6 +40,7 @@ namespace PluggableVR
 
 			var neck = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
 			neck.name = "Neck";
+			GameObject.Destroy(Head.GetComponent<CapsuleCollider>());
 			neck.transform.SetParent(View.transform);
 			neck.transform.localPosition = new Vector3(0.0f, -0.075f, 0.0f);
 			neck.transform.localRotation = Quaternion.identity;
@@ -46,6 +48,7 @@ namespace PluggableVR
 
 			var shoulder = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
 			shoulder.name = "Shoulder";
+			GameObject.Destroy(Head.GetComponent<CapsuleCollider>());
 			shoulder.transform.SetParent(View.transform);
 			shoulder.transform.localPosition = new Vector3(0.0f, -0.15f, 0.0f);
 			shoulder.transform.localRotation = RotUt.RotZ(Mathf.Deg2Rad * 90);

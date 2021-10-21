@@ -20,9 +20,9 @@ namespace PluggableVR
 		private bool _elevating = false;
 		private RelativeBool _push_pstk = new RelativeBool();
 
-		internal VRPlayer(Loc loc, VRAvatar target)
+		internal VRPlayer(VRAvatar target)
 		{
-			_rig = CreateRootObject("VRPlayer", loc).transform;
+			_rig = CreateRootObject("VRPlayer", Loc.FromWorldTransform(target.Eye)).transform;
 			_cam = CreateChildObject("VRCamera", _rig, Loc.Identity, false).transform;
 			GameObject.DontDestroyOnLoad(_rig.gameObject);
 
@@ -52,7 +52,6 @@ namespace PluggableVR
 
 		internal void Update()
 		{
-
 			var inp = VRManager.Input;
 
 			// スティックの指載せで操作の主観/俯瞰を切り替える 
@@ -108,7 +107,7 @@ namespace PluggableVR
 					// スティックy方向はy軸と一致 
 					// スティックx方向はy軸回転(正面はz方向なのでさらに+90°)を反映 
 					// ついでに移動スピードも掛ける 
-					var m = new Vector3(tilt.x*dir.C, tilt.y, -tilt.x*dir.S) * Time.deltaTime;
+					var m = new Vector3(tilt.x * dir.C, tilt.y, -tilt.x * dir.S) * Time.deltaTime;
 					_targetCtrl.Origin.Pos += m;
 				}
 				else
@@ -141,9 +140,9 @@ namespace PluggableVR
 			var ve = _targetCtrl.WorldEye;
 
 			// 回転Y軸を真上に戻した状態で判定 
-			ce.Rot = PluggableVR.RotUt.ReturnY(ce.Rot);
-			re.Rot = PluggableVR.RotUt.ReturnY(re.Rot);
-			ve.Rot = PluggableVR.RotUt.ReturnY(ve.Rot);
+			ce.Rot = RotUt.ReturnY(ce.Rot);
+			re.Rot = RotUt.ReturnY(re.Rot);
+			ve.Rot = RotUt.ReturnY(ve.Rot);
 
 			// リグを操作対象の目位置に合わせる 
 			ve.ToWorldTransform(_rig);
@@ -151,7 +150,46 @@ namespace PluggableVR
 			inp.Reset();
 
 			// 入力オフセット 
-			_offset = ve / _targetCtrl.Origin;
+			_offset = _targetCtrl.Origin.Inversed * ve;
+		}
+
+		//! 位置だけ変更 
+		internal void Repos(Vector3 pos)
+		{
+
+			// 操作対象の目位置からの差分をOriginに反映 
+			_targetCtrl.Origin.Pos += pos - _targetCtrl.WorldEye.Pos;
+
+			_targetView.UpdateControl(_targetCtrl);
+			ResetRig();
+		}
+
+		//! 向きだけ変更 
+		internal void Rerot(Quaternion rot)
+		{
+
+			// 操作対象の目向きからの差分をOriginに反映 
+			// ただしY軸を真上に戻す 
+			_targetCtrl.Origin.Rot *= Quaternion.Inverse(RotUt.ReturnY(_targetCtrl.WorldEye.Rot)) * RotUt.ReturnY(rot);
+
+			_targetView.UpdateControl(_targetCtrl);
+			ResetRig();
+		}
+
+		//! 位置,向き変更 
+		internal void Reloc(Loc loc)
+		{
+
+			// 操作対象の目位置からの差分をOriginに反映 
+			// ただしY軸を真上に戻す 
+			_targetCtrl.Origin *= _targetCtrl.WorldEye.Inversed * loc;
+			_targetCtrl.Origin.Rot = RotUt.ReturnY(_targetCtrl.Origin.Rot);
+
+			_targetView.UpdateControl(_targetCtrl);
+
+			_sticking = false;
+			ResetRig();
+			_targetView.Head.gameObject.SetActive(false);
 		}
 	}
 }

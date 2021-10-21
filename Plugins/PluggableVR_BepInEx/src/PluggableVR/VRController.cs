@@ -3,6 +3,7 @@
 	@author NullPopPoLab
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,42 +13,62 @@ namespace PluggableVR
 {
 	internal class VRController : PlugCommon
 	{
-		private Camera _mainCamera;
-		private VRPlayer _player;
-		private VRAvatar _avatar;
+		internal VRPlayer Player { get; private set; }
+		internal VRAvatar Avatar { get; private set; }
 
-		internal VRController(Camera mc)
+		//! VRAvatar 生成時の付加動作 
+		internal Action<VRAvatar> OnCreateAvatar = null;
+		//! VRPlayer 生成時の付加動作 
+		internal Action<VRPlayer> OnCreatePlayer = null;
+
+		internal VRController() { }
+
+		internal bool IsReady { get; private set; }
+
+		//! 初期設定 
+		internal void Initialize(Loc loc)
 		{
+			if (IsReady) return;
+			IsReady = true;
 
-			_mainCamera = mc;
-
-			var loc = Loc.FromWorldTransform(mc.transform);
-			_avatar = new VRAvatar(loc);
-			_player = new VRPlayer(loc, _avatar);
-
-			var cam = mc.GetComponent<Camera>();
-			if (cam != null) cam.enabled = false;
-			var lsn = mc.GetComponent<AudioListener>();
-			if (lsn != null) lsn.enabled = false;
+			Avatar = new VRAvatar(loc);
+			if (OnCreateAvatar != null) OnCreateAvatar(Avatar);
+			Player = new VRPlayer(Avatar);
+			if (OnCreatePlayer != null) OnCreatePlayer(Player);
 		}
 
-		//! シーン変更捕捉 
-		internal void SceneChanged(Scene scn)
+		//! 機能終了 
+		internal void Shutdown()
 		{
-
-			// 現在のメインカメラ位置でリセット 
+			if (!IsReady) return;
+			IsReady = false;
 		}
 
-		//! メインカメラ変更捕捉 
-		internal void MainCameraChanged(Camera mc)
+		//! 位置だけ変更 
+		internal void Repos(Vector3 pos)
 		{
+			if (!IsReady) return;
+			Player.Repos(pos);
+		}
 
-			// 変更されたメインカメラ位置でリセット 
+		//! 向きだけ変更 
+		internal void Rerot(Quaternion rot)
+		{
+			if (!IsReady) return;
+			Player.Rerot(rot);
+		}
+
+		//! 位置,向き変更 
+		internal void Reloc(Loc loc)
+		{
+			if (!IsReady) return;
+			Player.Reloc(loc);
 		}
 
 		internal void Update()
 		{
-			_player.Update();
+			if (!IsReady) return;
+			Player.Update();
 		}
 	}
 }
