@@ -54,12 +54,6 @@ namespace PluggableVR
 			flow.Start();
 		}
 
-		//! シーン変更検知時に呼ばれる 
-		internal void SceneChanged(Scene scn)
-		{
-			if (Controller != null) Controller.SceneChanged(scn);
-		}
-
 		//! 位置だけ変更 
 		internal void Repos(Vector3 pos)
 		{

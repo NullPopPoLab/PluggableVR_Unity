@@ -44,12 +44,6 @@ namespace PluggableVR
 			IsReady = false;
 		}
 
-		//! シーン変更捕捉 
-		internal void SceneChanged(Scene scn)
-		{
-			if (!IsReady) return;
-		}
-
 		//! 位置だけ変更 
 		internal void Repos(Vector3 pos)
 		{
