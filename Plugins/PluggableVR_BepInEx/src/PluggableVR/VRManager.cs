@@ -9,80 +9,88 @@ using UnityEngine.SceneManagement;
 
 namespace PluggableVR
 {
+	//! VRシステム管理 
 	internal class VRManager : PlugCommon
 	{
+		internal static VRManager Instance;
+
+		//! ユーザ入力部 
 		internal static Input Input { get; private set; }
+		//! VR操作部 
+		internal VRController Controller { get; private set; }
 
-		internal VRController VRController { get; private set; }
-
-		private Camera _prevMainCamera;
-
-		private bool _enabled;
-		public bool Enabled
-		{
-			get { return _enabled; }
-			set
-			{
-				if (value != _enabled) return;
-				_enabled = value;
-				if (value)
-				{
-				}
-				else
-				{
-				}
-			}
-		}
+		//! 現在の手順遷移 
+		private Flow _curFlow;
 
 		internal VRManager()
 		{
+			Instance = this;
+			Controller = new VRController();
 		}
 
-		internal void Initialize()
+		//! 初期設定 
+		internal void Initialize(Flow flow)
 		{
 			Input = Oculus.Input.Setup();
 
 			OVRPlugin.rotation = true;
 			OVRPlugin.useIPDInPositionTracking = true;
+
+			Start(flow);
 		}
 
-		internal void SceneChanged(Scene scn)
+		//! 機能終了 
+		internal void Shutdown()
 		{
-			if (VRController != null) VRController.SceneChanged(scn);
+			Controller.Shutdown();
 		}
 
-		private void _switchVRController()
+		//! 遷移開始 
+		internal void Start(Flow flow)
 		{
-			// メインカメラが捕捉できないうちは何もしない 
-			var mc = Camera.main;
-			if (mc == null) return;
-
-			if (VRController == null)
-			{
-				// ここでVR操作開始可 
-				VRController = new VRController(mc);
-			}
-			else if (mc != _prevMainCamera)
-			{
-				// メインカメラ変更捕捉 
-				_prevMainCamera = mc;
-				VRController.MainCameraChanged(mc);
-			}
+			if (_curFlow != null) return;
+			if (flow == null) return;
+			_curFlow = flow;
+			flow.Start();
 		}
 
+		//! 位置だけ変更 
+		internal void Repos(Vector3 pos)
+		{
+			if (Controller != null) Controller.Repos(pos);
+		}
+
+		//! 向きだけ変更 
+		internal void Rerot(Quaternion rot)
+		{
+			if (Controller != null) Controller.Rerot(rot);
+		}
+
+		//! 位置,向き変更 
+		internal void Reloc(Loc loc)
+		{
+			if (Controller != null) Controller.Reloc(loc);
+		}
+
+		//! 物理フレーム毎の更新 
 		internal void FixedUpdate()
 		{
 			Input.FixedUpdate();
 		}
 
+		//! 描画フレーム毎の更新 
 		internal void Update()
 		{
 			Input.Update();
+			if (Controller != null) Controller.Update();
 
-			_switchVRController();
-			if (VRController != null) VRController.Update();
+			if (_curFlow != null)
+			{
+				_curFlow = _curFlow.Update();
+			}
 		}
 
+		//! アニメーション処理後の更新 
 		internal void LateUpdate()
 		{
 			Input.LateUpdate();
