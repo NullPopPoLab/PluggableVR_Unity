@@ -105,15 +105,7 @@ public class VRPlug : MonoBehaviour
 	//! 初期設定 
 	protected void Awake()
 	{
-		var mc = Camera.main;
-		_vrmng.Initialize(mc);
-
-		// VRカメラ生成後、本来のメインカメラは無効化 
-		if (mc == null) return;
-		var cam = mc.GetComponent<Camera>();
-		if (cam != null) cam.enabled = false;
-		var lsn = mc.GetComponent<AudioListener>();
-		if (lsn != null) lsn.enabled = false;
+		_vrmng.Initialize(new Flow_Startup());
 	}
 
 	//! 終了 

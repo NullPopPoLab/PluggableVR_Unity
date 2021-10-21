@@ -12,39 +12,48 @@ namespace PluggableVR
 	//! VRシステム管理 
 	internal class VRManager : PlugCommon
 	{
+		internal static VRManager Instance;
+
 		//! ユーザ入力部 
 		internal static Input Input { get; private set; }
 		//! VR操作部 
 		internal VRController Controller { get; private set; }
 
+		//! 現在の手順遷移 
+		private Flow _curFlow;
 		//! 現在捕捉中のカメラ 
 		private Camera _curCamera;
 
 		internal VRManager()
 		{
+			Instance=this;
 			Controller = new VRController();
 		}
 
 		//! 初期設定 
-		internal void Initialize(Camera cam)
+		internal void Initialize(Flow flow)
 		{
 			Input = Oculus.Input.Setup();
 
 			OVRPlugin.rotation = true;
 			OVRPlugin.useIPDInPositionTracking = true;
 
-			// カメラが指定されているときだけ稼働とする 
-			if (cam == null) return;
-			_curCamera = cam;
-			Controller.Initialize(cam);
+			Start(flow);
 		}
 
 		//! 機能終了 
 		internal void Shutdown()
 		{
-
 			_curCamera = null;
 			Controller.Shutdown();
+		}
+
+		//! 遷移開始 
+		internal void Start(Flow flow){
+			if(_curFlow!=null)return;
+			if(flow==null)return;
+			_curFlow=flow;
+			flow.Start();
 		}
 
 		//! シーン変更検知時に呼ばれる 
@@ -92,6 +101,10 @@ namespace PluggableVR
 		{
 			Input.Update();
 			if (Controller != null) Controller.Update();
+
+			if(_curFlow!=null){
+				_curFlow=_curFlow.Update();
+			}
 		}
 
 		//! アニメーション処理後の更新 

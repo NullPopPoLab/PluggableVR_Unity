@@ -20,6 +20,7 @@ namespace PluggableVR
 
 			var s = "";
 			s += indent + "Interactable: " + _obj.interactable + "\n";
+			s += indent + "TargetGraphic: " + new Dumper_Graphic(_obj.targetGraphic).Dump(indent+"  ") + "\n";
 
 			return s;
 		}
