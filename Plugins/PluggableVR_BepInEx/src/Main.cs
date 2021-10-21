@@ -20,13 +20,14 @@ namespace PluggableVR.CS
 	public class Main : BaseUnityPlugin
 	{
 		public const string GUID = "com.nullpoppo.PluggableVR.CS";
-		public const string VERSION = "0.0.2.1";
+		public const string VERSION = "0.0.2.2";
 
 		public static Main Instance;
-		public static bool Enabled{ get; private set; }
+		public static bool Enabled { get; private set; }
 
 		internal static BepInEx.Logging.ManualLogSource PlugLog { get; private set; }
-		internal static VRManager VRManager{ get; private set; }
+
+		private VRManager _vrmng;
 
 		private RelativeBool _push_rbtn2 = new RelativeBool();
 
@@ -38,8 +39,8 @@ namespace PluggableVR.CS
 			if (!Enabled) return;
 
 			PlugLog = Logger;
-			VRManager = new VRManager();
-			VRManager.Initialize();
+			_vrmng = new VRManager();
+			_vrmng.Initialize(new Flow_Startup());
 			Harmony.CreateAndPatchAll(typeof(Main));
 		}
 
@@ -59,8 +60,7 @@ namespace PluggableVR.CS
 
 		private void _onSceneChanged(Scene scn, LoadSceneMode mode)
 		{
-			VRManager.SceneChanged(scn);
-
+			Global.LastLoadedScene = scn.name;
 //			Hierarchy.Dump2File("Hierarchy","Scene-"+scn.name);
 		}
 
@@ -68,14 +68,14 @@ namespace PluggableVR.CS
 		{
 			if (!Enabled) return;
 
-			VRManager.FixedUpdate();
+			_vrmng.FixedUpdate();
 		}
 
 		protected void Update()
 		{
 			if (!Enabled) return;
 
-			VRManager.Update();
+			_vrmng.Update();
 
 			var inp = VRManager.Input;
 			_push_rbtn2.Update(inp.HandRight.IsButton2Pressed());
@@ -89,7 +89,7 @@ namespace PluggableVR.CS
 		{
 			if (!Enabled) return;
 
-			VRManager.LateUpdate();
+			_vrmng.LateUpdate();
 		}
 	}
 }

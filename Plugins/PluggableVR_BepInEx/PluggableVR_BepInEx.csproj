@@ -62,6 +62,7 @@
     <Compile Include="src\Dumper\Dumper_CanvasScaler.cs" />
     <Compile Include="src\Dumper\Dumper_Dropdown.cs" />
     <Compile Include="src\Dumper\Dumper_GameObject.cs" />
+    <Compile Include="src\Dumper\Dumper_Graphic.cs" />
     <Compile Include="src\Dumper\Dumper_InputField.cs" />
     <Compile Include="src\Dumper\Dumper_Light.cs" />
     <Compile Include="src\Dumper\Dumper_LineRenderer.cs" />
@@ -76,6 +77,11 @@
     <Compile Include="src\Dumper\Dumper_Transform.cs" />
     <Compile Include="src\Dumper\DumpForm.cs" />
     <Compile Include="src\Dumper\SpecialDumper.cs" />
+    <Compile Include="src\Flow\Flow_Edit.cs" />
+    <Compile Include="src\Flow\Flow_SceneLoaded.cs" />
+    <Compile Include="src\Flow\Flow_ScenePurging.cs" />
+    <Compile Include="src\Flow\Flow_Startup.cs" />
+    <Compile Include="src\Global.cs" />
     <Compile Include="src\Oculus\Composition\OVRCameraComposition.cs" />
     <Compile Include="src\Oculus\Composition\OVRComposition.cs" />
     <Compile Include="src\Oculus\Composition\OVRCompositionUtil.cs" />
@@ -84,6 +90,7 @@
     <Compile Include="src\Oculus\Composition\OVRSandwichComposition.cs" />
     <Compile Include="src\Oculus\OVRMixedReality.cs" />
     <Compile Include="src\Oculus\Util\OVRMixedRealityCaptureSettings.cs" />
+    <Compile Include="src\PluggableVR\Flow.cs" />
     <Compile Include="src\PluggableVR\PlugCommon.cs" />
     <Compile Include="src\PluggableVR\VRAvatar.cs" />
     <Compile Include="src\PluggableVR\VRController.cs" />
