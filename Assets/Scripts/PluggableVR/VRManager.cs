@@ -21,8 +21,6 @@ namespace PluggableVR
 
 		//! 現在の手順遷移 
 		private Flow _curFlow;
-		//! 現在捕捉中のカメラ 
-		private Camera _curCamera;
 
 		internal VRManager()
 		{
@@ -44,7 +42,6 @@ namespace PluggableVR
 		//! 機能終了 
 		internal void Shutdown()
 		{
-			_curCamera = null;
 			Controller.Shutdown();
 		}
 
@@ -61,19 +58,6 @@ namespace PluggableVR
 		internal void SceneChanged(Scene scn)
 		{
 			if (Controller != null) Controller.SceneChanged(scn);
-		}
-
-		//! カメラ変更検知時に呼ばれる 
-		internal void CameraChanged(Camera cam)
-		{
-			if (cam == _curCamera) return;
-			if (cam == null)
-			{
-				// カメラがなくなったら機能終了とする 
-				Shutdown();
-				return;
-			}
-			if (Controller != null) Controller.Reloc(Loc.FromWorldTransform(cam.transform));
 		}
 
 		//! 位置だけ変更 

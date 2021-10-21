@@ -10,16 +10,12 @@ public class Flow_Startup : PluggableVR.Flow
 {
 	protected override PluggableVR.Flow OnUpdate()
 	{
-
 		// メインカメラ生成待ち 
 		var mc = Camera.main;
 		if (mc == null) return null;
 
-		// カメラ変更報告 
-		var mng = PluggableVR.VRManager.Instance;
-		mng.CameraChanged(mc);
-
 		// 操作開始 
+		var mng = PluggableVR.VRManager.Instance;
 		mng.Controller.Initialize(PluggableVR.Loc.FromWorldTransform(mc.transform));
 
 		// 本来のメインカメラは無効化 
