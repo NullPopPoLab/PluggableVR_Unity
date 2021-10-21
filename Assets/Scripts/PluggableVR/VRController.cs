@@ -23,15 +23,14 @@ namespace PluggableVR
 
 		internal VRController() { }
 
-		internal bool IsReady{get;private set;}
+		internal bool IsReady { get; private set; }
 
 		//! 初期設定 
-		internal void Initialize(Camera cam)
+		internal void Initialize(Loc loc)
 		{
-			if(IsReady)return;
-			IsReady=true;
+			if (IsReady) return;
+			IsReady = true;
 
-			var loc = Loc.FromWorldTransform(cam.transform);
 			Avatar = new VRAvatar(loc);
 			if (OnCreateAvatar != null) OnCreateAvatar(Avatar);
 			Player = new VRPlayer(Avatar);
@@ -41,45 +40,40 @@ namespace PluggableVR
 		//! 機能終了 
 		internal void Shutdown()
 		{
-			if(!IsReady)return;
-			IsReady=false;
+			if (!IsReady) return;
+			IsReady = false;
 		}
 
 		//! シーン変更捕捉 
 		internal void SceneChanged(Scene scn)
 		{
-			if(!IsReady)return;
-		}
-
-		//! カメラ変更捕捉 
-		internal void CameraChanged(Camera cam)
-		{
-			if(!IsReady)return;
-			// 変更されたメインカメラ位置でリセット 
-			Player.Reloc(Loc.FromWorldTransform(cam.transform));
+			if (!IsReady) return;
 		}
 
 		//! 位置だけ変更 
-		internal void Repos(Vector3 pos){
-			if(!IsReady)return;
+		internal void Repos(Vector3 pos)
+		{
+			if (!IsReady) return;
 			Player.Repos(pos);
 		}
 
 		//! 向きだけ変更 
-		internal void Rerot(Quaternion rot){
-			if(!IsReady)return;
+		internal void Rerot(Quaternion rot)
+		{
+			if (!IsReady) return;
 			Player.Rerot(rot);
 		}
 
 		//! 位置,向き変更 
-		internal void Reloc(Loc loc){
-			if(!IsReady)return;
+		internal void Reloc(Loc loc)
+		{
+			if (!IsReady) return;
 			Player.Reloc(loc);
 		}
 
 		internal void Update()
 		{
-			if(!IsReady)return;
+			if (!IsReady) return;
 			Player.Update();
 		}
 	}

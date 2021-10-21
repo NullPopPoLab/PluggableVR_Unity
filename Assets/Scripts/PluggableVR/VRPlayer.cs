@@ -107,7 +107,7 @@ namespace PluggableVR
 					// スティックy方向はy軸と一致 
 					// スティックx方向はy軸回転(正面はz方向なのでさらに+90°)を反映 
 					// ついでに移動スピードも掛ける 
-					var m = new Vector3(tilt.x*dir.C, tilt.y, -tilt.x*dir.S) * Time.deltaTime;
+					var m = new Vector3(tilt.x * dir.C, tilt.y, -tilt.x * dir.S) * Time.deltaTime;
 					_targetCtrl.Origin.Pos += m;
 				}
 				else
@@ -150,37 +150,40 @@ namespace PluggableVR
 			inp.Reset();
 
 			// 入力オフセット 
-			_offset = _targetCtrl.Origin.Inversed*ve;
+			_offset = _targetCtrl.Origin.Inversed * ve;
 		}
 
 		//! 位置だけ変更 
-		internal void Repos(Vector3 pos){
+		internal void Repos(Vector3 pos)
+		{
 
 			// 操作対象の目位置からの差分をOriginに反映 
-			_targetCtrl.Origin.Pos += pos- _targetCtrl.WorldEye.Pos;
+			_targetCtrl.Origin.Pos += pos - _targetCtrl.WorldEye.Pos;
 
 			_targetView.UpdateControl(_targetCtrl);
 			ResetRig();
 		}
 
 		//! 向きだけ変更 
-		internal void Rerot(Quaternion rot){
+		internal void Rerot(Quaternion rot)
+		{
 
 			// 操作対象の目向きからの差分をOriginに反映 
 			// ただしY軸を真上に戻す 
-			_targetCtrl.Origin.Rot *= Quaternion.Inverse(RotUt.ReturnY(_targetCtrl.WorldEye.Rot))*RotUt.ReturnY(rot);
+			_targetCtrl.Origin.Rot *= Quaternion.Inverse(RotUt.ReturnY(_targetCtrl.WorldEye.Rot)) * RotUt.ReturnY(rot);
 
 			_targetView.UpdateControl(_targetCtrl);
 			ResetRig();
 		}
 
 		//! 位置,向き変更 
-		internal void Reloc(Loc loc){
+		internal void Reloc(Loc loc)
+		{
 
 			// 操作対象の目位置からの差分をOriginに反映 
 			// ただしY軸を真上に戻す 
-			_targetCtrl.Origin *= _targetCtrl.WorldEye.Inversed* loc;
-			_targetCtrl.Origin.Rot=RotUt.ReturnY(_targetCtrl.Origin.Rot);
+			_targetCtrl.Origin *= _targetCtrl.WorldEye.Inversed * loc;
+			_targetCtrl.Origin.Rot = RotUt.ReturnY(_targetCtrl.Origin.Rot);
 
 			_targetView.UpdateControl(_targetCtrl);
 			ResetRig();

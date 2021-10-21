@@ -26,7 +26,7 @@ namespace PluggableVR
 
 		internal VRManager()
 		{
-			Instance=this;
+			Instance = this;
 			Controller = new VRController();
 		}
 
@@ -49,10 +49,11 @@ namespace PluggableVR
 		}
 
 		//! 遷移開始 
-		internal void Start(Flow flow){
-			if(_curFlow!=null)return;
-			if(flow==null)return;
-			_curFlow=flow;
+		internal void Start(Flow flow)
+		{
+			if (_curFlow != null) return;
+			if (flow == null) return;
+			_curFlow = flow;
 			flow.Start();
 		}
 
@@ -72,21 +73,24 @@ namespace PluggableVR
 				Shutdown();
 				return;
 			}
-			if (Controller != null) Controller.CameraChanged(cam);
+			if (Controller != null) Controller.Reloc(Loc.FromWorldTransform(cam.transform));
 		}
 
 		//! 位置だけ変更 
-		internal void Repos(Vector3 pos){
+		internal void Repos(Vector3 pos)
+		{
 			if (Controller != null) Controller.Repos(pos);
 		}
 
 		//! 向きだけ変更 
-		internal void Rerot(Quaternion rot){
+		internal void Rerot(Quaternion rot)
+		{
 			if (Controller != null) Controller.Rerot(rot);
 		}
 
 		//! 位置,向き変更 
-		internal void Reloc(Loc loc){
+		internal void Reloc(Loc loc)
+		{
 			if (Controller != null) Controller.Reloc(loc);
 		}
 
@@ -102,8 +106,9 @@ namespace PluggableVR
 			Input.Update();
 			if (Controller != null) Controller.Update();
 
-			if(_curFlow!=null){
-				_curFlow=_curFlow.Update();
+			if (_curFlow != null)
+			{
+				_curFlow = _curFlow.Update();
 			}
 		}
 
