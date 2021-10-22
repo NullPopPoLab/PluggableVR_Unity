@@ -11,48 +11,47 @@ namespace PluggableVR
 	//! VR操作先 
 	internal class VRAvatar : PlugCommon
 	{
+		public const float HeadToEye = 0.1f; //!< 目と頭の距離 
+		public const float EyeHeight = 1.5f; //!< 仮想的な目の高さ 
+		public const float HeadScale = 0.1f; //!< 頭の大きさ 
+		public const float NeckLength = 0.15f; //!< 首の長さ 
+		public const float NeckWidth = 0.05f; //!< 首の太さ 
+		public const float ShoulderLength = 0.3f; //!< 肩の長さ 
+		public const float ShoulderWidth = 0.05f; //!< 肩の太さ 
+		public const float AxisLength = 0.4f; //!< 回転軸表示の長さ 
+		public const float AxisWidth = 0.01f; //!< 回転軸表示の太さ 
+
 		public Transform Origin { get; private set; }
 		public Transform Eye { get; private set; }
 		public GameObject View { get; private set; }
 		public GameObject Head { get; private set; }
 		public GameObject LeftHand { get; private set; }
 		public GameObject RightHand { get; private set; }
-		public GameObject Up { get; private set; }
-		public GameObject Fore { get; private set; }
+		public GameObject RightFromHead { get; private set; }
+		public GameObject UpFromHead { get; private set; }
+		public GameObject ForeFromHead { get; private set; }
 
 		internal VRAvatar(Loc loc)
 		{
-			// ひとまず、指定位置から1m下を配置位置とする 
-			Origin = CreateRootObject("VRAvatar", loc - new Vector3(0, 1, 0)).transform;
+			// 頭 
+			var loc_head = loc - new Vector3(0, 0, HeadToEye);
+			// 配置位置 
+			Origin = CreateRootObject("VRAvatar", loc_head - new Vector3(0, EyeHeight, 0)).transform;
 			GameObject.DontDestroyOnLoad(Origin.gameObject);
-			// 目を指定位置に合わせる 
+			// 目(=指定位置) 
 			Eye = CreateChildObject("Eye", Origin, loc, true).transform;
-			View = CreateChildObject("View", Eye, new Loc(new Vector3(0, 0, -0.1f), Quaternion.identity), false);
 
 			// 表示部 
-			Head = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-			Head.name = "Head";
-			GameObject.Destroy(Head.GetComponent<SphereCollider>());
-			Head.transform.SetParent(View.transform);
-			Loc.Identity.ToLocalTransform(Head.transform);
-			Head.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+			View = CreateChildObject("View", Eye, loc_head, true);
+			Head = CreateChildPrimitive(PrimitiveType.Sphere, false, "Head", View.transform, Loc.Identity, false);
+			Head.transform.localScale = new Vector3(HeadScale, HeadScale, HeadScale);
 			_addAxes(Head.transform);
 
-			var neck = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-			neck.name = "Neck";
-			GameObject.Destroy(Head.GetComponent<CapsuleCollider>());
-			neck.transform.SetParent(View.transform);
-			neck.transform.localPosition = new Vector3(0.0f, -0.075f, 0.0f);
-			neck.transform.localRotation = Quaternion.identity;
-			neck.transform.localScale = new Vector3(0.05f, 0.075f, 0.05f);
+			var neck = CreateChildPrimitive(PrimitiveType.Cylinder, false, "Neck", View.transform, new Loc(new Vector3(0, -NeckLength * 0.5f, 0), Quaternion.identity), false);
+			neck.transform.localScale = new Vector3(NeckWidth, NeckLength * 0.5f, NeckWidth);
 
-			var shoulder = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-			shoulder.name = "Shoulder";
-			GameObject.Destroy(Head.GetComponent<CapsuleCollider>());
-			shoulder.transform.SetParent(View.transform);
-			shoulder.transform.localPosition = new Vector3(0.0f, -0.15f, 0.0f);
-			shoulder.transform.localRotation = RotUt.RotZ(Mathf.Deg2Rad * 90);
-			shoulder.transform.localScale = new Vector3(0.05f, 0.075f, 0.05f);
+			var shoulder = CreateChildPrimitive(PrimitiveType.Cylinder, false, "Shoulder", View.transform, new Loc(new Vector3(0, -NeckLength, 0), RotUt.RotZ(Mathf.Deg2Rad * 90)), false);
+			shoulder.transform.localScale = new Vector3(ShoulderWidth, ShoulderLength * 0.5f, ShoulderWidth);
 
 			LeftHand = CreateChildObject("LeftHand", Origin, Loc.Identity, false);
 			_addAxes(LeftHand.transform);
@@ -60,9 +59,11 @@ namespace PluggableVR
 			RightHand = CreateChildObject("RightHand", Origin, Loc.Identity, false);
 			_addAxes(RightHand.transform);
 
-			Head.transform.Find("AxisX").gameObject.SetActive(false);
-			Up = Head.transform.Find("AxisY").gameObject;
-			Fore = Head.transform.Find("AxisZ").gameObject;
+			RightFromHead = Head.transform.Find("AxisX").gameObject;
+			UpFromHead = Head.transform.Find("AxisY").gameObject;
+			ForeFromHead = Head.transform.Find("AxisZ").gameObject;
+
+			RightFromHead.SetActive(false);
 		}
 
 		private struct _AxisParam
@@ -79,11 +80,10 @@ namespace PluggableVR
 			}
 		}
 
-		private const float _axisLen = 0.4f;
 		private static _AxisParam[] _axisParam ={
-			new _AxisParam("AxisX", new Vector3(0.4f, 0, 0),new Color(128, 0, 128)),
-			new _AxisParam("AxisY", new Vector3(0,0.4f), new Color(0, 255, 0)),
-			new _AxisParam("AxisZ", new Vector3(0,0,0.4f), new Color(0, 128, 255)),
+			new _AxisParam("AxisX", new Vector3(AxisLength, 0, 0),new Color(128, 0, 128)),
+			new _AxisParam("AxisY", new Vector3(0,AxisLength), new Color(0, 255, 0)),
+			new _AxisParam("AxisZ", new Vector3(0,0,AxisLength), new Color(0, 128, 255)),
 		};
 
 		private void _addAxes(Transform parent)
@@ -101,7 +101,7 @@ namespace PluggableVR
 				lx.material = new Material(Shader.Find("Sprites/Default"));
 				lx.startColor = lx.endColor = prm.Col;
 				lx.numCapVertices = 5;
-				lx.widthMultiplier = 0.01f;
+				lx.widthMultiplier = AxisWidth;
 			}
 		}
 
@@ -113,6 +113,7 @@ namespace PluggableVR
 		{
 			var t = new AvatarControl();
 			t.Origin = Loc.FromWorldTransform(Origin);
+			t.LocalPivot = Loc.Identity;
 			var inv = t.Origin.Inversed;
 			t.LocalEye = inv * Loc.FromWorldTransform(Eye);
 			t.LocalLeftHand = inv * Loc.FromWorldTransform(LeftHand.transform);

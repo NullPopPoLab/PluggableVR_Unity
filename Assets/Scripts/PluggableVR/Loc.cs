@@ -68,6 +68,7 @@ namespace PluggableVR
 				return t;
 			}
 		}
+		public static Loc operator !(Loc src) { return src.Inversed; }
 
 		//! 正規化 
 		public bool Normalize()
@@ -81,6 +82,11 @@ namespace PluggableVR
 			Rot.z *= m;
 			Rot.w *= m;
 			return true;
+		}
+		public static Loc operator +(Loc src)
+		{
+			var t = src;
+			return t.Normalize() ? t : src;
 		}
 
 		//! 位置に加算 
@@ -136,6 +142,44 @@ namespace PluggableVR
 		{
 			t.localPosition = Pos;
 			t.localRotation = Rot;
+		}
+
+		public static bool CompareLoose(Loc v1, Loc v2, float threshold_p, float threshold_r)
+		{
+			var d = !v1 * v2;
+			if (((d.Pos.x < 0.0f) ? (-d.Pos.x) : d.Pos.x) > threshold_p) return false;
+			if (((d.Pos.y < 0.0f) ? (-d.Pos.y) : d.Pos.y) > threshold_p) return false;
+			if (((d.Pos.z < 0.0f) ? (-d.Pos.z) : d.Pos.z) > threshold_p) return false;
+			if (RotUt.Xx(d.Rot) < 1.0f - threshold_r) return false;
+			if (RotUt.Yy(d.Rot) < 1.0f - threshold_r) return false;
+			if (RotUt.Zz(d.Rot) < 1.0f - threshold_r) return false;
+			return true;
+		}
+		public static bool CompareLoose(Loc v1, Loc v2, float threshold)
+		{
+			return CompareLoose(v1, v2, threshold, threshold);
+		}
+		public static bool CompareLoose(Loc v1, Loc v2)
+		{
+			return CompareLoose(v1, v2, Mathf.Epsilon, Mathf.Epsilon);
+		}
+
+		public static bool operator !=(Loc v1, Loc v2) {
+			if (v1.Pos != v2.Pos) return false;
+			if (v1.Rot != v2.Rot) return false;
+			return true;
+		}
+		public static bool operator ==(Loc v1, Loc v2) { return !(v1 != v2); }
+
+
+		public override bool Equals(object obj)
+		{
+			return this == (Loc)obj;
+		}
+
+		public override int GetHashCode()
+		{
+			return new { Pos, Rot }.GetHashCode();
 		}
 	}
 }
