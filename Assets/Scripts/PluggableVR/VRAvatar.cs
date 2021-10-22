@@ -25,6 +25,7 @@ namespace PluggableVR
 		public static float ShoulderHeight{get{return EyeHeight-NeckLength;}}
 
 		public Transform Origin { get; private set; }
+		public Transform Pivot { get; private set; }
 		public Transform Eye { get; private set; }
 		public GameObject View { get; private set; }
 		public GameObject Head { get; private set; }
@@ -41,6 +42,8 @@ namespace PluggableVR
 			// 配置位置 
 			Origin = CreateRootObject("VRAvatar", loc_head * new Loc(new Vector3(0, -EyeHeight, 0), Quaternion.identity)).transform;
 			GameObject.DontDestroyOnLoad(Origin.gameObject);
+			// 回転基準 
+			Pivot=CreateChildObject("Pivot",Origin,Loc.Identity,false).transform;
 			// 目(=指定位置) 
 			Eye = CreateChildObject("Eye", Origin, loc, true).transform;
 
@@ -128,6 +131,7 @@ namespace PluggableVR
 		internal void UpdateControl(AvatarControl cs)
 		{
 			cs.Origin.ToWorldTransform(Origin);
+			cs.LocalPivot.ToLocalTransform(Pivot);
 			cs.LocalEye.ToLocalTransform(Eye);
 			cs.LocalLeftHand.ToLocalTransform(LeftHand.transform);
 			cs.LocalRightHand.ToLocalTransform(RightHand.transform);

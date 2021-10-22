@@ -95,6 +95,7 @@ namespace PluggableVR
 				var dr=RotUt.RotY(90.0f * Mathf.Deg2Rad * tilt.x * Time.deltaTime);
 				var pp = _ctrl.WorldPivot.Pos;
 				_ctrl.Origin.Rot *= dr;
+				_ctrl.Origin.Rot = RotUt.ReturnY(_ctrl.Origin.Rot);
 				_ctrl.Origin.Pos -= _ctrl.WorldPivot.Pos - pp;
 			}
 
@@ -134,6 +135,7 @@ namespace PluggableVR
 			var asd=ahd*new Loc(new Vector3(0,-VRAvatar.NeckLength,0),Quaternion.identity);
 			// アバター回転基準位置 
 			_ctrl.WorldPivot=asd-new Vector3(0,VRAvatar.ShoulderHeight,0);
+			_ctrl.LocalPivot.Rot = RotUt.ReturnY(_ctrl.LocalPivot.Rot);
 
 			Avatar.UpdateControl(_ctrl);
 		}
@@ -180,6 +182,7 @@ namespace PluggableVR
 			// 操作対象の目向きからの差分をOriginに反映 
 			// ただしY軸を真上に戻す 
 			_ctrl.Origin.Rot *= Quaternion.Inverse(RotUt.ReturnY(_ctrl.WorldEye.Rot)) * RotUt.ReturnY(rot);
+			_ctrl.Origin.Rot = RotUt.ReturnY(_ctrl.Origin.Rot);
 
 			Avatar.UpdateControl(_ctrl);
 			ResetRig();
