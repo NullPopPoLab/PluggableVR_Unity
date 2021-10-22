@@ -22,7 +22,7 @@ namespace PluggableVR
 		public const float AxisWidth = 0.01f; //!< 回転軸表示の太さ 
 
 		//! 肩の高さ 
-		public static float ShoulderHeight{get{return EyeHeight-NeckLength;}}
+		public static float ShoulderHeight { get { return EyeHeight - NeckLength; } }
 
 		public Transform Origin { get; private set; }
 		public Transform Pivot { get; private set; }
@@ -43,7 +43,7 @@ namespace PluggableVR
 			Origin = CreateRootObject("VRAvatar", loc_head * new Loc(new Vector3(0, -EyeHeight, 0), Quaternion.identity)).transform;
 			GameObject.DontDestroyOnLoad(Origin.gameObject);
 			// 回転基準 
-			Pivot=CreateChildObject("Pivot",Origin,Loc.Identity,false).transform;
+			Pivot = CreateChildObject("Pivot", Origin, Loc.Identity, false).transform;
 			// 目(=指定位置) 
 			Eye = CreateChildObject("Eye", Origin, loc, true).transform;
 

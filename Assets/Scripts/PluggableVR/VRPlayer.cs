@@ -92,7 +92,7 @@ namespace PluggableVR
 			if (stk2)
 			{
 				var tilt = inp.HandSecondary.GetStickTilting();
-				var dr=RotUt.RotY(90.0f * Mathf.Deg2Rad * tilt.x * Time.deltaTime);
+				var dr = RotUt.RotY(90.0f * Mathf.Deg2Rad * tilt.x * Time.deltaTime);
 				var pp = _ctrl.WorldPivot.Pos;
 				_ctrl.Origin.Rot *= dr;
 				_ctrl.Origin.Rot = RotUt.ReturnY(_ctrl.Origin.Rot);
@@ -130,11 +130,11 @@ namespace PluggableVR
 			_ctrl.WorldRightHand = ofs * inp.HandRight.GetHandTracking();
 
 			// アバター頭位置 
-			var ahd=_ctrl.WorldEye*new Loc(new Vector3(0,0,-VRAvatar.HeadToEye),Quaternion.identity);
+			var ahd = _ctrl.WorldEye * new Loc(new Vector3(0, 0, -VRAvatar.HeadToEye), Quaternion.identity);
 			// アバター肩位置 
-			var asd=ahd*new Loc(new Vector3(0,-VRAvatar.NeckLength,0),Quaternion.identity);
+			var asd = ahd * new Loc(new Vector3(0, -VRAvatar.NeckLength, 0), Quaternion.identity);
 			// アバター回転基準位置 
-			_ctrl.WorldPivot=asd-new Vector3(0,VRAvatar.ShoulderHeight,0);
+			_ctrl.WorldPivot = asd - new Vector3(0, VRAvatar.ShoulderHeight, 0);
 			_ctrl.LocalPivot.Rot = RotUt.ReturnY(_ctrl.LocalPivot.Rot);
 
 			Avatar.UpdateControl(_ctrl);
@@ -166,14 +166,21 @@ namespace PluggableVR
 			_offset = _ctrl.Origin.Inversed * ve;
 		}
 
+		private void _resetControl()
+		{
+			_sticking = false;
+			Avatar.UpdateControl(_ctrl);
+			ResetRig();
+			Avatar.Head.gameObject.SetActive(false);
+		}
+
 		//! 位置だけ変更 
 		internal void Repos(Vector3 pos)
 		{
 			// 操作対象の目位置からの差分をOriginに反映 
 			_ctrl.Origin.Pos += pos - _ctrl.WorldEye.Pos;
 
-			Avatar.UpdateControl(_ctrl);
-			ResetRig();
+			_resetControl();
 		}
 
 		//! 向きだけ変更 
@@ -184,8 +191,7 @@ namespace PluggableVR
 			_ctrl.Origin.Rot *= Quaternion.Inverse(RotUt.ReturnY(_ctrl.WorldEye.Rot)) * RotUt.ReturnY(rot);
 			_ctrl.Origin.Rot = RotUt.ReturnY(_ctrl.Origin.Rot);
 
-			Avatar.UpdateControl(_ctrl);
-			ResetRig();
+			_resetControl();
 		}
 
 		//! 位置,向き変更 
@@ -196,11 +202,10 @@ namespace PluggableVR
 			_ctrl.Origin *= _ctrl.WorldEye.Inversed * loc;
 			_ctrl.Origin.Rot = RotUt.ReturnY(_ctrl.Origin.Rot);
 
-			Avatar.UpdateControl(_ctrl);
+			// 回転の兼ね合いでズレること多々あるので強制的に 
+			_ctrl.Origin.Pos -= _ctrl.WorldEye.Pos - loc.Pos;
 
-			_sticking = false;
-			ResetRig();
-			Avatar.Head.gameObject.SetActive(false);
+			_resetControl();
 		}
 	}
 }
