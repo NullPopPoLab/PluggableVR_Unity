@@ -92,7 +92,10 @@ namespace PluggableVR
 			if (stk2)
 			{
 				var tilt = inp.HandSecondary.GetStickTilting();
-				_ctrl.Origin.Rot *= PluggableVR.RotUt.RotY(90.0f * Mathf.Deg2Rad * tilt.x * Time.deltaTime);
+				var dr=RotUt.RotY(90.0f * Mathf.Deg2Rad * tilt.x * Time.deltaTime);
+				var pp = _ctrl.WorldPivot.Pos;
+				_ctrl.Origin.Rot *= dr;
+				_ctrl.Origin.Pos -= _ctrl.WorldPivot.Pos - pp;
 			}
 
 			// スティック移動 
@@ -101,7 +104,7 @@ namespace PluggableVR
 				// スティック倒し状態 
 				var tilt = inp.HandPrimary.GetStickTilting();
 				// zx平面上のy軸2D回転 
-				var dir = PluggableVR.RotUt.PlaneZX(Camera.rotation);
+				var dir = RotUt.PlaneZX(Camera.rotation);
 				if (_elevating)
 				{
 					// スティックy方向はy軸と一致 
@@ -124,6 +127,14 @@ namespace PluggableVR
 			_ctrl.WorldEye = ofs * inp.Head.GetEyeTracking();
 			_ctrl.WorldLeftHand = ofs * inp.HandLeft.GetHandTracking();
 			_ctrl.WorldRightHand = ofs * inp.HandRight.GetHandTracking();
+
+			// アバター頭位置 
+			var ahd=_ctrl.WorldEye*new Loc(new Vector3(0,0,-VRAvatar.HeadToEye),Quaternion.identity);
+			// アバター肩位置 
+			var asd=ahd*new Loc(new Vector3(0,-VRAvatar.NeckLength,0),Quaternion.identity);
+			// アバター回転基準位置 
+			_ctrl.WorldPivot=asd-new Vector3(0,VRAvatar.ShoulderHeight,0);
+
 			Avatar.UpdateControl(_ctrl);
 		}
 
@@ -156,7 +167,6 @@ namespace PluggableVR
 		//! 位置だけ変更 
 		internal void Repos(Vector3 pos)
 		{
-
 			// 操作対象の目位置からの差分をOriginに反映 
 			_ctrl.Origin.Pos += pos - _ctrl.WorldEye.Pos;
 
@@ -167,7 +177,6 @@ namespace PluggableVR
 		//! 向きだけ変更 
 		internal void Rerot(Quaternion rot)
 		{
-
 			// 操作対象の目向きからの差分をOriginに反映 
 			// ただしY軸を真上に戻す 
 			_ctrl.Origin.Rot *= Quaternion.Inverse(RotUt.ReturnY(_ctrl.WorldEye.Rot)) * RotUt.ReturnY(rot);
@@ -179,7 +188,6 @@ namespace PluggableVR
 		//! 位置,向き変更 
 		internal void Reloc(Loc loc)
 		{
-
 			// 操作対象の目位置からの差分をOriginに反映 
 			// ただしY軸を真上に戻す 
 			_ctrl.Origin *= _ctrl.WorldEye.Inversed * loc;

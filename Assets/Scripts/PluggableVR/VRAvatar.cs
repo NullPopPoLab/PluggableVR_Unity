@@ -21,6 +21,9 @@ namespace PluggableVR
 		public const float AxisLength = 0.4f; //!< 回転軸表示の長さ 
 		public const float AxisWidth = 0.01f; //!< 回転軸表示の太さ 
 
+		//! 肩の高さ 
+		public static float ShoulderHeight{get{return EyeHeight-NeckLength;}}
+
 		public Transform Origin { get; private set; }
 		public Transform Eye { get; private set; }
 		public GameObject View { get; private set; }
@@ -34,9 +37,9 @@ namespace PluggableVR
 		internal VRAvatar(Loc loc)
 		{
 			// 頭 
-			var loc_head = loc - new Vector3(0, 0, HeadToEye);
+			var loc_head = loc * new Loc(new Vector3(0, 0, -HeadToEye), Quaternion.identity);
 			// 配置位置 
-			Origin = CreateRootObject("VRAvatar", loc_head - new Vector3(0, EyeHeight, 0)).transform;
+			Origin = CreateRootObject("VRAvatar", loc_head * new Loc(new Vector3(0, -EyeHeight, 0), Quaternion.identity)).transform;
 			GameObject.DontDestroyOnLoad(Origin.gameObject);
 			// 目(=指定位置) 
 			Eye = CreateChildObject("Eye", Origin, loc, true).transform;
