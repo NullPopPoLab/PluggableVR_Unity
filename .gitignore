@@ -12,3 +12,8 @@
 /Plugins/PluggableVR_BepInEx/obj
 /Plugins/PluggableVR_BepInEx/bin
 /*.log
+/Plugins/HierarchyDumper/bin
+/Plugins/HierarchyDumper/obj
+/Plugins/NullPopPoSpecial/bin
+/Plugins/NullPopPoSpecial/obj
+/Plugins/.vs

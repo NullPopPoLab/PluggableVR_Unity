@@ -3,10 +3,9 @@
 	@author NullPopPoLab
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
-using UnityEngine;
-using PluggableVR;
 using System;
 using System.Collections.Generic;
+using NullPopPoSpecial;
 
 namespace PluggableVR.CS
 {

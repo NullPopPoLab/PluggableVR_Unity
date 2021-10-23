@@ -5,6 +5,7 @@
 */
 using UnityEngine;
 using PluggableVR;
+using NullPopPoSpecial;
 
 namespace PluggableVR.CS
 {

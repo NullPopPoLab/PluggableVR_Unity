@@ -3,9 +3,8 @@
 	@author NullPopPoLab
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
-using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using NullPopPoSpecial;
 
 namespace PluggableVR
 {

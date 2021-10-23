@@ -5,7 +5,7 @@
 */
 using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using NullPopPoSpecial;
 
 #pragma warning disable 0414 // 未使用メンバ警告抑制 
 

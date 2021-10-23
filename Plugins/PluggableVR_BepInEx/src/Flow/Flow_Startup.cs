@@ -5,10 +5,10 @@
 */
 using UnityEngine;
 using PluggableVR;
+using NullPopPoSpecial;
 
 namespace PluggableVR.CS
 {
-
 	//! 手順遷移 開始時 
 	public class Flow_Startup : Flow
 	{
