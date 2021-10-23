@@ -6,9 +6,9 @@
 using UnityEngine;
 
 //! 手順遷移 開始時 
-public class Flow_Startup : PluggableVR.Flow
+public class Flow_Startup : NullPopPoSpecial.Flow
 {
-	protected override PluggableVR.Flow OnUpdate()
+	protected override NullPopPoSpecial.Flow OnUpdate()
 	{
 		// メインカメラ生成待ち 
 		var mc = Camera.main;
@@ -16,7 +16,7 @@ public class Flow_Startup : PluggableVR.Flow
 
 		// 操作開始 
 		var mng = PluggableVR.VRManager.Instance;
-		mng.Controller.Initialize(PluggableVR.Loc.FromWorldTransform(mc.transform));
+		mng.Controller.Initialize(NullPopPoSpecial.Loc.FromWorldTransform(mc.transform));
 
 		// 本来のメインカメラは無効化 
 		var cam = mc.GetComponent<Camera>();

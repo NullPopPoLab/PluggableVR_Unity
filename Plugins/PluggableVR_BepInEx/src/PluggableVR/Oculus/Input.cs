@@ -4,6 +4,7 @@
 	@sa https://github.com/NullPopPoLab/PluggableVR
 */
 using UnityEngine;
+using NullPopPoSpecial;
 
 #if UNITY_2017_2_OR_NEWER
 using InputTracking = UnityEngine.XR.InputTracking;

@@ -4,6 +4,8 @@
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
 using UnityEngine;
+using PluggableVR;
+using NullPopPoSpecial;
 
 #pragma warning disable 0414 // 未使用メンバ警告抑制 
 
@@ -100,7 +102,7 @@ public class VRPlug : MonoBehaviour
 	[SerializeField,Range(0,1)] private float _secondaryHandPressing;
 #endif
 
-	private PluggableVR.VRManager _vrmng = new PluggableVR.VRManager();
+	private VRManager _vrmng = new VRManager();
 
 	//! 初期設定 
 	protected void Awake()
@@ -134,49 +136,49 @@ public class VRPlug : MonoBehaviour
 		}
 		if(_reloc){
 			_reloc=false;
-			_vrmng.Reloc(PluggableVR.Loc.FromWorldTransform(_teleportTarget));
+			_vrmng.Reloc(Loc.FromWorldTransform(_teleportTarget));
 		}
 #endif
 
 		_vrmng.Update();
 
 #if UNITY_EDITOR
-		var inp = PluggableVR.VRManager.Input;
+		var inp = VRManager.Input;
 		var eye = inp.Head.GetEyeTracking();
 		_eyePos = eye.Pos;
-		_eyeRotXx = PluggableVR.RotUt.Xx(eye.Rot);
-		_eyeRotXy = PluggableVR.RotUt.Xy(eye.Rot);
-		_eyeRotXz = PluggableVR.RotUt.Xz(eye.Rot);
-		_eyeRotYx = PluggableVR.RotUt.Yx(eye.Rot);
-		_eyeRotYy = PluggableVR.RotUt.Yy(eye.Rot);
-		_eyeRotYz = PluggableVR.RotUt.Yz(eye.Rot);
-		_eyeRotZx = PluggableVR.RotUt.Zx(eye.Rot);
-		_eyeRotZy = PluggableVR.RotUt.Zy(eye.Rot);
-		_eyeRotZz = PluggableVR.RotUt.Zz(eye.Rot);
+		_eyeRotXx = RotUt.Xx(eye.Rot);
+		_eyeRotXy = RotUt.Xy(eye.Rot);
+		_eyeRotXz = RotUt.Xz(eye.Rot);
+		_eyeRotYx = RotUt.Yx(eye.Rot);
+		_eyeRotYy = RotUt.Yy(eye.Rot);
+		_eyeRotYz = RotUt.Yz(eye.Rot);
+		_eyeRotZx = RotUt.Zx(eye.Rot);
+		_eyeRotZy = RotUt.Zy(eye.Rot);
+		_eyeRotZz = RotUt.Zz(eye.Rot);
 
 		var lh = inp.HandLeft.GetHandTracking();
 		_leftPos = lh.Pos;
-		_leftRotXx = PluggableVR.RotUt.Xx(lh.Rot);
-		_leftRotXy = PluggableVR.RotUt.Xy(lh.Rot);
-		_leftRotXz = PluggableVR.RotUt.Xz(lh.Rot);
-		_leftRotYx = PluggableVR.RotUt.Yx(lh.Rot);
-		_leftRotYy = PluggableVR.RotUt.Yy(lh.Rot);
-		_leftRotYz = PluggableVR.RotUt.Yz(lh.Rot);
-		_leftRotZx = PluggableVR.RotUt.Zx(lh.Rot);
-		_leftRotZy = PluggableVR.RotUt.Zy(lh.Rot);
-		_leftRotZz = PluggableVR.RotUt.Zz(lh.Rot);
+		_leftRotXx = RotUt.Xx(lh.Rot);
+		_leftRotXy = RotUt.Xy(lh.Rot);
+		_leftRotXz = RotUt.Xz(lh.Rot);
+		_leftRotYx = RotUt.Yx(lh.Rot);
+		_leftRotYy = RotUt.Yy(lh.Rot);
+		_leftRotYz = RotUt.Yz(lh.Rot);
+		_leftRotZx = RotUt.Zx(lh.Rot);
+		_leftRotZy = RotUt.Zy(lh.Rot);
+		_leftRotZz = RotUt.Zz(lh.Rot);
 
 		var rh = inp.HandRight.GetHandTracking();
 		_rightPos = rh.Pos;
-		_rightRotXx = PluggableVR.RotUt.Xx(rh.Rot);
-		_rightRotXy = PluggableVR.RotUt.Xy(rh.Rot);
-		_rightRotXz = PluggableVR.RotUt.Xz(rh.Rot);
-		_rightRotYx = PluggableVR.RotUt.Yx(rh.Rot);
-		_rightRotYy = PluggableVR.RotUt.Yy(rh.Rot);
-		_rightRotYz = PluggableVR.RotUt.Yz(rh.Rot);
-		_rightRotZx = PluggableVR.RotUt.Zx(rh.Rot);
-		_rightRotZy = PluggableVR.RotUt.Zy(rh.Rot);
-		_rightRotZz = PluggableVR.RotUt.Zz(rh.Rot);
+		_rightRotXx = RotUt.Xx(rh.Rot);
+		_rightRotXy = RotUt.Xy(rh.Rot);
+		_rightRotXz = RotUt.Xz(rh.Rot);
+		_rightRotYx = RotUt.Yx(rh.Rot);
+		_rightRotYy = RotUt.Yy(rh.Rot);
+		_rightRotYz = RotUt.Yz(rh.Rot);
+		_rightRotZx = RotUt.Zx(rh.Rot);
+		_rightRotZy = RotUt.Zy(rh.Rot);
+		_rightRotZz = RotUt.Zz(rh.Rot);
 
 		var ls=inp.HandLeft.GetStickTilting();
 		_leftStickTiltingX=ls.x;
@@ -234,7 +236,7 @@ public class VRPlug : MonoBehaviour
 		if (_dumpHierarchy)
 		{
 			_dumpHierarchy = false;
-			PluggableVR.Hierarchy.Dump2File("Hierarchy");
+			HierarchyDumper.Dumper.Dump2File("Hierarchy");
 		}
 #endif
 	}
