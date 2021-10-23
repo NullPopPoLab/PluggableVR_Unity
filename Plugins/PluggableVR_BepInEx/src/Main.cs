@@ -19,7 +19,7 @@ namespace PluggableVR.CS
 	public class Main : BaseUnityPlugin
 	{
 		public const string GUID = "com.nullpoppo.PluggableVR.CS";
-		public const string VERSION = "0.0.2.3";
+		public const string VERSION = "0.0.3.0";
 
 		public static Main Instance;
 		public static bool Enabled { get; private set; }

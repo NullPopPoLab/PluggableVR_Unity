@@ -18,7 +18,7 @@ namespace HierarchyDumper
 		{
 			if (_obj == null) return "!!! Type Mismatch !!!\n";
 
-			var s = new Dumper_Selectable(_obj).Dump(indent);
+			var s = "";
 			s += indent + "Text: " + _obj.text + "\n";
 
 			return s;

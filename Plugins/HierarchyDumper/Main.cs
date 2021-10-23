@@ -6,12 +6,8 @@
 using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
-using Studio;
 using UnityEngine;
-using UnityEngine.VR;
-using UnityEngine.SceneManagement;
-using PluggableVR;
-using System;
+using NullPopPoSpecial;
 
 namespace HierarchyDumper
 {
@@ -19,11 +15,9 @@ namespace HierarchyDumper
 	public class Main : BaseUnityPlugin
 	{
 		public const string GUID = "com.nullpoppo.HierarchyDumper";
-		public const string VERSION = "0.0.2.3";
+		public const string VERSION = "0.0.3.0";
 
 		public static Main Instance;
-
-		private VRManager _vrmng;
 
 		private RelativeBool _push_rbtn2 = new RelativeBool();
 
@@ -35,14 +29,10 @@ namespace HierarchyDumper
 
 		protected void Update()
 		{
-#if false
-			var inp = VRManager.Input;
-			_push_rbtn2.Update(inp.HandRight.IsButton2Pressed());
-			if (inp.HandLeft.IsButton2Pressed() && _push_rbtn2.Delta > 0)
+			if ((Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)) && Input.GetKeyDown(KeyCode.P))
 			{
-				Hierarchy.Dump2File("Hierarchy");
+				Dumper.Dump2File("Hier_"+Paths.ProcessName);
 			}
-#endif
 		}
 	}
 }
