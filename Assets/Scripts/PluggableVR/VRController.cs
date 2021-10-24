@@ -14,27 +14,18 @@ namespace PluggableVR
 	internal class VRController : PlugCommon
 	{
 		internal VRPlayer Player { get; private set; }
-		internal VRAvatar Avatar { get; private set; }
-
-		//! VRAvatar 生成時の付加動作 
-		internal Action<VRAvatar> OnCreateAvatar = null;
-		//! VRPlayer 生成時の付加動作 
-		internal Action<VRPlayer> OnCreatePlayer = null;
+		internal VRAvatar Avatar { get { return Player.Avatar; } }
 
 		internal VRController() { }
 
 		internal bool IsReady { get; private set; }
 
 		//! 初期設定 
-		internal void Initialize(Loc loc)
+		internal void Initialize(VRPlayer player)
 		{
 			if (IsReady) return;
 			IsReady = true;
-
-			Avatar = new VRAvatar(loc);
-			if (OnCreateAvatar != null) OnCreateAvatar(Avatar);
-			Player = new VRPlayer(Avatar);
-			if (OnCreatePlayer != null) OnCreatePlayer(Player);
+			Player = player;
 		}
 
 		//! 機能終了 
