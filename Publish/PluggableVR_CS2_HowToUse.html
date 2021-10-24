@@ -7,8 +7,8 @@
 
 <h1>PluggableVR for CharaStudio2</h1>
 
-CharaStudio2 をVRで動作させるためのプラグインです。<br>
-<a target="_blank" href="https://www.patreon.com/posts/hf-patch-for-kk-46339224">HF Patch 3.12</a>導入済の環境で動作確認しています。<br>
+コイカツサンシャイン版CharaStudioをVRで動作させるためのプラグインです。<br>
+<a target="_blank" href="https://www.patreon.com/posts/hf-patch-for-kk-46339224">HF Patch 1.1</a>導入済の環境で動作確認しています。<br>
 
 <h2>内容</h2>
 
@@ -32,7 +32,9 @@ CharaStudio2 をVRで動作させるためのプラグインです。<br>
 <h2>導入手順</h2>
 
 <ol>
-<li>付属の BepInEx CharaStudio_Data CharaStudio_novr.bat CharaStudio_vr.bat をゲームフォルダに上書き(というか追加だけのはず)します。</li>
+<li>付属の BepInEx CharaStudio_Data CharaStudio_novr.bat CharaStudio_vr.bat をゲームフォルダに上書きします。<br>
+新規導入の場合は追加だけのはずですが、上書きの際は他所のプラグインと機能かぶってるかもしれないので要注意ということで。<br>
+</li>
 
 <li>CharaStudio_Data/globalgamemanagers のVR版を作成します
 <ol>
@@ -70,26 +72,40 @@ CharaStudio2 をVRで動作させるためのプラグインです。<br>
 <li>主スティック (右利き設定では左スティック)でカメラ位置マークを前後左右または上下左右に移動させます<br>(主スティックを押し込むことで移動方法を切り替えます)</li>
 <li>副スティック (右利き設定では右スティック)でカメラ位置マークを左右に回転させます</li>
 <li>両方のスティックから指を離すことで、カメラを位置マーク地点に移します</li>
-<li>あと、当面の調査用として、Yボタン押しながらBボタン押すと現在のHierarchy状態ごっそりファイルに書き出します</li>
+<li>あと、当面の調査用として、Yボタン押しながらBボタン押すと現在のHierarchy状態ごっそりファイルに書き出します。(将来的に廃止予定)</li>
+<li>バージョン0.0.3からはキーボードの Alt+P でもHierarchy状態書き出し機能が使えます。<br>
+こちらはプラグインが HierarchyDumper.dll に独立しており、VRとは無関係に動作します。(コイカツ本体でも共通で使えます)</li>
 </ul>
 
 UI操作は通常通りPC画面のマウス操作で。<br>
 
-<h2>既知の問題点</h2>
+<h2>既知の問題点とか今後の予定とか</h2>
 
-<ul>
-<li>UI未対応</li>
-<li>背景の向きが反映されてない</li>
-<li>足元位置未対応のため、スティック回転の軸が怪しげ</li>
-</ul>
+<a target="_blank" href="https://github.com/users/NullPopPoLab/projects/1">GitHubの看板</a> 参照。<br>
+
+<h2>ソースコード入手</h2>
+
+<a target="_blank" href="https://github.com/NullPopPoLab/PluggableVR_Unity/tree/Plugin_CS">GitHubのリポジトリ</a> 参照。<br>
 
 <h2>更新履歴</h2>
 
+<h3>0.0.3</h3>
+<ul>
+<li>シーンロード後のカメラ初期位置反映</li>
+<li>本来非表示になってるはずの余計な表示を除去</li>
+<li>スティック回転中心を足元想定位置に固定</li>
+<li>HierarchyDumper機能独立</li>
+</ul>
+
 <h3>0.0.2</h3>
-プレイヤー操作によるカメラ移動に対応<br>
+<ul>
+<li>プレイヤー操作によるカメラ移動に対応</li>
+</ul>
 
 <h3>0.0.1</h3>
-とりあえず3DシーンをVRで観られるようにしただけ。<br>
+<ul>
+<li>とりあえず3DシーンをVRで観られるようにしただけ</li>
+</ul>
 
 <hr>
 NullPopPo Lab.<br>

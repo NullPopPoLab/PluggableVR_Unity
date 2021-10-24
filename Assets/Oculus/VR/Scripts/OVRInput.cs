@@ -2021,8 +2021,6 @@ public static class OVRInput
 			else
 				state = OVRPlugin.GetControllerState4((uint)controllerType);
 
-			Debug.Log("OVRInput.Update state="+state);
-
 			if (state.LIndexTrigger >= AXIS_AS_BUTTON_THRESHOLD)
 				state.Buttons |= (uint)RawButton.LIndexTrigger;
 			if (state.LHandTrigger >= AXIS_AS_BUTTON_THRESHOLD)

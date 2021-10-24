@@ -24,13 +24,13 @@ namespace PluggableVR
 		internal DemoPlayer(DemoAvatar target)
 		{
 			Rig = CreateRootObject("VRPlayer", Loc.FromWorldTransform(target.Eye)).transform;
-			Camera = CreateChildObject("VRCamera", Rig, Loc.Identity, false).transform;
+			var cb = CreateChildObject("VRCamera", Rig, Loc.Identity, false);
 			GameObject.DontDestroyOnLoad(Rig.gameObject);
 
-			Camera.gameObject.AddComponent<AudioListener>();
-			Camera.gameObject.AddComponent<OVRCameraRig>();
-			var cam = Camera.Find("TrackingSpace/CenterEyeAnchor").GetComponent<Camera>();
-			cam.nearClipPlane = 0.01f;
+			cb.AddComponent<AudioListener>();
+			cb.AddComponent<OVRCameraRig>();
+			Camera = cb.transform.Find("TrackingSpace/CenterEyeAnchor");
+			Camera.GetComponent<Camera>().nearClipPlane = 0.01f;
 
 			Avatar = target;
 			_ctrl = Avatar.CreateControl();
