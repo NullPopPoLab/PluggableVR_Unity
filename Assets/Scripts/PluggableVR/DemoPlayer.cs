@@ -27,10 +27,10 @@ namespace PluggableVR
 			Camera = CreateChildObject("VRCamera", Rig, Loc.Identity, false).transform;
 			GameObject.DontDestroyOnLoad(Rig.gameObject);
 
-			var cam = Camera.gameObject.AddComponent<Camera>();
-			cam.nearClipPlane = 0.01f;
 			Camera.gameObject.AddComponent<AudioListener>();
 			Camera.gameObject.AddComponent<OVRCameraRig>();
+			var cam = Camera.Find("TrackingSpace/CenterEyeAnchor").GetComponent<Camera>();
+			cam.nearClipPlane = 0.01f;
 
 			Avatar = target;
 			_ctrl = Avatar.CreateControl();
