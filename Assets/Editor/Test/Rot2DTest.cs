@@ -6,7 +6,7 @@
 using UnityEngine;
 using NUnit.Framework;
 
-namespace PluggableVR
+namespace NullPopPoSpecial
 {
 	public class Rot2DTest : TestCommon
 	{

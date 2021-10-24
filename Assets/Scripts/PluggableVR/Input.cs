@@ -4,6 +4,7 @@
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
 using UnityEngine;
+using NullPopPoSpecial;
 
 namespace PluggableVR
 {

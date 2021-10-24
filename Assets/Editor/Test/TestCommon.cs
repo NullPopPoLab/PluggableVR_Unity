@@ -5,7 +5,7 @@
 */
 using UnityEngine;
 
-namespace PluggableVR
+namespace NullPopPoSpecial
 {
 	public class TestCommon
 	{
