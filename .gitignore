@@ -13,7 +13,6 @@
 /Plugins/HierarchyDumper/obj
 /Plugins/NullPopPoSpecial/bin
 /Plugins/NullPopPoSpecial/obj
-/Plugins/PluggableVR_BepInEx/External*
-/Plugins/PluggableVR_BepInEx/.vs
+/Plugins/External*/*.dll
 /Plugins/PluggableVR_BepInEx/obj
 /Plugins/PluggableVR_BepInEx/bin
