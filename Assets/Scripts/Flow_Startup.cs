@@ -18,11 +18,11 @@ public class Flow_Startup : Flow
 
 		// 操作開始 
 		var loc = Loc.FromWorldTransform(mc.transform);
-		var avatar = new VRAvatar(loc);
-		var player = new VRPlayer(avatar);
+		var avatar = new DemoAvatar(loc);
+		var player = new DemoPlayer(avatar);
 
 		var mng = VRManager.Instance;
-		mng.Controller.Initialize(player);
+		mng.SetPlayer(player);
 
 		// 本来のメインカメラは無効化 
 		var cam = mc.GetComponent<Camera>();

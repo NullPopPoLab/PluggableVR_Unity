@@ -1,5 +1,5 @@
 ﻿/*!	@file
-	@brief PluggableVR: VR操作先 
+	@brief PluggableVR: デモ用VR操作構造 
 	@author NullPopPoLab
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
@@ -7,8 +7,8 @@ using NullPopPoSpecial;
 
 namespace PluggableVR
 {
-	//! VR操作先 
-	public class AvatarControl
+	//! デモ用VR操作構造 
+	public class DemoControl: VRControl
 	{
 		public Loc Origin; //!< 移動基準点(主に足元) 
 		public Loc LocalPivot; //!< 回転基準位置 
