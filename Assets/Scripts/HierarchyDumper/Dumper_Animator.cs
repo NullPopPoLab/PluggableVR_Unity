@@ -19,7 +19,7 @@ namespace HierarchyDumper
 			if (_obj == null) return "!!! Type Mismatch !!!\n";
 
 			var s = "";
-			s += indent + "Avatar: "+_obj.avatar.name+"\n"+new Dumper_Avatar(_obj.avatar).Dump(indent+"  ");
+			s += indent + "Avatar: "+((_obj.avatar==null)?"None":(_obj.avatar.name + "\n" + new Dumper_Avatar(_obj.avatar).Dump(indent + "  ")));
 			s += indent + "ApplyRootMotion: "+_obj.applyRootMotion+"\n";
 
 			return s;
