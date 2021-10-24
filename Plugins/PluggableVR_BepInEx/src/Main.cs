@@ -19,7 +19,7 @@ namespace PluggableVR.CS
 	public class Main : BaseUnityPlugin
 	{
 		public const string GUID = "com.nullpoppo.PluggableVR.CS";
-		public const string VERSION = "0.0.3.1";
+		public const string VERSION = "0.0.3.2";
 
 		public static Main Instance;
 		public static bool Enabled { get; private set; }
@@ -80,7 +80,7 @@ namespace PluggableVR.CS
 			_push_rbtn2.Update(inp.HandRight.IsButton2Pressed());
 			if (inp.HandLeft.IsButton2Pressed() && _push_rbtn2.Delta > 0)
 			{
-				HierarchyDumper.Dumper.Dump2File("Hierarchy");
+				HierarchyDumper.Dumper.Dump2File("Hier_" + Paths.ProcessName);
 			}
 		}
 
