@@ -20,20 +20,23 @@ namespace PluggableVR.CS
 
 			// 操作開始 
 			var sc = Global.MainCamera;
+			var loc = Loc.FromWorldTransform(sc.transform);
+			var avatar = new DemoAvatar(loc);
+			var player = new DemoPlayer(avatar);
+
 			var mng = VRManager.Instance;
-			mng.Controller.Initialize(Loc.FromWorldTransform(sc.transform));
+			mng.SetPlayer(player);
 
 			// レイヤ0が表示対象外になるので4に変更 
-			var a = mng.Controller.Avatar;
 			var layer = 4;
-			a.Head.layer = layer;
-			a.View.transform.Find("Neck").gameObject.layer = layer;
-			a.View.transform.Find("Shoulder").gameObject.layer = layer;
-			a.UpFromHead.layer = layer;
-			a.ForeFromHead.layer = layer;
+			avatar.Head.layer = layer;
+			avatar.View.transform.Find("Neck").gameObject.layer = layer;
+			avatar.View.transform.Find("Shoulder").gameObject.layer = layer;
+			avatar.UpFromHead.layer = layer;
+			avatar.ForeFromHead.layer = layer;
 
 			// 元のカメラパラメータを反映 
-			var dc = mng.Controller.Player.Camera.GetComponent<Camera>();
+			var dc = player.Camera.GetComponent<Camera>();
 			dc.clearFlags = sc.clearFlags;
 			dc.cullingMask = sc.cullingMask;
 
