@@ -1,5 +1,5 @@
 ﻿/*!	@file
-	@brief PluggableVR: Cycle 単体テスト 
+	@brief NullPopPoSpecial: Cycle 単体テスト 
 	@author NullPopPoLab
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */

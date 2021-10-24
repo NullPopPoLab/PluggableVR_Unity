@@ -1,5 +1,5 @@
 ﻿/*!	@file
-	@brief PluggableVR: RotUt 単体テスト 
+	@brief NullPopPoSpecial: RotUt 単体テスト 
 	@author NullPopPoLab
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */

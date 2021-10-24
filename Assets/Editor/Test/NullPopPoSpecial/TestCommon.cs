@@ -1,5 +1,5 @@
 ﻿/*!	@file
-	@brief PluggableVR: 単体テスト共通部 
+	@brief NullPopPoSpecial: 単体テスト共通部 
 	@author NullPopPoLab
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */

@@ -1,5 +1,5 @@
 ﻿/*!	@file
-	@brief PluggableVR: SafeMathf 単体テスト 
+	@brief NullPopPoSpecial: SafeMathf 単体テスト 
 	@author NullPopPoLab
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
