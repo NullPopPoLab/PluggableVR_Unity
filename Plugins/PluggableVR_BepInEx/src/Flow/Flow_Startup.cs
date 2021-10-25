@@ -32,6 +32,7 @@ namespace PluggableVR.SN2
 			var loc = Loc.FromWorldTransform(sc.transform);
 			var avatar = new DemoAvatar(loc);
 			var player = new DemoPlayer(avatar);
+			player.Rig.localScale = new Vector3(8,8,8);
 
 			var mng = VRManager.Instance;
 			mng.SetPlayer(player);
