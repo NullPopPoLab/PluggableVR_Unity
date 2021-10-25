@@ -11,6 +11,16 @@ namespace PluggableVR.SN2
 	//! 手順遷移 開始時 
 	public class Flow_Startup : Flow
 	{
+		protected override void OnStart()
+		{
+			Global.Logger.LogInfo(ToString() + " bgn");
+		}
+
+		protected override void OnTerminate()
+		{
+			Global.Logger.LogInfo(ToString() + " end");
+		}
+
 		protected override Flow OnUpdate()
 		{
 			// メインカメラ生成待ち 
@@ -26,19 +36,14 @@ namespace PluggableVR.SN2
 			var mng = VRManager.Instance;
 			mng.SetPlayer(player);
 
-			// レイヤ0が表示対象外になるので4に変更 
-			var layer = 4;
-			avatar.Head.layer = layer;
-			avatar.View.transform.Find("Neck").gameObject.layer = layer;
-			avatar.View.transform.Find("Shoulder").gameObject.layer = layer;
-			avatar.UpFromHead.layer = layer;
-			avatar.ForeFromHead.layer = layer;
-
 			// 元のカメラパラメータを反映 
 			var dc = player.Camera.GetComponent<Camera>();
 			dc.clearFlags = sc.clearFlags;
 			dc.cullingMask = sc.cullingMask;
-			dc.stereoTargetEye = StereoTargetEyeMask.None;
+			dc.farClipPlane = sc.farClipPlane;
+			dc.nearClipPlane = 0.1f;
+			// 変更不可らしい 
+//			dc.fieldOfView = sc.fieldOfView;
 
 			// 本来のメインカメラは無効化 
 			sc.enabled = false;

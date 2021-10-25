@@ -15,7 +15,14 @@ namespace PluggableVR.SN2
 
 		protected override void OnStart()
 		{
+			Global.Logger.LogInfo(ToString() + " bgn");
+
 			_cameraLoc = Loc.FromWorldTransform(Global.MainCamera.transform);
+		}
+
+		protected override void OnTerminate()
+		{
+			Global.Logger.LogInfo(ToString() + " end");
 		}
 
 		protected override Flow OnUpdate()

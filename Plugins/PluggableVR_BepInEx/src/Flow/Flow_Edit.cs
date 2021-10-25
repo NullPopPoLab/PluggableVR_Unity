@@ -5,6 +5,7 @@
 */
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using NullPopPoSpecial;
 
 namespace PluggableVR.SN2
@@ -16,9 +17,20 @@ namespace PluggableVR.SN2
 
 		protected override void OnStart()
 		{
+			Global.Logger.LogInfo(ToString()+" bgn");
+
 			// Unityシーンロードに連動する遷移 
-			_transit["StudioNotification"] = () => new Flow_SceneLoaded();
+			_transit["StudioSceneLoad"] = () =>
+			{
+				if (GameObject.Find("/SceneLoadScene") == null) return null;
+				return new Flow_SceneLoaded();
+			};
 			_transit["StudioCheck"] = () => new Flow_ScenePurging();
+		}
+
+		protected override void OnTerminate()
+		{
+			Global.Logger.LogInfo(ToString() + " end");
 		}
 
 		protected override Flow OnUpdate()

@@ -15,15 +15,27 @@ namespace PluggableVR.SN2
 
 		protected override void OnStart()
 		{
+			Global.Logger.LogInfo(ToString() + " bgn");
+
 			_cameraLoc = Loc.FromWorldTransform(Global.MainCamera.transform);
+		}
+
+		protected override void OnTerminate()
+		{
+			Global.Logger.LogInfo(ToString() + " end");
 		}
 
 		protected override Flow OnUpdate()
 		{
-			// メインカメラ位置変更を待って位置リセット 
-			var loc = Loc.FromWorldTransform(Global.MainCamera.transform);
-			if (loc.Pos == _cameraLoc.Pos && loc.Rot == _cameraLoc.Rot) return null;
+			// ロードせずに抜けたケースの検知 
+			var gobj = GameObject.Find("/SceneLoadScene");
+			if (gobj == null) return new Flow_Edit();
 
+			// ロード通知待ち 
+			if (Global.LastLoadedScene != "StudioNotification") return null;
+
+			// メインカメラ位置に移動 
+			var loc = Loc.FromWorldTransform(Global.MainCamera.transform);
 			VRManager.Instance.Reloc(loc);
 			return new Flow_Edit();
 		}
