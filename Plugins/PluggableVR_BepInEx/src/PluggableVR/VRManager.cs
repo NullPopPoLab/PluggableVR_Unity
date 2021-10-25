@@ -3,86 +3,112 @@
 	@author NullPopPoLab
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
-using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using NullPopPoSpecial;
 
 namespace PluggableVR
 {
+	//! VRシステム管理 
 	internal class VRManager : PlugCommon
 	{
+		internal static VRManager Instance;
+
+		internal bool IsReady { get; private set; }
+
+		//! ユーザ入力部 
 		internal static Input Input { get; private set; }
+		//! VR操作元 
+		internal VRPlayer Player { get; private set; }
+		//! VR操作先 
+		internal VRAvatar Avatar { get { return Player.Avatar; } }
 
-		internal VRController VRController { get; private set; }
-
-		private Camera _prevMainCamera;
-
-		private bool _enabled;
-		public bool Enabled
-		{
-			get { return _enabled; }
-			set
-			{
-				if (value != _enabled) return;
-				_enabled = value;
-				if (value)
-				{
-				}
-				else
-				{
-				}
-			}
-		}
+		//! 現在の手順遷移 
+		private Flow _curFlow;
 
 		internal VRManager()
 		{
+			Instance = this;
 		}
 
-		internal void Initialize()
+		//! 初期設定 
+		internal void Initialize(Flow flow)
 		{
+			if (IsReady) return;
+			IsReady = true;
+
 			Input = Oculus.Input.Setup();
 
 			OVRPlugin.rotation = true;
 			OVRPlugin.useIPDInPositionTracking = true;
+
+			Start(flow);
 		}
 
-		internal void SceneChanged(Scene scn)
+		//! 機能終了 
+		internal void Shutdown()
 		{
-			if (VRController != null) VRController.SceneChanged(scn);
+			if (!IsReady) return;
+			IsReady = false;
 		}
 
-		private void _switchVRController()
+		//! 遷移開始 
+		internal void Start(Flow flow)
 		{
-			// メインカメラが捕捉できないうちは何もしない 
-			var mc = Camera.main;
-			if (mc == null) return;
-
-			if (VRController == null)
-			{
-				// ここでVR操作開始可 
-				VRController = new VRController(mc);
-			}
-			else if (mc != _prevMainCamera)
-			{
-				// メインカメラ変更捕捉 
-				_prevMainCamera = mc;
-				VRController.MainCameraChanged(mc);
-			}
+			if (!IsReady) return;
+			if (_curFlow != null) return;
+			if (flow == null) return;
+			_curFlow = flow;
+			flow.Start();
 		}
 
+		//! プレイヤー設定 
+		internal void SetPlayer(VRPlayer player)
+		{
+			if (!IsReady) return;
+			Player = player;
+		}
+
+		//! 位置だけ変更 
+		internal void Repos(Vector3 pos)
+		{
+			if (!IsReady) return;
+			if (Player != null) Player.Repos(pos);
+		}
+
+		//! 向きだけ変更 
+		internal void Rerot(Quaternion rot)
+		{
+			if (!IsReady) return;
+			if (Player != null) Player.Rerot(rot);
+		}
+
+		//! 位置,向き変更 
+		internal void Reloc(Loc loc)
+		{
+			if (!IsReady) return;
+			if (Player != null) Player.Reloc(loc);
+		}
+
+		//! 物理フレーム毎の更新 
 		internal void FixedUpdate()
 		{
 			Input.FixedUpdate();
 		}
 
+		//! 描画フレーム毎の更新 
 		internal void Update()
 		{
+			if (!IsReady) return;
 			Input.Update();
+			if (Player != null) Player.Update();
 
-			_switchVRController();
-			if (VRController != null) VRController.Update();
+			if (_curFlow != null)
+			{
+				_curFlow = _curFlow.Update();
+			}
 		}
 
+		//! アニメーション処理後の更新 
 		internal void LateUpdate()
 		{
 			Input.LateUpdate();
