@@ -37,6 +37,14 @@ namespace PluggableVR.HS2
 			var mng = VRManager.Instance;
 			mng.SetPlayer(player);
 
+			// レイヤ0が表示対象外になるので4に変更 
+			var layer = 4;
+			avatar.Head.layer = layer;
+			avatar.View.transform.Find("Neck").gameObject.layer = layer;
+			avatar.View.transform.Find("Shoulder").gameObject.layer = layer;
+			avatar.UpFromHead.layer = layer;
+			avatar.ForeFromHead.layer = layer;
+
 			// 元のカメラパラメータを反映 
 			var dc = player.Camera.GetComponent<Camera>();
 			dc.clearFlags = sc.clearFlags;
