@@ -105,6 +105,14 @@ namespace NullPopPoSpecial
 			return t;
 		}
 
+		//! 位置に乗算 
+		public static Loc operator *(Loc dst, float src)
+		{
+			var t = dst;
+			t.Pos *= src;
+			return t;
+		}
+
 		//! 回転に加算 
 		public static Loc operator +(Loc dst, Quaternion src)
 		{
