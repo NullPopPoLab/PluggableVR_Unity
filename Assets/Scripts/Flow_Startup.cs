@@ -17,9 +17,10 @@ public class Flow_Startup : Flow
 		if (mc == null) return null;
 
 		// 操作開始 
+		var scale = 8.0f;
 		var loc = Loc.FromWorldTransform(mc.transform);
-		var avatar = new DemoAvatar(loc);
-		var player = new DemoPlayer(avatar);
+		var avatar = new DemoAvatar(loc,scale);
+		var player = new DemoPlayer(avatar,scale);
 
 		var mng = VRManager.Instance;
 		mng.SetPlayer(player);

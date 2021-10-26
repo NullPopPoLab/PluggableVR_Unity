@@ -25,7 +25,11 @@ namespace PluggableVR.SN2
 				if (GameObject.Find("/SceneLoadScene") == null) return null;
 				return new Flow_SceneLoaded();
 			};
-			_transit["StudioCheck"] = () => new Flow_ScenePurging();
+			_transit["StudioCheck"] = () =>
+			{
+				if (GameObject.Find("/StudioCheck") == null) return null;
+				return new Flow_ScenePurging();
+			};
 		}
 
 		protected override void OnTerminate()

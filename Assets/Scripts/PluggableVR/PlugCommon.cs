@@ -23,6 +23,7 @@ namespace PluggableVR
 		{
 			var obj = new GameObject(name);
 			obj.transform.SetParent(parent);
+			obj.transform.localScale = new Vector3(1, 1, 1);
 			if (world) loc.ToWorldTransform(obj.transform);
 			else loc.ToLocalTransform(obj.transform);
 			return obj;
@@ -44,6 +45,7 @@ namespace PluggableVR
 			var obj = GameObject.CreatePrimitive(type);
 			obj.name = name;
 			obj.transform.SetParent(parent);
+			obj.transform.localScale = new Vector3(1, 1, 1);
 			if (world) loc.ToWorldTransform(obj.transform);
 			else loc.ToLocalTransform(obj.transform);
 			if (!collision) GameObject.Destroy(obj.GetComponent<Collider>());

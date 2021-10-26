@@ -28,11 +28,11 @@ namespace PluggableVR.SN2
 			if (Global.MainCamera == null) return null;
 
 			// 操作開始 
+			var scale=8.0f;
 			var sc = Global.MainCamera;
 			var loc = Loc.FromWorldTransform(sc.transform);
-			var avatar = new DemoAvatar(loc);
-			var player = new DemoPlayer(avatar);
-			player.Rig.localScale = new Vector3(8,8,8);
+			var avatar = new DemoAvatar(loc,scale);
+			var player = new DemoPlayer(avatar,scale);
 
 			var mng = VRManager.Instance;
 			mng.SetPlayer(player);
@@ -50,6 +50,10 @@ namespace PluggableVR.SN2
 			sc.enabled = false;
 			var lsn = sc.GetComponent<AudioListener>();
 			if (lsn != null) lsn.enabled = false;
+
+			// 手の軸表示を消す 
+			avatar.LeftHand.SetActive(false);
+			avatar.RightHand.SetActive(false);
 
 			return new Flow_Edit();
 		}
