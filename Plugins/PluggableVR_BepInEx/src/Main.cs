@@ -7,9 +7,9 @@ using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
 using UnityEngine;
+using UnityEngine.XR;
 using UnityEngine.SceneManagement;
-using PluggableVR;
-using System;
+using NullPopPoSpecial;
 
 namespace PluggableVR.HS2
 {
@@ -18,13 +18,12 @@ namespace PluggableVR.HS2
     public class Main : BaseUnityPlugin
     {
 		public const string GUID = "com.nullpoppo.PluggableVR.HS2";
-		public const string VERSION = "0.0.2.0";
+		public const string VERSION = "0.0.3.0";
 
 		public static Main Instance;
-		public static bool Enabled{ get; private set; }
+		public static bool Enabled { get; private set; }
 
-		internal static BepInEx.Logging.ManualLogSource PlugLog { get; private set; }
-		internal static VRManager VRManager{ get; private set; }
+		private VRManager _vrmng;
 
 		private RelativeBool _push_rbtn2 = new RelativeBool();
 
@@ -32,12 +31,12 @@ namespace PluggableVR.HS2
 		{
 			Instance = this;
 
-			Enabled = UnityEngine.XR.XRSettings.enabled;
+			Enabled = XRSettings.enabled;
 			if (!Enabled) return;
 
-			PlugLog = Logger;
-			VRManager = new VRManager();
-			VRManager.Initialize();
+			Global.Logger = Logger;
+			_vrmng = new VRManager();
+			_vrmng.Initialize(new Flow_Startup());
 			Harmony.CreateAndPatchAll(typeof(Main));
 		}
 
@@ -57,27 +56,29 @@ namespace PluggableVR.HS2
 
 		private void _onSceneChanged(Scene scn, LoadSceneMode mode)
 		{
-			VRManager.SceneChanged(scn);
+//			Logger.LogInfo("Scene: "+scn.name);
+			Global.LastLoadedScene = scn.name;
+//			HierarchyDumper.Dumper.Dump2File("Hier_" + Paths.ProcessName, "Scene-"+scn.name);
 		}
 
 		protected void FixedUpdate()
 		{
 			if (!Enabled) return;
 
-			VRManager.FixedUpdate();
+			_vrmng.FixedUpdate();
 		}
 
 		protected void Update()
 		{
 			if (!Enabled) return;
 
-			VRManager.Update();
+			_vrmng.Update();
 
 			var inp = VRManager.Input;
 			_push_rbtn2.Update(inp.HandRight.IsButton2Pressed());
 			if (inp.HandLeft.IsButton2Pressed() && _push_rbtn2.Delta > 0)
 			{
-				Hierarchy.Dump2File("Hierarchy");
+				HierarchyDumper.Dumper.Dump2File("Hier_" + Paths.ProcessName);
 			}
 		}
 
@@ -85,7 +86,7 @@ namespace PluggableVR.HS2
 		{
 			if (!Enabled) return;
 
-			VRManager.LateUpdate();
+			_vrmng.LateUpdate();
 		}
     }
 }

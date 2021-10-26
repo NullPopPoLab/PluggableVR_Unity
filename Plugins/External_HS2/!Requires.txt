@@ -1,0 +1,18 @@
+﻿ハニーセレクト2+BepInEx5 インストールフォルダから
+
+HoneySelect2_Data/Managed/Assembly-CSharp.dll
+HoneySelect2_Data/Managed/UnityEngine.dll
+HoneySelect2_Data/Managed/UnityEngine.AnimationModule.dll
+HoneySelect2_Data/Managed/UnityEngine.AudioModule.dll
+HoneySelect2_Data/Managed/UnityEngine.CoreModule.dll
+HoneySelect2_Data/Managed/UnityEngine.JSONSerializeModule.dll
+HoneySelect2_Data/Managed/UnityEngine.PhysicsModule.dll
+HoneySelect2_Data/Managed/UnityEngine.UI.dll
+HoneySelect2_Data/Managed/UnityEngine.UIModule.dll
+HoneySelect2_Data/Managed/UnityEngine.VRModule.dll
+HoneySelect2_Data/Managed/UnityEngine.XRModule.dll
+BepInEx/core/BepInEx.dll
+BepInEx/core/0Harmony.dll
+
+を拾ってきて、ここに置く。
+絶対commit/push厳禁(特に前の方はプロプラ著作物)
