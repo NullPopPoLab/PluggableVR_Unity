@@ -27,7 +27,8 @@ namespace PluggableVR.HS2
 		{
 			base.OnUpdate();
 
-			if(CurScene!=Global.LastLoadedScene){
+			if (CurScene != Global.LastLoadedScene)
+			{
 				return new Flow_ADV_Start();
 			}
 			return null;
@@ -52,6 +53,10 @@ namespace PluggableVR.HS2
 		protected override Flow OnUpdate()
 		{
 			base.OnUpdate();
+
+			if (CameraLoc == Loc.FromWorldTransform(CameraRoot)) return null;
+			UpdateCameraParam();
+
 			return new Flow_ADV_Main();
 		}
 	}
