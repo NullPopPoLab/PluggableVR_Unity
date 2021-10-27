@@ -4,8 +4,10 @@
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
 using UnityEngine;
+using NullPopPoSpecial;
 using PluggableVR;
 using System;
+using System.Collections.Generic;
 
 namespace PluggableVR.HS2
 {
@@ -15,5 +17,6 @@ namespace PluggableVR.HS2
 		internal static string LastLoadedScene;
 
 		internal static Camera MainCamera;
+		internal static Dictionary<string, Func<Flow>> Transit = new Dictionary<string, Func<Flow>>();
 	}
 }

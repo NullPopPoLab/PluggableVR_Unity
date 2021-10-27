@@ -14,6 +14,13 @@ namespace PluggableVR.HS2
 		protected override void OnStart()
 		{
 			Global.Logger.LogInfo(ToString() + " bgn");
+
+			// Unityシーンロードに連動する遷移 
+			Global.Transit["ADV"] = () => new Flow_ADV_Prepare();
+//			Global.Transit["CharaCustom"] = () => new Flow_CharaCustom_Prepare();
+			Global.Transit["Home"] = () => new Flow_Home_Prepare();
+			Global.Transit["HScene"] = () => new Flow_HScene_Prepare();
+			Global.Transit["Title"] = () => new Flow_Title_Prepare();
 		}
 
 		protected override void OnTerminate()
@@ -45,27 +52,11 @@ namespace PluggableVR.HS2
 			avatar.UpFromHead.layer = layer;
 			avatar.ForeFromHead.layer = layer;
 
-			// 元のカメラパラメータを反映 
-			var dc = player.Camera.GetComponent<Camera>();
-			dc.clearFlags = sc.clearFlags;
-			dc.cullingMask = sc.cullingMask;
-			dc.farClipPlane = sc.farClipPlane;
-			dc.nearClipPlane = 0.1f;
-			// 変更不可らしい 
-//			dc.fieldOfView = sc.fieldOfView;
-
-			// 本来のメインカメラは無効化 
-			sc.enabled = false;
-			var lsn = sc.GetComponent<AudioListener>();
-			if (lsn != null) lsn.enabled = false;
-
 			// 手の軸表示を消す 
 			avatar.LeftHand.SetActive(false);
 			avatar.RightHand.SetActive(false);
 
-			Terminate();
-			return null;
-//			return new Flow_Edit();
+			return new Flow_Title_Prepare();
 		}
 	}
 }

@@ -77,7 +77,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\Flow\Flow_ADV.cs" />
+    <Compile Include="src\Flow\Flow_CharaCustom.cs" />
+    <Compile Include="src\Flow\Flow_Home.cs" />
+    <Compile Include="src\Flow\Flow_HScene.cs" />
     <Compile Include="src\Flow\Flow_Startup.cs" />
+    <Compile Include="src\Flow\Flow_Switch.cs" />
+    <Compile Include="src\Flow\Flow_Title.cs" />
     <Compile Include="src\Global.cs" />
     <Compile Include="src\Oculus\Composition\OVRCameraComposition.cs" />
     <Compile Include="src\Oculus\Composition\OVRComposition.cs" />

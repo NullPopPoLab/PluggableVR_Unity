@@ -56,9 +56,9 @@ namespace PluggableVR.HS2
 
 		private void _onSceneChanged(Scene scn, LoadSceneMode mode)
 		{
-//			Logger.LogInfo("Scene: "+scn.name);
+			Logger.LogInfo("Scene: "+scn.name);
 			Global.LastLoadedScene = scn.name;
-//			HierarchyDumper.Dumper.Dump2File("Hier_" + Paths.ProcessName, "Scene-"+scn.name);
+			HierarchyDumper.Dumper.Dump2File("Hier_" + Paths.ProcessName, "Scene-"+scn.name);
 		}
 
 		protected void FixedUpdate()
