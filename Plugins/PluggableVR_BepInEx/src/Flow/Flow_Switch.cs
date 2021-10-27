@@ -41,9 +41,11 @@ namespace PluggableVR.HS2
 
 		protected void UpdateCameraParam()
 		{
+			// メインカメラ位置に移動 
+			var sc = MainCamera;
+			VRManager.Instance.Reloc(Loc.FromWorldTransform(sc.transform));
 
 			// メインカメラのパラメータを反映 
-			var sc = MainCamera;
 			var dc = (VRManager.Instance.Player as DemoPlayer).Camera.GetComponent<Camera>();
 			dc.clearFlags = sc.clearFlags;
 			dc.cullingMask = sc.cullingMask;
@@ -58,7 +60,6 @@ namespace PluggableVR.HS2
 			//			var lsn = sc.GetComponent<AudioListener>();
 			//			if (lsn != null) lsn.enabled = false;
 		}
-
 	}
 
 	//! 手順遷移 シーン切り替え共通部 本体
