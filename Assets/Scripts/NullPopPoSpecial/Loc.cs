@@ -173,9 +173,9 @@ namespace NullPopPoSpecial
 		}
 
 		public static bool operator !=(Loc v1, Loc v2) {
-			if (v1.Pos != v2.Pos) return false;
-			if (v1.Rot != v2.Rot) return false;
-			return true;
+			if (v1.Pos != v2.Pos) return true;
+			if (v1.Rot != v2.Rot) return true;
+			return false;
 		}
 		public static bool operator ==(Loc v1, Loc v2) { return !(v1 != v2); }
 
