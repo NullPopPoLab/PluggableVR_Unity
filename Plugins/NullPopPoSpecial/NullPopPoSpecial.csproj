@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\ChangingCensor.cs" />
     <Compile Include="src\Cycle.cs" />
     <Compile Include="src\Flow.cs" />
     <Compile Include="src\Loc.cs" />

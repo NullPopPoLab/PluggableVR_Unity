@@ -11,12 +11,16 @@ namespace PluggableVR.HS2
 	//! 手順遷移 えっちシーン 
 	internal class Flow_HScene : Flow_Common
 	{
+		private Transform _camera;
+		private ChangingCensor<Loc> _cameraLoc;
+
 		protected override void OnStart()
 		{
 			Global.Logger.LogInfo(ToString() + " bgn");
 			base.OnStart();
 
-			UpdateCameraParam(4);
+			_camera = GameObject.Find("/HCamera").transform;
+			_cameraLoc = new ChangingCensor<Loc>(Loc.FromWorldTransform(_camera));
 		}
 
 		protected override void OnTerminate()
@@ -29,9 +33,11 @@ namespace PluggableVR.HS2
 		{
 			base.OnUpdate();
 
-			if (!LastLoadedScene.Update(Global.LastLoadedScene)) return null;
+			if (!_cameraLoc.Update(Loc.FromWorldTransform(_camera))) return null;
+			return new Flow_HScene_Main();
 
-			return new Flow_Delay(new Flow_HScene_Main());
+//			if (!LastLoadedScene.Update(Global.LastLoadedScene)) return null;
+//			return new Flow_Delay(new Flow_HScene_Main());
 		}
 	}
 

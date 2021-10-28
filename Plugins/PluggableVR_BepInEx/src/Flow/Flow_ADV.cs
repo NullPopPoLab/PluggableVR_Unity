@@ -29,7 +29,11 @@ namespace PluggableVR.HS2
 
 			if (!LastLoadedScene.Update(Global.LastLoadedScene)) return null;
 
-			return new Flow_Delay(new Flow_ADV_Main());
+			var mc = GameObject.Find("/ADVMainScene/ADVScene(Clone)/BasePosition/Cameras/Main Camera");
+			if (mc == null) return null;
+			return new Flow_ADV_Main();
+
+//			return new Flow_Delay(new Flow_ADV_Main());
 		}
 	}
 
@@ -44,8 +48,7 @@ namespace PluggableVR.HS2
 			base.OnStart();
 
 			// Camera構造が通常と違う 
-			var cb = GameObject.Find("/ADVMainScene/ADVScene(Clone)/BasePosition/Cameras").transform;
-			_mainCamera = cb.Find("Main Camera").GetComponent<Camera>();
+			_mainCamera = GameObject.Find("/ADVMainScene/ADVScene(Clone)/BasePosition/Cameras/Main Camera").GetComponent<Camera>();
 
 			UpdateCameraParam(4,_mainCamera);
 		}
