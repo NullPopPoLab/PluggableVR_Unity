@@ -16,7 +16,6 @@ namespace PluggableVR.HS2
 		internal static BepInEx.Logging.ManualLogSource Logger;
 		internal static string LastLoadedScene;
 
-		internal static Camera MainCamera;
 		internal static Dictionary<string, Func<Flow>> Transit = new Dictionary<string, Func<Flow>>();
 	}
 }

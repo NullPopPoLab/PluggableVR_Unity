@@ -8,8 +8,8 @@ using NullPopPoSpecial;
 
 namespace PluggableVR.HS2
 {
-	//! 手順遷移 ホームシーン 準備 
-	public class Flow_Home_Prepare : Flow_Switch_Prepare
+	//! 手順遷移 ホームシーン 
+	internal class Flow_Home : Flow_Common
 	{
 		protected override void OnStart()
 		{
@@ -27,53 +27,33 @@ namespace PluggableVR.HS2
 		{
 			base.OnUpdate();
 
-			if (CurScene != Global.LastLoadedScene)
-			{
-				return new Flow_Home_Start();
-			}
-			return null;
-		}
-	}
+			if (!LastLoadedScene.Update(Global.LastLoadedScene)) return null;
 
-	//! 手順遷移 ホームシーン 開始 
-	public class Flow_Home_Start : Flow_Switch_Start
-	{
-		protected override void OnStart()
-		{
-			Global.Logger.LogInfo(ToString() + " bgn");
-			base.OnStart();
-		}
-
-		protected override void OnTerminate()
-		{
-			Global.Logger.LogInfo(ToString() + " end");
-			base.OnTerminate();
-		}
-
-		protected override Flow OnUpdate()
-		{
-			base.OnUpdate();
-
-			if (CameraLoc == Loc.FromWorldTransform(CameraRoot)) return null;
-			UpdateCameraParam();
-
-			return new Flow_Home_Main();
+			return new Flow_Delay(new Flow_Home_Main());
 		}
 	}
 
 	//! 手順遷移 ホームシーン 本体 
-	public class Flow_Home_Main : Flow_Switch_Main
+	internal class Flow_Home_Main : Flow_Common
 	{
 		protected override void OnStart()
 		{
 			Global.Logger.LogInfo(ToString() + " bgn");
 			base.OnStart();
+
+			UpdateCameraParam(4);
 		}
 
 		protected override void OnTerminate()
 		{
 			Global.Logger.LogInfo(ToString() + " end");
 			base.OnTerminate();
+		}
+
+		protected override Flow OnUpdate()
+		{
+			base.OnUpdate();
+			return StepScene();
 		}
 	}
 }

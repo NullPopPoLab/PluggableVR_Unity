@@ -8,8 +8,8 @@ using NullPopPoSpecial;
 
 namespace PluggableVR.HS2
 {
-	//! 手順遷移 会話シーン 準備 
-	public class Flow_ADV_Prepare : Flow_Switch_Prepare
+	//! 手順遷移 会話シーン 
+	internal class Flow_ADV : Flow_Common
 	{
 		protected override void OnStart()
 		{
@@ -27,53 +27,39 @@ namespace PluggableVR.HS2
 		{
 			base.OnUpdate();
 
-			if (CurScene != Global.LastLoadedScene)
-			{
-				return new Flow_ADV_Start();
-			}
-			return null;
-		}
-	}
+			if (!LastLoadedScene.Update(Global.LastLoadedScene)) return null;
 
-	//! 手順遷移 会話シーン 開始 
-	public class Flow_ADV_Start : Flow_Switch_Start
-	{
-		protected override void OnStart()
-		{
-			Global.Logger.LogInfo(ToString() + " bgn");
-			base.OnStart();
-		}
-
-		protected override void OnTerminate()
-		{
-			Global.Logger.LogInfo(ToString() + " end");
-			base.OnTerminate();
-		}
-
-		protected override Flow OnUpdate()
-		{
-			base.OnUpdate();
-
-			if (CameraLoc == Loc.FromWorldTransform(CameraRoot)) return null;
-			UpdateCameraParam();
-
-			return new Flow_ADV_Main();
+			return new Flow_Delay(new Flow_ADV_Main());
 		}
 	}
 
 	//! 手順遷移 会話シーン 本体 
-	public class Flow_ADV_Main : Flow_Switch_Main
+	internal class Flow_ADV_Main : Flow_Common
 	{
+		private Camera _mainCamera;
+
 		protected override void OnStart()
 		{
 			Global.Logger.LogInfo(ToString() + " bgn");
 			base.OnStart();
+
+			// Camera構造が通常と違う 
+			var cb = GameObject.Find("/ADVMainScene/ADVScene(Clone)/BasePosition/Cameras").transform;
+			_mainCamera = cb.Find("Main Camera").GetComponent<Camera>();
+
+			UpdateCameraParam(4,_mainCamera);
 		}
 
 		protected override void OnTerminate()
 		{
 			Global.Logger.LogInfo(ToString() + " end");
 			base.OnTerminate();
+		}
+
+		protected override Flow OnUpdate()
+		{
+			base.OnUpdate();
+			return StepScene();
 		}
 	}
 }
