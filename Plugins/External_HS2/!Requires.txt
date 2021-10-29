@@ -1,6 +1,8 @@
 ﻿ハニーセレクト2+BepInEx5 インストールフォルダから
 
 HoneySelect2_Data/Managed/Assembly-CSharp.dll
+HoneySelect2_Data/Managed/Assembly-CSharp-firstpass.dll
+HoneySelect2_Data/Managed/Unity.Postprocessing.Runtime.dll
 HoneySelect2_Data/Managed/UnityEngine.dll
 HoneySelect2_Data/Managed/UnityEngine.AnimationModule.dll
 HoneySelect2_Data/Managed/UnityEngine.AudioModule.dll

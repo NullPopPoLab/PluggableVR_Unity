@@ -55,6 +55,30 @@ namespace PluggableVR.HS2
 			avatar.ForeFromHead.layer = layer;
 		}
 
+		//! カメラのコンポーネント移設 
+		internal void Possess<T>(Camera sc=null) where T:Behaviour
+		{
+			if (sc == null) sc = Camera.Camera;
+			if (sc == null) return;
+			var dc = (VRManager.Instance.Player as DemoPlayer).Camera;
+			ComponentUt.Possess(sc.gameObject.GetComponent<T>(), dc.gameObject);
+		}
+
+		//! カメラのコンポーネント除去 
+		internal void Remove<T>() where T : Component
+		{
+			var dc = (VRManager.Instance.Player as DemoPlayer).Camera;
+			GameObject.Destroy(dc.gameObject.GetComponent<T>());
+		}
+
+		//! 元カメラのコンポーネント無効化 
+		internal void Suppress<T>(Camera sc = null) where T : Behaviour
+		{
+			if (sc == null) sc = Camera.Camera;
+			if (sc == null) return;
+			sc.gameObject.GetComponent<T>().enabled = false;
+		}
+
 		//! 通常のシーン切り替え遷移 
 		internal Flow StepScene(){
 

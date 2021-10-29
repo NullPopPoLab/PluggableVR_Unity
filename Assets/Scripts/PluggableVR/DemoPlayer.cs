@@ -37,7 +37,6 @@ namespace PluggableVR
 			cam.nearClipPlane = 0.01f;
 			Camera.gameObject.AddComponent<AudioListener>();
 
-
 			Avatar = target;
 			_ctrl = Avatar.CreateControl();
 			ResetRig();
@@ -93,18 +92,22 @@ namespace PluggableVR
 			}
 			else _elevating = false;
 
-			// スティック回転 
 			if (stk2)
 			{
+				// スティック回転 
 				var tilt = inp.HandSecondary.GetStickTilting();
 				var dr = RotUt.RotY(90.0f * Mathf.Deg2Rad * tilt.x * Time.deltaTime);
 				var pp = _ctrl.WorldPivot.Pos;
 				_ctrl.Origin.Rot *= dr;
 				_ctrl.Origin.Rot = RotUt.ReturnY(_ctrl.Origin.Rot);
 				_ctrl.Origin.Pos -= _ctrl.WorldPivot.Pos - pp;
+
+				// Avatar前後軸方向のスティック移動 
+				var m = RotUt.AxisZ(Avatar.Eye.rotation) * tilt.y * Time.deltaTime;
+				_ctrl.Origin.Pos += m * Scale;
 			}
 
-			// スティック移動 
+			// 地面に平行なスティック移動 
 			if (stk1)
 			{
 				// スティック倒し状態 

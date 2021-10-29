@@ -49,11 +49,21 @@ namespace PluggableVR.HS2
 
 			UpdateCameraParam(10, _mainCamera);
 			_coordCamera.cullingMask = 0;
+			Possess<UnityEngine.Rendering.PostProcessing.PostProcessLayer>(_mainCamera);
+			Possess<GameScreenShot>(_mainCamera);
+			Possess<UnityEngine.EventSystems.PhysicsRaycaster>(_mainCamera);
+			Possess<CharaCustom.CustomRender>(_mainCamera);
 		}
 
 		protected override void OnTerminate()
 		{
 			Global.Logger.LogInfo(ToString() + " end");
+
+			Remove<UnityEngine.Rendering.PostProcessing.PostProcessLayer>();
+			Remove<GameScreenShot>();
+			Remove<UnityEngine.EventSystems.PhysicsRaycaster>();
+			Remove<CharaCustom.CustomRender>();
+
 			base.OnTerminate();
 		}
 

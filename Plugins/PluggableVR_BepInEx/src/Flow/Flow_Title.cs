@@ -42,11 +42,29 @@ namespace PluggableVR.HS2
 			base.OnStart();
 
 			UpdateCameraParam(4);
+			Possess<UnityEngine.Rendering.PostProcessing.PostProcessLayer>();
+			Possess<CameraEffector.ConfigEffectorWet>();
+			Possess<GameScreenShot>();
+			Possess<UnityStandardAssets.ImageEffects.GlobalFog>();
+//			Possess<UnityStandardAssets.ImageEffects.DepthOfField>();
+			Possess<UnityStandardAssets.ImageEffects.SunShafts>();
+			Possess<CrossFade>();
+
+			Suppress<UnityStandardAssets.ImageEffects.DepthOfField>();
 		}
 
 		protected override void OnTerminate()
 		{
 			Global.Logger.LogInfo(ToString() + " end");
+
+			Remove<UnityEngine.Rendering.PostProcessing.PostProcessLayer>();
+			Remove<CameraEffector.ConfigEffectorWet>();
+			Remove<GameScreenShot>();
+			Remove<UnityStandardAssets.ImageEffects.GlobalFog>();
+//			Remove<UnityStandardAssets.ImageEffects.DepthOfField>();
+			Remove<UnityStandardAssets.ImageEffects.SunShafts>();
+			Remove<CrossFade>();
+
 			base.OnTerminate();
 		}
 

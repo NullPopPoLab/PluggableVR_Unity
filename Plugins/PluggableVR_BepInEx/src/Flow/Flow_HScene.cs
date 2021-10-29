@@ -56,11 +56,36 @@ namespace PluggableVR.HS2
 			_mainCamera = cb.Find("Main Camera").GetComponent<Camera>();
 
 			UpdateCameraParam(4, _mainCamera);
+			Possess<UnityEngine.Rendering.PostProcessing.PostProcessLayer>(_mainCamera);
+			Possess<CrossFade>(_mainCamera);
+			Possess<Obi.ObiFluidRenderer>(_mainCamera);
+//			Possess<UnityStandardAssets.ImageEffects.DepthOfField>(_mainCamera);
+			Possess<UnityStandardAssets.ImageEffects.GlobalFog>(_mainCamera);
+			Possess<UnityStandardAssets.ImageEffects.SunShafts>(_mainCamera);
+//			Possess<ScreenEffect>(_mainCamera);
+			Possess<CameraEffector.ConfigEffectorWet>(_mainCamera);
+			Possess<PlaceholderSoftware.WetStuff.WetStuff>(_mainCamera);
+			Possess<GameScreenShotAssist>(_mainCamera);
+
+			Suppress<UnityStandardAssets.ImageEffects.DepthOfField>(_mainCamera);
+			Suppress<ScreenEffect>(_mainCamera);
 		}
 
 		protected override void OnTerminate()
 		{
 			Global.Logger.LogInfo(ToString() + " end");
+
+			Remove<UnityEngine.Rendering.PostProcessing.PostProcessLayer>();
+			Remove<CrossFade>();
+			Remove<Obi.ObiFluidRenderer>();
+//			Remove<UnityStandardAssets.ImageEffects.DepthOfField>();
+			Remove<UnityStandardAssets.ImageEffects.GlobalFog>();
+			Remove<UnityStandardAssets.ImageEffects.SunShafts>();
+//			Remove<ScreenEffect>();
+			Remove<CameraEffector.ConfigEffectorWet>();
+			Remove<PlaceholderSoftware.WetStuff.WetStuff>();
+			Remove<GameScreenShotAssist>();
+
 			base.OnTerminate();
 		}
 

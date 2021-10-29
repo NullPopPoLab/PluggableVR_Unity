@@ -51,11 +51,27 @@ namespace PluggableVR.HS2
 			_mainCamera = GameObject.Find("/ADVMainScene/ADVScene(Clone)/BasePosition/Cameras/Main Camera").GetComponent<Camera>();
 
 			UpdateCameraParam(4,_mainCamera);
+			Possess<UnityEngine.Rendering.PostProcessing.PostProcessLayer>(_mainCamera);
+			Possess<UnityStandardAssets.ImageEffects.GlobalFog>(_mainCamera);
+//			Possess<UnityStandardAssets.ImageEffects.DepthOfField>(_mainCamera);
+			Possess<UnityStandardAssets.ImageEffects.SunShafts>(_mainCamera);
+			Possess<PlaceholderSoftware.WetStuff.WetStuff>(_mainCamera);
+			Possess<CameraEffector.ConfigEffectorWet>(_mainCamera);
+
+			Suppress<UnityStandardAssets.ImageEffects.DepthOfField>(_mainCamera);
 		}
 
 		protected override void OnTerminate()
 		{
 			Global.Logger.LogInfo(ToString() + " end");
+
+			Remove<UnityEngine.Rendering.PostProcessing.PostProcessLayer>();
+			Remove<UnityStandardAssets.ImageEffects.GlobalFog>();
+//			Remove<UnityStandardAssets.ImageEffects.DepthOfField>();
+			Remove<UnityStandardAssets.ImageEffects.SunShafts>();
+			Remove<PlaceholderSoftware.WetStuff.WetStuff>();
+			Remove<CameraEffector.ConfigEffectorWet>();
+
 			base.OnTerminate();
 		}
 
