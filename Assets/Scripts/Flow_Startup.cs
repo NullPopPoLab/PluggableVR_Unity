@@ -33,7 +33,7 @@ public class Flow_Startup : Flow
 
 		// メインカメラに連動するコンポーネント移設 
 		var dc = player.Camera.gameObject;
-		ComponentUt.Posess(mc.GetComponent<FlareLayer>(), dc);
+		ComponentUt.Possess(mc.GetComponent<FlareLayer>(), dc);
 
 		// 遷移終了 
 		Terminate();

@@ -46,7 +46,7 @@ namespace NullPopPoSpecial
 		}
 
 		//! コンポーネントをコピーし、コピー元は非稼働とする 
-		public static T Posess<T>(T src, GameObject target) where T : Behaviour
+		public static T Possess<T>(T src, GameObject target) where T : Behaviour
 		{
 			var dst = Copy(src, target);
 			src.enabled = false;
