@@ -31,7 +31,10 @@ namespace HierarchyDumper
 		{
 			if (v == null) return "None";
 			var t = v.GetType();
-			return "<" + v.GetInstanceID() + "> " + t.Namespace + "." + t.Name;
+			var n = t.Name;
+			if (t.Namespace != "") n = t.Namespace + "." + n;
+			if (t.Module != null) n += " (" + t.Module + ")";
+			return "<" + v.GetInstanceID() + "> " + n;
 		}
 	}
 }
