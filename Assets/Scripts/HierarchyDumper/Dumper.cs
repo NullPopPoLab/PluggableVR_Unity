@@ -52,7 +52,7 @@ namespace HierarchyDumper
 			string path;
 			do
 			{
-				path = prefix + DateTime.Now.ToString("_yyymmdd_HHmmss_fff");
+				path = prefix + DateTime.Now.ToString("_yyMMdd_HHmmss_fff");
 				if (suffix != "") path += "_" + suffix;
 				path += ".log";
 			} while (File.Exists(path));
