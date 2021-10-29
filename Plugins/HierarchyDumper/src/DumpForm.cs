@@ -29,8 +29,9 @@ namespace HierarchyDumper
 
 		public static string From(Object v)
 		{
-			if(v==null)return "None";
-			return "<" + v.GetInstanceID() + "> " + v.GetType().Name;
+			if (v == null) return "None";
+			var t = v.GetType();
+			return "<" + v.GetInstanceID() + "> " + t.Namespace + "." + t.Name;
 		}
 	}
 }
