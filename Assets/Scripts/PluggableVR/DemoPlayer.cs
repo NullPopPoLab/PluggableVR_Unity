@@ -11,7 +11,7 @@ namespace PluggableVR
 	//! デモ用VR操作元 
 	internal class DemoPlayer : VRPlayer
 	{
-		internal float Scale{ get; private set; }
+		internal float Scale { get; private set; }
 		internal Transform Rig { get; private set; }
 		internal Transform Camera { get; private set; }
 		internal new DemoAvatar Avatar { get { return base.Avatar as DemoAvatar; } set { base.Avatar = value; } }
@@ -22,7 +22,7 @@ namespace PluggableVR
 		private bool _elevating = false;
 		private RelativeBool _push_pstk = new RelativeBool();
 
-		internal DemoPlayer(DemoAvatar target, float scale=1.0f)
+		internal DemoPlayer(DemoAvatar target, float scale = 1.0f)
 		{
 			Scale = scale;
 
@@ -30,7 +30,7 @@ namespace PluggableVR
 			root.localScale = new Vector3(scale, scale, scale);
 			GameObject.DontDestroyOnLoad(root.gameObject);
 
-			Rig = CreateChildObject("VRPlayer",root, Loc.FromWorldTransform(target.Eye),false).transform;
+			Rig = CreateChildObject("VRPlayer", root, Loc.FromWorldTransform(target.Eye), false).transform;
 			Camera = CreateChildObject("VRCamera", Rig, Loc.Identity, false).transform;
 
 			var cam = Camera.gameObject.AddComponent<Camera>();
@@ -77,9 +77,7 @@ namespace PluggableVR
 			{
 				if (!(stk1 || stk2))
 				{
-					_sticking = false;
-					ResetRig();
-					Avatar.View.gameObject.SetActive(false);
+					_resetControl();
 				}
 			}
 
@@ -132,9 +130,9 @@ namespace PluggableVR
 
 			// アバター位置反映 
 			var ofs = _ctrl.Origin * _offset;
-			_ctrl.WorldEye = ofs * (inp.Head.GetEyeTracking()*Scale);
-			_ctrl.WorldLeftHand = ofs * (inp.HandLeft.GetHandTracking()*Scale);
-			_ctrl.WorldRightHand = ofs * (inp.HandRight.GetHandTracking()*Scale);
+			_ctrl.WorldEye = ofs * (inp.Head.GetEyeTracking() * Scale);
+			_ctrl.WorldLeftHand = ofs * (inp.HandLeft.GetHandTracking() * Scale);
+			_ctrl.WorldRightHand = ofs * (inp.HandRight.GetHandTracking() * Scale);
 
 			// アバター頭位置 
 			var ahd = _ctrl.WorldEye * new Loc(new Vector3(0, 0, -DemoAvatar.HeadToEye), Quaternion.identity);
@@ -195,6 +193,7 @@ namespace PluggableVR
 		{
 			// 操作対象の目向きからの差分をOriginに反映 
 			// ただしY軸を真上に戻す 
+			rot=RotUt.ReturnY(rot);
 			_ctrl.Origin.Rot *= Quaternion.Inverse(RotUt.ReturnY(_ctrl.WorldEye.Rot)) * RotUt.ReturnY(rot);
 			_ctrl.Origin.Rot = RotUt.ReturnY(_ctrl.Origin.Rot);
 
@@ -206,6 +205,7 @@ namespace PluggableVR
 		{
 			// 操作対象の目位置からの差分をOriginに反映 
 			// ただしY軸を真上に戻す 
+			loc.Rot=RotUt.ReturnY(loc.Rot);
 			_ctrl.Origin *= _ctrl.WorldEye.Inversed * loc;
 			_ctrl.Origin.Rot = RotUt.ReturnY(_ctrl.Origin.Rot);
 
