@@ -4,7 +4,7 @@
 	@sa https://github.com/NullPopPoLab/Dumper_Unity
 */
 using UnityEngine;
-using System.Collections.Generic;
+using System;
 
 namespace HierarchyDumper
 {
@@ -27,12 +27,12 @@ namespace HierarchyDumper
 			return "(" + From(v.x) + "," + From(v.y) + "," + From(v.z) + ")";
 		}
 
-		public static string From(Object v)
+		public static string From(UnityEngine.Object v)
 		{
 			if (v == null) return "None";
 			var t = v.GetType();
 			var n = t.Name;
-			if (t.Namespace != "") n = t.Namespace + "." + n;
+			if (!String.IsNullOrEmpty(t.Namespace)) n = t.Namespace + "." + n;
 			if (t.Module != null) n += " (" + t.Module + ")";
 			return "<" + v.GetInstanceID() + "> " + n;
 		}
