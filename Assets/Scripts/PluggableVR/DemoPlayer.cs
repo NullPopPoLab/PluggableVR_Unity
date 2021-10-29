@@ -37,7 +37,6 @@ namespace PluggableVR
 			cam.nearClipPlane = 0.01f;
 			Camera.gameObject.AddComponent<AudioListener>();
 
-
 			Avatar = target;
 			_ctrl = Avatar.CreateControl();
 			ResetRig();

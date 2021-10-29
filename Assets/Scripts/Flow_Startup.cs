@@ -31,6 +31,10 @@ public class Flow_Startup : Flow
 		var lsn = mc.GetComponent<AudioListener>();
 		if (lsn != null) lsn.enabled = false;
 
+		// メインカメラに連動するコンポーネント移設 
+		var dc = player.Camera.gameObject;
+		ComponentUt.Posess(mc.GetComponent<FlareLayer>(), dc);
+
 		// 遷移終了 
 		Terminate();
 		return null;
