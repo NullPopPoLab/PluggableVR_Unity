@@ -63,6 +63,10 @@ namespace PluggableVR
 			Source = src;
 			if (src == null) return;
 
+			Target.clearFlags = Source.clearFlags;
+			Target.cullingMask = Source.cullingMask;
+			Target.farClipPlane = Source.farClipPlane;
+
 			// 元のメインカメラに対する措置 
 			switch (SourceMode)
 			{
@@ -71,6 +75,7 @@ namespace PluggableVR
 					break;
 
 				case ESourceMode.Blind:
+					Source.clearFlags = CameraClearFlags.Nothing;
 					Source.cullingMask = 0;
 					break;
 			}
@@ -92,7 +97,7 @@ namespace PluggableVR
 		}
 
 		//! 元カメラの Component 移設 
-		public void Posess<T>() where T : Behaviour
+		public void Possess<T>() where T : Behaviour
 		{
 			if (Source == null) return;
 
