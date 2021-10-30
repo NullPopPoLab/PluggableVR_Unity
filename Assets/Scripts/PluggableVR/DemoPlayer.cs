@@ -13,7 +13,6 @@ namespace PluggableVR
 	{
 		internal float Scale { get; private set; }
 		internal Transform Rig { get; private set; }
-		internal Transform Camera { get; private set; }
 		internal new DemoAvatar Avatar { get { return base.Avatar as DemoAvatar; } set { base.Avatar = value; } }
 
 		private DemoControl _ctrl;
@@ -31,11 +30,7 @@ namespace PluggableVR
 			GameObject.DontDestroyOnLoad(root.gameObject);
 
 			Rig = CreateChildObject("VRPlayer", root, Loc.FromWorldTransform(target.Eye), false).transform;
-			Camera = CreateChildObject("VRCamera", Rig, Loc.Identity, false).transform;
-
-			var cam = Camera.gameObject.AddComponent<Camera>();
-			cam.nearClipPlane = 0.01f;
-			Camera.gameObject.AddComponent<AudioListener>();
+			Camera = new VRCamera(Rig);
 
 			Avatar = target;
 			_ctrl = Avatar.CreateControl();
@@ -113,7 +108,7 @@ namespace PluggableVR
 				// スティック倒し状態 
 				var tilt = inp.HandPrimary.GetStickTilting();
 				// zx平面上のy軸2D回転 
-				var dir = RotUt.PlaneZX(Camera.rotation);
+				var dir = RotUt.PlaneZX(Camera.Transform.rotation);
 				if (_elevating)
 				{
 					// スティックy方向はy軸と一致 
@@ -154,7 +149,7 @@ namespace PluggableVR
 			var inp = VRManager.Input;
 
 			// カメラ位置 
-			var ce = Loc.FromWorldTransform(Camera);
+			var ce = Loc.FromWorldTransform(Camera.Transform);
 			// トラッキング位置 
 			var re = inp.Head.GetEyeTracking();
 			// 操作対象の目位置 

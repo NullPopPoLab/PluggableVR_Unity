@@ -25,15 +25,15 @@ public class Flow_Startup : Flow
 		var mng = VRManager.Instance;
 		mng.SetPlayer(player);
 
-		// 本来のメインカメラは無効化 
-		var cam = mc.GetComponent<Camera>();
-		if (cam != null) cam.enabled = false;
-		var lsn = mc.GetComponent<AudioListener>();
-		if (lsn != null) lsn.enabled = false;
+		// カメラ設定 
+		player.Camera.Reset(mc);
+		avatar.SetLayer(0);
 
-		// メインカメラに連動するコンポーネント移設 
-		var dc = player.Camera.gameObject;
-		ComponentUt.Possess(mc.GetComponent<FlareLayer>(), dc);
+		// カメラに連動するコンポーネント移設 
+		// 移設先で生成されたコンポーネントが Awake() を呼ばないように一旦Active外しとく 
+		player.Camera.Active = false;
+		player.Camera.Posess<FlareLayer>();
+		player.Camera.Active = true;
 
 		// 遷移終了 
 		Terminate();

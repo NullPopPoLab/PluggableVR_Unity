@@ -117,6 +117,15 @@ namespace PluggableVR
 			}
 		}
 
+		protected override void OnChangeLayer(int layer) {
+
+			Head.layer = layer;
+			View.transform.Find("Neck").gameObject.layer = layer;
+			View.transform.Find("Shoulder").gameObject.layer = layer;
+			UpFromHead.layer = layer;
+			ForeFromHead.layer = layer;
+		}
+
 		//! 操作構造生成 
 		/*!	@note 位置参照の正確性および書き込み手順の正当性を確保するため、
 				直接transformへのアクセスをさせるべきではない。

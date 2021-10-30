@@ -11,6 +11,9 @@ namespace PluggableVR
 	//! VR操作元 
 	public class VRPlayer : PlugCommon
 	{
+		//! カメラ 
+		public VRCamera Camera { get; protected set; }
+		//! 操作先 
 		public VRAvatar Avatar { get; protected set; }
 
 		public VRPlayer()
