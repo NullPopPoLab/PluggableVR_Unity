@@ -92,7 +92,7 @@ namespace PluggableVR
 		}
 
 		//! 元カメラの Component 移設 
-		public void Posess<T>() where T : Behaviour
+		public void Possess<T>() where T : Behaviour
 		{
 			if (Source == null) return;
 
