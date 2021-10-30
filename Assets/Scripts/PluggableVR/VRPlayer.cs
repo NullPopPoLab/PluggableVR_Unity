@@ -24,6 +24,11 @@ namespace PluggableVR
 		public void Rerot(Quaternion rot) { OnRerot(rot); }
 		public void Reloc(Loc loc) { OnReloc(loc); }
 
+		public void SetCamera(Camera cam) {
+			Camera.Reset(cam);
+			Reloc(Loc.FromWorldTransform(cam.transform)); 
+		}
+
 		protected virtual void OnUpdate() { }
 		protected virtual void OnRepos(Vector3 pos) { }
 		protected virtual void OnRerot(Quaternion rot) { }
