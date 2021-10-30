@@ -12,6 +12,13 @@ namespace PluggableVR
 	//! VRカメラ管理 
 	public class VRCamera : PlugCommon
 	{
+		public enum ESourceMode
+		{
+			Disabled, //!< 元カメラは無効化 
+			Blind, //!< 元カメラの可視対象を全て外す 
+		}
+
+		public ESourceMode SourceMode;
 		public Camera Target { get; private set; }
 		public Camera Source { get; private set; }
 
@@ -39,6 +46,8 @@ namespace PluggableVR
 
 		public VRCamera(Transform rig)
 		{
+			SourceMode = ESourceMode.Disabled;
+
 			var obj = CreateChildObject("VRCamera", rig, Loc.Identity, false);
 			Target = obj.AddComponent<Camera>();
 			Target.nearClipPlane = 0.01f;
@@ -54,8 +63,18 @@ namespace PluggableVR
 			Source = src;
 			if (src == null) return;
 
-			// 元のメインカメラは無効化 
-			Source.enabled = false;
+			// 元のメインカメラに対する措置 
+			switch (SourceMode)
+			{
+				case ESourceMode.Disabled:
+					Source.enabled = false;
+					break;
+
+				case ESourceMode.Blind:
+					Source.cullingMask = 0;
+					break;
+			}
+
 			var lsn = src.GetComponent<AudioListener>();
 			if (lsn != null) lsn.enabled = false;
 		}
