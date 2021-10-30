@@ -21,7 +21,19 @@ namespace PluggableVR.HS2
 			Global.Transit["CharaCustom"] = () => new Flow_CharaCustom();
 			Global.Transit["Home"] = () => new Flow_Home();
 			Global.Transit["HScene"] = () => new Flow_HScene();
+			Global.Transit["LobbyScene"] = () => new Flow_LobbyScene();
 			Global.Transit["Title"] = () => new Flow_Title();
+
+			// VR初期設定 
+			var scale = 8.0f;
+			var avatar = new DemoAvatar(Loc.Identity, scale);
+			var player = new DemoPlayer(avatar, scale);
+			player.Camera.SourceMode = VRCamera.ESourceMode.Blind;
+			VRManager.Instance.SetPlayer(player);
+
+			// 手の軸表示を消す 
+			avatar.LeftHand.SetActive(false);
+			avatar.RightHand.SetActive(false);
 		}
 
 		protected override void OnTerminate()
@@ -34,25 +46,10 @@ namespace PluggableVR.HS2
 		{
 			base.OnUpdate();
 
-			// メインカメラ生成待ち 
-			Camera.Update();
-			if (Camera.Camera == null) return null;
+			// タイトル画面遷移待ち 
+			if (Global.LastLoadedScene != "Logo") return null;
 
-			// 操作開始 
-			var scale = 8.0f;
-			var sc = Camera.Camera;
-			var loc = Loc.FromWorldTransform(sc.transform);
-			var avatar = new DemoAvatar(loc, scale);
-			var player = new DemoPlayer(avatar, scale);
-
-			var mng = VRManager.Instance;
-			mng.SetPlayer(player);
-
-			// 手の軸表示を消す 
-			avatar.LeftHand.SetActive(false);
-			avatar.RightHand.SetActive(false);
-
-			return new Flow_Title();
+			return new Flow_Delay(new Flow_Init());
 		}
 	}
 }

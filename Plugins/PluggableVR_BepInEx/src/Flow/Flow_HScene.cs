@@ -33,6 +33,7 @@ namespace PluggableVR.HS2
 		{
 			base.OnUpdate();
 
+			// カメラ位置設定待ち 
 			if (!_cameraLoc.Update(Loc.FromWorldTransform(_camera))) return null;
 			return new Flow_HScene_Main();
 
@@ -55,36 +56,35 @@ namespace PluggableVR.HS2
 			var cb = GameObject.Find("/HCamera").transform;
 			_mainCamera = cb.Find("Main Camera").GetComponent<Camera>();
 
-			UpdateCameraParam(4, _mainCamera);
-			Possess<UnityEngine.Rendering.PostProcessing.PostProcessLayer>(_mainCamera);
-			Possess<CrossFade>(_mainCamera);
-			Possess<Obi.ObiFluidRenderer>(_mainCamera);
-//			Possess<UnityStandardAssets.ImageEffects.DepthOfField>(_mainCamera);
-			Possess<UnityStandardAssets.ImageEffects.GlobalFog>(_mainCamera);
-			Possess<UnityStandardAssets.ImageEffects.SunShafts>(_mainCamera);
-//			Possess<ScreenEffect>(_mainCamera);
-			Possess<CameraEffector.ConfigEffectorWet>(_mainCamera);
-			Possess<PlaceholderSoftware.WetStuff.WetStuff>(_mainCamera);
-			Possess<GameScreenShotAssist>(_mainCamera);
+			var mng = VRManager.Instance;
+			var player = mng.Player;
+			player.SetCamera(_mainCamera);
 
-			Suppress<UnityStandardAssets.ImageEffects.DepthOfField>(_mainCamera);
-			Suppress<ScreenEffect>(_mainCamera);
+			// 元のカメラから移行するComponent 
+			var cam = player.Camera;
+			cam.Possess<UnityEngine.Rendering.PostProcessing.PostProcessLayer>();
+			cam.Possess<Obi.ObiFluidRenderer>();
+			cam.Possess<UnityStandardAssets.ImageEffects.GlobalFog>();
+			cam.Possess<UnityStandardAssets.ImageEffects.SunShafts>();
+			cam.Possess<GameScreenShotAssist>();
+			// 移行してはいけないらしい 
+//			cam.Possess<PlaceholderSoftware.WetStuff.WetStuff>();
+
+			// ぼやけて見づらいのでoffっとく 
+			cam.Suppress<UnityStandardAssets.ImageEffects.DepthOfField>();
+			// VRでカメラいぢられたくないのでoffっとく 
+			cam.Suppress<ScreenEffect>();
+			cam.Suppress<CameraEffector.ConfigEffectorWet>();
 		}
 
 		protected override void OnTerminate()
 		{
 			Global.Logger.LogInfo(ToString() + " end");
 
-			Remove<UnityEngine.Rendering.PostProcessing.PostProcessLayer>();
-			Remove<CrossFade>();
-			Remove<Obi.ObiFluidRenderer>();
-//			Remove<UnityStandardAssets.ImageEffects.DepthOfField>();
-			Remove<UnityStandardAssets.ImageEffects.GlobalFog>();
-			Remove<UnityStandardAssets.ImageEffects.SunShafts>();
-//			Remove<ScreenEffect>();
-			Remove<CameraEffector.ConfigEffectorWet>();
-			Remove<PlaceholderSoftware.WetStuff.WetStuff>();
-			Remove<GameScreenShotAssist>();
+			var mng = VRManager.Instance;
+			var player = mng.Player;
+			var cam = player.Camera;
+			cam.Dispose();
 
 			base.OnTerminate();
 		}

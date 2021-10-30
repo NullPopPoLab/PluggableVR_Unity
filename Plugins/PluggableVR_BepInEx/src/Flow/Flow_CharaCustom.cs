@@ -46,23 +46,31 @@ namespace PluggableVR.HS2
 			var cb = GameObject.Find("/CharaCustom/CustomControl/CharaCamera").transform;
 			_mainCamera = cb.Find("Main Camera").GetComponent<Camera>();
 			_coordCamera = cb.Find("CoordinateCamera").GetComponent<Camera>();
-
-			UpdateCameraParam(10, _mainCamera);
 			_coordCamera.cullingMask = 0;
-			Possess<UnityEngine.Rendering.PostProcessing.PostProcessLayer>(_mainCamera);
-			Possess<GameScreenShot>(_mainCamera);
-			Possess<UnityEngine.EventSystems.PhysicsRaycaster>(_mainCamera);
-			Possess<CharaCustom.CustomRender>(_mainCamera);
+
+			var mng = VRManager.Instance;
+			var player = mng.Player;
+			player.SetCamera(_mainCamera);
+
+			// 元のカメラから移行するComponent 
+			var cam = player.Camera;
+			cam.Possess<UnityEngine.Rendering.PostProcessing.PostProcessLayer>();
+			cam.Possess<GameScreenShot>();
+			cam.Possess<UnityEngine.EventSystems.PhysicsRaycaster>();
+			cam.Possess<CharaCustom.CustomRender>();
+
+			// アバター表示Layerをカメラの表示対象内で選択 
+			mng.Avatar.SetLayer(10);
 		}
 
 		protected override void OnTerminate()
 		{
 			Global.Logger.LogInfo(ToString() + " end");
 
-			Remove<UnityEngine.Rendering.PostProcessing.PostProcessLayer>();
-			Remove<GameScreenShot>();
-			Remove<UnityEngine.EventSystems.PhysicsRaycaster>();
-			Remove<CharaCustom.CustomRender>();
+			var mng = VRManager.Instance;
+			var player = mng.Player;
+			var cam = player.Camera;
+			cam.Dispose();
 
 			base.OnTerminate();
 		}

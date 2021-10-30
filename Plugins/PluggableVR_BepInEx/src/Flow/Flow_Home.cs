@@ -27,6 +27,7 @@ namespace PluggableVR.HS2
 		{
 			base.OnUpdate();
 
+			// ステージシーンのロード待ち 
 			if (!LastLoadedScene.Update(Global.LastLoadedScene)) return null;
 
 			return new Flow_Delay(new Flow_Home_Main());
@@ -41,27 +42,33 @@ namespace PluggableVR.HS2
 			Global.Logger.LogInfo(ToString() + " bgn");
 			base.OnStart();
 
-			UpdateCameraParam(4);
-			Possess<UnityEngine.Rendering.PostProcessing.PostProcessLayer>();
-			Possess<CrossFade>();
-			Possess<UnityStandardAssets.ImageEffects.GlobalFog>();
-//			Possess<UnityStandardAssets.ImageEffects.DepthOfField>();
-			Possess<UnityStandardAssets.ImageEffects.SunShafts>();
-			Possess<CameraEffector.ConfigEffectorWet>();
+			var mng = VRManager.Instance;
+			var player = mng.Player;
+			player.SetCamera(Camera.main);
 
-			Suppress<UnityStandardAssets.ImageEffects.DepthOfField>();
+			// 元のカメラから移行するComponent 
+			var cam = player.Camera;
+			cam.Possess<UnityEngine.Rendering.PostProcessing.PostProcessLayer>();
+			cam.Possess<UnityStandardAssets.ImageEffects.GlobalFog>();
+			cam.Possess<UnityStandardAssets.ImageEffects.SunShafts>();
+
+			// ぼやけて見づらいのでoffっとく 
+			cam.Suppress<UnityStandardAssets.ImageEffects.DepthOfField>();
+			// VRでカメラいぢられたくないのでoffっとく 
+			cam.Suppress<CameraEffector.ConfigEffectorWet>();
+
+			// アバター表示Layerをカメラの表示対象内で選択 
+			mng.Avatar.SetLayer(4);
 		}
 
 		protected override void OnTerminate()
 		{
 			Global.Logger.LogInfo(ToString() + " end");
 
-			Remove<UnityEngine.Rendering.PostProcessing.PostProcessLayer>();
-			Remove<CrossFade>();
-			Remove<UnityStandardAssets.ImageEffects.GlobalFog>();
-//			Remove<UnityStandardAssets.ImageEffects.DepthOfField>();
-			Remove<UnityStandardAssets.ImageEffects.SunShafts>();
-			Remove<CameraEffector.ConfigEffectorWet>();
+			var mng = VRManager.Instance;
+			var player = mng.Player;
+			var cam = player.Camera;
+			cam.Dispose();
 
 			base.OnTerminate();
 		}

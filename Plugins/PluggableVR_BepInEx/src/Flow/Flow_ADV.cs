@@ -27,6 +27,7 @@ namespace PluggableVR.HS2
 		{
 			base.OnUpdate();
 
+			// ステージシーンのロード待ち 
 			if (!LastLoadedScene.Update(Global.LastLoadedScene)) return null;
 
 			var mc = GameObject.Find("/ADVMainScene/ADVScene(Clone)/BasePosition/Cameras/Main Camera");
@@ -50,27 +51,35 @@ namespace PluggableVR.HS2
 			// Camera構造が通常と違う 
 			_mainCamera = GameObject.Find("/ADVMainScene/ADVScene(Clone)/BasePosition/Cameras/Main Camera").GetComponent<Camera>();
 
-			UpdateCameraParam(4,_mainCamera);
-			Possess<UnityEngine.Rendering.PostProcessing.PostProcessLayer>(_mainCamera);
-			Possess<UnityStandardAssets.ImageEffects.GlobalFog>(_mainCamera);
-//			Possess<UnityStandardAssets.ImageEffects.DepthOfField>(_mainCamera);
-			Possess<UnityStandardAssets.ImageEffects.SunShafts>(_mainCamera);
-			Possess<PlaceholderSoftware.WetStuff.WetStuff>(_mainCamera);
-			Possess<CameraEffector.ConfigEffectorWet>(_mainCamera);
+			var mng = VRManager.Instance;
+			var player = mng.Player;
+			player.SetCamera(_mainCamera);
 
-			Suppress<UnityStandardAssets.ImageEffects.DepthOfField>(_mainCamera);
+			// 元のカメラから移行するComponent 
+			var cam = player.Camera;
+			cam.Possess<UnityEngine.Rendering.PostProcessing.PostProcessLayer>();
+			cam.Possess<UnityStandardAssets.ImageEffects.GlobalFog>();
+			cam.Possess<UnityStandardAssets.ImageEffects.SunShafts>();
+			// 移行してはいけないらしい 
+//			cam.Possess<PlaceholderSoftware.WetStuff.WetStuff>();
+
+			// ぼやけて見づらいのでoffっとく 
+			cam.Suppress<UnityStandardAssets.ImageEffects.DepthOfField>();
+			// VRでカメラいぢられたくないのでoffっとく 
+			cam.Suppress<CameraEffector.ConfigEffectorWet>();
+
+			// アバター表示Layerをカメラの表示対象内で選択 
+			mng.Avatar.SetLayer(4);
 		}
 
 		protected override void OnTerminate()
 		{
 			Global.Logger.LogInfo(ToString() + " end");
 
-			Remove<UnityEngine.Rendering.PostProcessing.PostProcessLayer>();
-			Remove<UnityStandardAssets.ImageEffects.GlobalFog>();
-//			Remove<UnityStandardAssets.ImageEffects.DepthOfField>();
-			Remove<UnityStandardAssets.ImageEffects.SunShafts>();
-			Remove<PlaceholderSoftware.WetStuff.WetStuff>();
-			Remove<CameraEffector.ConfigEffectorWet>();
+			var mng = VRManager.Instance;
+			var player = mng.Player;
+			var cam = player.Camera;
+			cam.Dispose();
 
 			base.OnTerminate();
 		}
