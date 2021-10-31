@@ -105,6 +105,14 @@ namespace NullPopPoSpecial
 			return t;
 		}
 
+		//! 位置に乗算 
+		public static Loc operator *(Loc dst, float src)
+		{
+			var t = dst;
+			t.Pos *= src;
+			return t;
+		}
+
 		//! 回転に加算 
 		public static Loc operator +(Loc dst, Quaternion src)
 		{
@@ -165,9 +173,9 @@ namespace NullPopPoSpecial
 		}
 
 		public static bool operator !=(Loc v1, Loc v2) {
-			if (v1.Pos != v2.Pos) return false;
-			if (v1.Rot != v2.Rot) return false;
-			return true;
+			if (v1.Pos != v2.Pos) return true;
+			if (v1.Rot != v2.Rot) return true;
+			return false;
 		}
 		public static bool operator ==(Loc v1, Loc v2) { return !(v1 != v2); }
 

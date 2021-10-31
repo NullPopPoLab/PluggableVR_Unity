@@ -4,28 +4,44 @@
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
 using UnityEngine;
-using PluggableVR;
 using NullPopPoSpecial;
 
 namespace PluggableVR.CS2
 {
 	//! 手順遷移 シーンロード検知後 
-	public class Flow_SceneLoaded : Flow
+	internal class Flow_SceneLoaded : Flow
 	{
 		private Loc _cameraLoc;
 
 		protected override void OnStart()
 		{
-			_cameraLoc = Loc.FromWorldTransform(Global.MainCamera.transform);
+			Global.Logger.LogInfo(ToString() + " bgn");
+
+			var mng = VRManager.Instance;
+			var player = mng.Player;
+			var cam = player.Camera;
+			_cameraLoc = Loc.FromWorldTransform(cam.Source.transform);
+			base.OnStart();
+		}
+
+		protected override void OnTerminate()
+		{
+			Global.Logger.LogInfo(ToString() + " end");
+			base.OnTerminate();
 		}
 
 		protected override Flow OnUpdate()
 		{
-			// メインカメラ位置変更を待って位置リセット 
-			var loc = Loc.FromWorldTransform(Global.MainCamera.transform);
-			if (loc.Pos == _cameraLoc.Pos && loc.Rot == _cameraLoc.Rot) return null;
+			// 元カメラ位置変更待ち 
+			var mng = VRManager.Instance;
+			var player = mng.Player;
+			var cam = player.Camera;
+			var loc = Loc.FromWorldTransform(cam.Source.transform);
+			if (loc == _cameraLoc) return null;
 
-			VRManager.Instance.Reloc(loc);
+			// 元カメラ位置に移動 
+			VRManager.Instance.Reloc(Loc.FromWorldTransform(cam.Source.transform));
+
 			return new Flow_Edit();
 		}
 	}

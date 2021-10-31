@@ -10,25 +10,39 @@ using PluggableVR;
 //! 手順遷移 開始時 
 public class Flow_Startup : Flow
 {
+	protected override void OnStart()
+	{
+		base.OnStart();
+
+		// 初期設定 
+		var scale = 1.0f;
+		var avatar = new DemoAvatar(Loc.Identity, scale);
+		var player = new DemoPlayer(avatar, scale);
+		VRManager.Instance.SetPlayer(player);
+
+		// 既存のAudioListener封印 
+		GameObject.Find("/Main Camera").GetComponent<AudioListener>().enabled = false;
+	}
+
 	protected override Flow OnUpdate()
 	{
-		// メインカメラ生成待ち 
+		// メインカメラ認識待ち 
 		var mc = Camera.main;
 		if (mc == null) return null;
 
-		// 操作開始 
-		var loc = Loc.FromWorldTransform(mc.transform);
-		var avatar = new DemoAvatar(loc);
-		var player = new DemoPlayer(avatar);
-
+		// プレイヤーをカメラ位置に移す 
 		var mng = VRManager.Instance;
-		mng.SetPlayer(player);
+		var player = mng.Player;
+		player.SetCamera(mc);
 
-		// 本来のメインカメラは無効化 
-		var cam = mc.GetComponent<Camera>();
-		if (cam != null) cam.enabled = false;
-		var lsn = mc.GetComponent<AudioListener>();
-		if (lsn != null) lsn.enabled = false;
+		// カメラに連動するコンポーネント移設 
+		// 移設先で生成されたコンポーネントが Awake() を呼ばないように一旦Active外しとく 
+		player.Camera.Active = false;
+		player.Camera.Possess<FlareLayer>();
+		player.Camera.Active = true;
+
+		// アバター表示Layerをカメラの表示対象内で選択 
+		mng.Avatar.SetLayer(0);
 
 		// 遷移終了 
 		Terminate();

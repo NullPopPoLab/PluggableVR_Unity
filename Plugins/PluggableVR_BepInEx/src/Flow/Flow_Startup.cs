@@ -4,46 +4,72 @@
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
 using UnityEngine;
-using PluggableVR;
 using NullPopPoSpecial;
 
 namespace PluggableVR.CS2
 {
 	//! 手順遷移 開始時 
-	public class Flow_Startup : Flow
+	internal class Flow_Startup : Flow
 	{
+		protected override void OnStart()
+		{
+			Global.Logger.LogInfo(ToString() + " bgn");
+			base.OnStart();
+
+			// Unityシーンロードに連動する遷移 
+			Global.Transit["StudioSceneLoad"] = () =>
+			{
+				if (GameObject.Find("/SceneLoadScene") == null) return null;
+				return new Flow_SceneLoader();
+			};
+			Global.Transit["StudioCheck"] = () =>
+			{
+				if (GameObject.Find("/StudioCheck") == null) return null;
+				return new Flow_ScenePurging();
+			};
+
+			// VR初期設定 
+			var scale = 1.0f;
+			var avatar = new DemoAvatar(Loc.Identity, scale);
+			var player = new DemoPlayer(avatar, scale);
+			player.Camera.SourceMode = VRCamera.ESourceMode.Disabled;
+			VRManager.Instance.SetPlayer(player);
+
+			// 手の軸表示を消す 
+			avatar.LeftHand.SetActive(false);
+			avatar.RightHand.SetActive(false);
+		}
+
+		protected override void OnTerminate()
+		{
+			Global.Logger.LogInfo(ToString() + " end");
+			base.OnTerminate();
+		}
+
 		protected override Flow OnUpdate()
 		{
-			// メインカメラ生成待ち 
-			Global.MainCamera = Camera.main;
-			if (Global.MainCamera == null) return null;
+			base.OnUpdate();
 
-			// 操作開始 
-			var sc = Global.MainCamera;
-			var loc = Loc.FromWorldTransform(sc.transform);
-			var avatar = new DemoAvatar(loc);
-			var player = new DemoPlayer(avatar);
+			// メインカメラ生成待ち 
+			var mc = Camera.main;
+			if (mc == null) return null;
 
 			var mng = VRManager.Instance;
-			mng.SetPlayer(player);
+			var player = mng.Player;
+			player.SetCamera(mc);
 
-			// レイヤ0が表示対象外になるので4に変更 
-			var layer = 4;
-			avatar.Head.layer = layer;
-			avatar.View.transform.Find("Neck").gameObject.layer = layer;
-			avatar.View.transform.Find("Shoulder").gameObject.layer = layer;
-			avatar.UpFromHead.layer = layer;
-			avatar.ForeFromHead.layer = layer;
+			// 元のカメラから移設するComponent 
+			var cam = player.Camera;
+			cam.Possess<FlareLayer>();
+			cam.Possess<AmplifyOcclusionEffect>();
+			cam.Possess<AmplifyColorEffect>();
+			cam.Possess<UnityStandardAssets.ImageEffects.BloomAndFlares>();
+			cam.Possess<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration>();
+			cam.Possess<UnityStandardAssets.ImageEffects.DepthOfField>();
+//			cam.Possess<Studio.CameraControl>();
 
-			// 元のカメラパラメータを反映 
-			var dc = player.Camera.GetComponent<Camera>();
-			dc.clearFlags = sc.clearFlags;
-			dc.cullingMask = sc.cullingMask;
-
-			// 本来のメインカメラは無効化 
-			sc.enabled = false;
-			var lsn = sc.GetComponent<AudioListener>();
-			if (lsn != null) lsn.enabled = false;
+			// アバター表示Layerをカメラの表示対象内で選択 
+			mng.Avatar.SetLayer(4);
 
 			return new Flow_Edit();
 		}

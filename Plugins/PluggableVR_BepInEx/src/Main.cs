@@ -18,7 +18,7 @@ namespace PluggableVR.CS2
     public class Main : BaseUnityPlugin
     {
 		public const string GUID = "com.nullpoppo.PluggableVR.CS2";
-		public const string VERSION = "0.0.3.0";
+		public const string VERSION = "0.0.4.0";
 
 		public static Main Instance;
 		public static bool Enabled { get; private set; }
@@ -56,8 +56,9 @@ namespace PluggableVR.CS2
 
 		private void _onSceneChanged(Scene scn, LoadSceneMode mode)
 		{
+			Logger.LogInfo("Scene: "+scn.name);
 			Global.LastLoadedScene = scn.name;
-//			Hierarchy.Dump2File("Hierarchy","Scene-"+scn.name);
+//			HierarchyDumper.Dumper.Dump2File("Hier_" + Paths.ProcessName, "Scene-"+scn.name);
 		}
 
 		protected void FixedUpdate()
@@ -77,7 +78,7 @@ namespace PluggableVR.CS2
 			_push_rbtn2.Update(inp.HandRight.IsButton2Pressed());
 			if (inp.HandLeft.IsButton2Pressed() && _push_rbtn2.Delta > 0)
 			{
-				HierarchyDumper.Dumper.Dump2File("Hier_"+Paths.ProcessName);
+				HierarchyDumper.Dumper.Dump2File("Hier_" + Paths.ProcessName);
 			}
 		}
 

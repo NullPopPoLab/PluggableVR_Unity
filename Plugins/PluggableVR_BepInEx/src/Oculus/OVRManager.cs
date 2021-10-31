@@ -1299,7 +1299,7 @@ public class OVRManager : MonoBehaviour
 		if (resetTrackerOnLoad)
 			display.RecenterPose();
 
-		if (Debug.isDebugBuild)
+		if (UnityEngine.Debug.isDebugBuild)
 		{
 			// Activate system metrics collection in Debug/Developerment build
 			if (GetComponent<OVRSystemPerfMetrics.OVRSystemPerfMetricsTcpServer>() == null)
