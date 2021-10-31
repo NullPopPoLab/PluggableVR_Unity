@@ -9,51 +9,62 @@ using NullPopPoSpecial;
 namespace PluggableVR.SN2
 {
 	//! 手順遷移 開始時 
-	public class Flow_Startup : Flow
+	internal class Flow_Startup : Flow
 	{
 		protected override void OnStart()
 		{
 			Global.Logger.LogInfo(ToString() + " bgn");
+			base.OnStart();
+
+			// Unityシーンロードに連動する遷移 
+			Global.Transit["StudioSceneLoad"] = () =>
+			{
+				if (GameObject.Find("/SceneLoadScene") == null) return null;
+				return new Flow_SceneLoaded();
+			};
+			Global.Transit["StudioCheck"] = () =>
+			{
+				if (GameObject.Find("/StudioCheck") == null) return null;
+				return new Flow_ScenePurging();
+			};
+
+			// VR初期設定 
+			var scale = 8.0f;
+			var avatar = new DemoAvatar(Loc.Identity, scale);
+			var player = new DemoPlayer(avatar, scale);
+			player.Camera.SourceMode = VRCamera.ESourceMode.Disabled;
+			VRManager.Instance.SetPlayer(player);
+
+			// 手の軸表示を消す 
+			avatar.LeftHand.SetActive(false);
+			avatar.RightHand.SetActive(false);
 		}
 
 		protected override void OnTerminate()
 		{
 			Global.Logger.LogInfo(ToString() + " end");
+			base.OnTerminate();
 		}
 
 		protected override Flow OnUpdate()
 		{
-			// メインカメラ生成待ち 
-			Global.MainCamera = Camera.main;
-			if (Global.MainCamera == null) return null;
+			base.OnUpdate();
 
-			// 操作開始 
-			var scale=8.0f;
-			var sc = Global.MainCamera;
-			var loc = Loc.FromWorldTransform(sc.transform);
-			var avatar = new DemoAvatar(loc,scale);
-			var player = new DemoPlayer(avatar,scale);
+			// メインカメラ生成待ち 
+			var mc = Camera.main;
+			if (mc == null) return null;
 
 			var mng = VRManager.Instance;
-			mng.SetPlayer(player);
+			var player = mng.Player;
+			player.SetCamera(Camera.main);
 
-			// 元のカメラパラメータを反映 
-			var dc = player.Camera.GetComponent<Camera>();
-			dc.clearFlags = sc.clearFlags;
-			dc.cullingMask = sc.cullingMask;
-			dc.farClipPlane = sc.farClipPlane;
-			dc.nearClipPlane = 0.1f;
-			// 変更不可らしい 
-//			dc.fieldOfView = sc.fieldOfView;
+			// 元のカメラから移設するComponent 
+			var cam = player.Camera;
+			cam.Possess<UnityEngine.Rendering.PostProcessing.PostProcessLayer>();
+			cam.Possess<GameScreenShot>();
 
-			// 本来のメインカメラは無効化 
-			sc.enabled = false;
-			var lsn = sc.GetComponent<AudioListener>();
-			if (lsn != null) lsn.enabled = false;
-
-			// 手の軸表示を消す 
-			avatar.LeftHand.SetActive(false);
-			avatar.RightHand.SetActive(false);
+			// アバター表示Layerをカメラの表示対象内で選択 
+			mng.Avatar.SetLayer(4);
 
 			return new Flow_Edit();
 		}

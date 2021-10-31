@@ -11,36 +11,24 @@ using NullPopPoSpecial;
 namespace PluggableVR.SN2
 {
 	//! 手順遷移 編集中 
-	public class Flow_Edit : Flow
+	internal class Flow_Edit : Flow_Common
 	{
-		private Dictionary<string, Func<Flow>> _transit = new Dictionary<string, Func<Flow>>();
-
 		protected override void OnStart()
 		{
 			Global.Logger.LogInfo(ToString()+" bgn");
-
-			// Unityシーンロードに連動する遷移 
-			_transit["StudioSceneLoad"] = () =>
-			{
-				if (GameObject.Find("/SceneLoadScene") == null) return null;
-				return new Flow_SceneLoaded();
-			};
-			_transit["StudioCheck"] = () =>
-			{
-				if (GameObject.Find("/StudioCheck") == null) return null;
-				return new Flow_ScenePurging();
-			};
+			base.OnStart();
 		}
 
 		protected override void OnTerminate()
 		{
 			Global.Logger.LogInfo(ToString() + " end");
+			base.OnTerminate();
 		}
 
 		protected override Flow OnUpdate()
 		{
-			if (!_transit.ContainsKey(Global.LastLoadedScene)) return null;
-			return _transit[Global.LastLoadedScene]();
+			base.OnUpdate();
+			return StepScene();
 		}
 	}
 }

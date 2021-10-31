@@ -18,7 +18,7 @@ namespace PluggableVR.SN2
     public class Main : BaseUnityPlugin
     {
 		public const string GUID = "com.nullpoppo.PluggableVR.SN2";
-		public const string VERSION = "0.0.3.0";
+		public const string VERSION = "0.0.4.0";
 
 		public static Main Instance;
 		public static bool Enabled { get; private set; }
@@ -58,7 +58,7 @@ namespace PluggableVR.SN2
 		{
 			Logger.LogInfo("Scene: "+scn.name);
 			Global.LastLoadedScene = scn.name;
-//			Hierarchy.Dump2File("Hierarchy","Scene-"+scn.name);
+//			HierarchyDumper.Dumper.Dump2File("Hier_" + Paths.ProcessName, "Scene-"+scn.name);
 		}
 
 		protected void FixedUpdate()

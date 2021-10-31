@@ -1,6 +1,8 @@
 ﻿ハニーセレクト2+BepInEx5 インストールフォルダから
 
 StudioNEOV2_Data/Managed/Assembly-CSharp.dll
+StudioNEOV2_Data/Managed/Cinemachine.dll
+StudioNEOV2_Data/Managed/Unity.Postprocessing.Runtime.dll
 StudioNEOV2_Data/Managed/UnityEngine.dll
 StudioNEOV2_Data/Managed/UnityEngine.AnimationModule.dll
 StudioNEOV2_Data/Managed/UnityEngine.AudioModule.dll

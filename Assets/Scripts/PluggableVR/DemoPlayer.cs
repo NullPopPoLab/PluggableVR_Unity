@@ -11,9 +11,8 @@ namespace PluggableVR
 	//! デモ用VR操作元 
 	internal class DemoPlayer : VRPlayer
 	{
-		internal float Scale{ get; private set; }
+		internal float Scale { get; private set; }
 		internal Transform Rig { get; private set; }
-		internal Transform Camera { get; private set; }
 		internal new DemoAvatar Avatar { get { return base.Avatar as DemoAvatar; } set { base.Avatar = value; } }
 
 		private DemoControl _ctrl;
@@ -22,7 +21,7 @@ namespace PluggableVR
 		private bool _elevating = false;
 		private RelativeBool _push_pstk = new RelativeBool();
 
-		internal DemoPlayer(DemoAvatar target, float scale=1.0f)
+		internal DemoPlayer(DemoAvatar target, float scale = 1.0f)
 		{
 			Scale = scale;
 
@@ -30,13 +29,8 @@ namespace PluggableVR
 			root.localScale = new Vector3(scale, scale, scale);
 			GameObject.DontDestroyOnLoad(root.gameObject);
 
-			Rig = CreateChildObject("VRPlayer",root, Loc.FromWorldTransform(target.Eye),false).transform;
-			Camera = CreateChildObject("VRCamera", Rig, Loc.Identity, false).transform;
-
-			var cam = Camera.gameObject.AddComponent<Camera>();
-			cam.nearClipPlane = 0.01f;
-			Camera.gameObject.AddComponent<AudioListener>();
-
+			Rig = CreateChildObject("VRPlayer", root, Loc.FromWorldTransform(target.Eye), false).transform;
+			Camera = new VRCamera(Rig);
 
 			Avatar = target;
 			_ctrl = Avatar.CreateControl();
@@ -77,9 +71,7 @@ namespace PluggableVR
 			{
 				if (!(stk1 || stk2))
 				{
-					_sticking = false;
-					ResetRig();
-					Avatar.View.gameObject.SetActive(false);
+					_resetControl();
 				}
 			}
 
@@ -95,24 +87,28 @@ namespace PluggableVR
 			}
 			else _elevating = false;
 
-			// スティック回転 
 			if (stk2)
 			{
+				// スティック回転 
 				var tilt = inp.HandSecondary.GetStickTilting();
 				var dr = RotUt.RotY(90.0f * Mathf.Deg2Rad * tilt.x * Time.deltaTime);
 				var pp = _ctrl.WorldPivot.Pos;
 				_ctrl.Origin.Rot *= dr;
 				_ctrl.Origin.Rot = RotUt.ReturnY(_ctrl.Origin.Rot);
 				_ctrl.Origin.Pos -= _ctrl.WorldPivot.Pos - pp;
+
+				// Avatar前後軸方向のスティック移動 
+				var m = RotUt.AxisZ(Avatar.Eye.rotation) * tilt.y * Time.deltaTime;
+				_ctrl.Origin.Pos += m * Scale;
 			}
 
-			// スティック移動 
+			// 地面に平行なスティック移動 
 			if (stk1)
 			{
 				// スティック倒し状態 
 				var tilt = inp.HandPrimary.GetStickTilting();
 				// zx平面上のy軸2D回転 
-				var dir = RotUt.PlaneZX(Camera.rotation);
+				var dir = RotUt.PlaneZX(Camera.Transform.rotation);
 				if (_elevating)
 				{
 					// スティックy方向はy軸と一致 
@@ -132,9 +128,9 @@ namespace PluggableVR
 
 			// アバター位置反映 
 			var ofs = _ctrl.Origin * _offset;
-			_ctrl.WorldEye = ofs * (inp.Head.GetEyeTracking()*Scale);
-			_ctrl.WorldLeftHand = ofs * (inp.HandLeft.GetHandTracking()*Scale);
-			_ctrl.WorldRightHand = ofs * (inp.HandRight.GetHandTracking()*Scale);
+			_ctrl.WorldEye = ofs * (inp.Head.GetEyeTracking() * Scale);
+			_ctrl.WorldLeftHand = ofs * (inp.HandLeft.GetHandTracking() * Scale);
+			_ctrl.WorldRightHand = ofs * (inp.HandRight.GetHandTracking() * Scale);
 
 			// アバター頭位置 
 			var ahd = _ctrl.WorldEye * new Loc(new Vector3(0, 0, -DemoAvatar.HeadToEye), Quaternion.identity);
@@ -153,7 +149,7 @@ namespace PluggableVR
 			var inp = VRManager.Input;
 
 			// カメラ位置 
-			var ce = Loc.FromWorldTransform(Camera);
+			var ce = Loc.FromWorldTransform(Camera.Transform);
 			// トラッキング位置 
 			var re = inp.Head.GetEyeTracking();
 			// 操作対象の目位置 
@@ -195,6 +191,7 @@ namespace PluggableVR
 		{
 			// 操作対象の目向きからの差分をOriginに反映 
 			// ただしY軸を真上に戻す 
+			rot=RotUt.ReturnY(rot);
 			_ctrl.Origin.Rot *= Quaternion.Inverse(RotUt.ReturnY(_ctrl.WorldEye.Rot)) * RotUt.ReturnY(rot);
 			_ctrl.Origin.Rot = RotUt.ReturnY(_ctrl.Origin.Rot);
 
@@ -206,6 +203,7 @@ namespace PluggableVR
 		{
 			// 操作対象の目位置からの差分をOriginに反映 
 			// ただしY軸を真上に戻す 
+			loc.Rot=RotUt.ReturnY(loc.Rot);
 			_ctrl.Origin *= _ctrl.WorldEye.Inversed * loc;
 			_ctrl.Origin.Rot = RotUt.ReturnY(_ctrl.Origin.Rot);
 

@@ -17,12 +17,19 @@ namespace PluggableVR.SN2
 		{
 			Global.Logger.LogInfo(ToString() + " bgn");
 
-			_cameraLoc = Loc.FromWorldTransform(Global.MainCamera.transform);
+			var mng = VRManager.Instance;
+			var player = mng.Player;
+			var cam = player.Camera;
+			_cameraLoc = Loc.FromWorldTransform(cam.Source.transform);
+
+			base.OnStart();
 		}
 
 		protected override void OnTerminate()
 		{
 			Global.Logger.LogInfo(ToString() + " end");
+
+			base.OnTerminate();
 		}
 
 		protected override Flow OnUpdate()
@@ -31,11 +38,15 @@ namespace PluggableVR.SN2
 			var gobj=GameObject.Find("/CheckScene");
 			if(gobj==null)return new Flow_Edit();
 
-			// メインカメラ位置変更を待って位置リセット 
-			var loc = Loc.FromWorldTransform(Global.MainCamera.transform);
+			// 元カメラ位置変更を待って位置リセット 
+			var mng = VRManager.Instance;
+			var player = mng.Player;
+			var cam = player.Camera;
+			var loc = Loc.FromWorldTransform(cam.Source.transform);
 			if (loc.Pos == _cameraLoc.Pos && loc.Rot == _cameraLoc.Rot) return null;
 
 			VRManager.Instance.Reloc(loc);
+
 			return new Flow_Edit();
 		}
 	}

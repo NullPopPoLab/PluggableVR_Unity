@@ -9,34 +9,36 @@ using NullPopPoSpecial;
 namespace PluggableVR.SN2
 {
 	//! 手順遷移 シーンロード検知後 
-	public class Flow_SceneLoaded : Flow
+	internal class Flow_SceneLoaded : Flow
 	{
-		private Loc _cameraLoc;
-
 		protected override void OnStart()
 		{
 			Global.Logger.LogInfo(ToString() + " bgn");
-
-			_cameraLoc = Loc.FromWorldTransform(Global.MainCamera.transform);
+			base.OnStart();
 		}
 
 		protected override void OnTerminate()
 		{
 			Global.Logger.LogInfo(ToString() + " end");
+			base.OnTerminate();
 		}
 
 		protected override Flow OnUpdate()
 		{
 			// ロードせずに抜けたケースの検知 
-			var gobj = GameObject.Find("/SceneLoadScene");
-			if (gobj == null) return new Flow_Edit();
+			var obj = GameObject.Find("/SceneLoadScene");
+			if (obj == null) return new Flow_Edit();
 
 			// ロード通知待ち 
 			if (Global.LastLoadedScene != "StudioNotification") return null;
 
-			// メインカメラ位置に移動 
-			var loc = Loc.FromWorldTransform(Global.MainCamera.transform);
-			VRManager.Instance.Reloc(loc);
+			// 元カメラ位置に移動 
+			var mng = VRManager.Instance;
+			var player = mng.Player;
+			var cam = player.Camera;
+
+			VRManager.Instance.Reloc(Loc.FromWorldTransform(cam.Source.transform));
+
 			return new Flow_Edit();
 		}
 	}
