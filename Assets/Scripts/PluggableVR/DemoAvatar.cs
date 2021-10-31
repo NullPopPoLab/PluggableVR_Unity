@@ -24,6 +24,9 @@ namespace PluggableVR
 		//! 肩の高さ 
 		public static float ShoulderHeight { get { return EyeHeight - NeckLength; } }
 
+		//! 拡大率 
+		public float Scale { get; private set; }
+
 		public Transform Origin { get; private set; }
 		public Transform Pivot { get; private set; }
 		public Transform Eye { get; private set; }
@@ -35,12 +38,13 @@ namespace PluggableVR
 		public GameObject UpFromHead { get; private set; }
 		public GameObject ForeFromHead { get; private set; }
 
-		public DemoAvatar(Loc loc)
+		public DemoAvatar(Loc loc,float scale=1.0f)
 		{
+			Scale = scale;
 			// 頭 
-			var loc_head = loc * new Loc(new Vector3(0, 0, -HeadToEye), Quaternion.identity);
+			var loc_head = loc * new Loc(new Vector3(0, 0, -HeadToEye) * scale, Quaternion.identity);
 			// 配置位置 
-			var loc_orig = loc_head * new Loc(new Vector3(0, -EyeHeight, 0), Quaternion.identity);
+			var loc_orig = loc_head * new Loc(new Vector3(0, -EyeHeight, 0) * scale, Quaternion.identity);
 			loc_orig.Rot = RotUt.ReturnY(loc_orig.Rot);
 			Origin = CreateRootObject("VRAvatar", loc_orig).transform;
 			GameObject.DontDestroyOnLoad(Origin.gameObject);
@@ -52,14 +56,14 @@ namespace PluggableVR
 			// 表示部 
 			View = CreateChildObject("View", Eye, loc_head, true);
 			Head = CreateChildPrimitive(PrimitiveType.Sphere, false, "Head", View.transform, Loc.Identity, false);
-			Head.transform.localScale = new Vector3(HeadScale, HeadScale, HeadScale);
-			_addAxes(Head.transform);
+			Head.transform.localScale = new Vector3(HeadScale, HeadScale, HeadScale) * scale;
+			_addAxes(View.transform);
 
-			var neck = CreateChildPrimitive(PrimitiveType.Cylinder, false, "Neck", View.transform, new Loc(new Vector3(0, -NeckLength * 0.5f, 0), Quaternion.identity), false);
-			neck.transform.localScale = new Vector3(NeckWidth, NeckLength * 0.5f, NeckWidth);
+			var neck = CreateChildPrimitive(PrimitiveType.Cylinder, false, "Neck", View.transform, new Loc(new Vector3(0, -NeckLength * 0.5f, 0) * scale, Quaternion.identity), false);
+			neck.transform.localScale = new Vector3(NeckWidth, NeckLength * 0.5f, NeckWidth) * scale;
 
-			var shoulder = CreateChildPrimitive(PrimitiveType.Cylinder, false, "Shoulder", View.transform, new Loc(new Vector3(0, -NeckLength, 0), RotUt.RotZ(Mathf.Deg2Rad * 90)), false);
-			shoulder.transform.localScale = new Vector3(ShoulderWidth, ShoulderLength * 0.5f, ShoulderWidth);
+			var shoulder = CreateChildPrimitive(PrimitiveType.Cylinder, false, "Shoulder", View.transform, new Loc(new Vector3(0, -NeckLength, 0) * scale, RotUt.RotZ(Mathf.Deg2Rad * 90)), false);
+			shoulder.transform.localScale = new Vector3(ShoulderWidth, ShoulderLength * 0.5f, ShoulderWidth) * scale;
 
 			LeftHand = CreateChildObject("LeftHand", Origin, Loc.Identity, false);
 			_addAxes(LeftHand.transform);
@@ -67,9 +71,9 @@ namespace PluggableVR
 			RightHand = CreateChildObject("RightHand", Origin, Loc.Identity, false);
 			_addAxes(RightHand.transform);
 
-			RightFromHead = Head.transform.Find("AxisX").gameObject;
-			UpFromHead = Head.transform.Find("AxisY").gameObject;
-			ForeFromHead = Head.transform.Find("AxisZ").gameObject;
+			RightFromHead = View.transform.Find("AxisX").gameObject;
+			UpFromHead = View.transform.Find("AxisY").gameObject;
+			ForeFromHead = View.transform.Find("AxisZ").gameObject;
 
 			RightFromHead.SetActive(false);
 		}
@@ -105,12 +109,21 @@ namespace PluggableVR
 				var lx = ax.AddComponent<LineRenderer>();
 				lx.useWorldSpace = false;
 				lx.receiveShadows = false;
-				lx.SetPositions(new Vector3[] { new Vector3(0, 0, 0), prm.Dir });
+				lx.SetPositions(new Vector3[] { new Vector3(0, 0, 0), prm.Dir * Scale });
 				lx.material = new Material(Shader.Find("Sprites/Default"));
 				lx.startColor = lx.endColor = prm.Col;
 				lx.numCapVertices = 5;
 				lx.widthMultiplier = AxisWidth;
 			}
+		}
+
+		protected override void OnChangeLayer(int layer) {
+
+			Head.layer = layer;
+			View.transform.Find("Neck").gameObject.layer = layer;
+			View.transform.Find("Shoulder").gameObject.layer = layer;
+			UpFromHead.layer = layer;
+			ForeFromHead.layer = layer;
 		}
 
 		//! 操作構造生成 

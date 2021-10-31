@@ -19,12 +19,10 @@ namespace PluggableVR.CS
 	public class Main : BaseUnityPlugin
 	{
 		public const string GUID = "com.nullpoppo.PluggableVR.CS";
-		public const string VERSION = "0.0.3.2";
+		public const string VERSION = "0.0.4.0";
 
 		public static Main Instance;
 		public static bool Enabled { get; private set; }
-
-		internal static BepInEx.Logging.ManualLogSource PlugLog { get; private set; }
 
 		private VRManager _vrmng;
 
@@ -37,7 +35,7 @@ namespace PluggableVR.CS
 			Enabled = VRSettings.enabled;
 			if (!Enabled) return;
 
-			PlugLog = Logger;
+			Global.Logger = Logger;
 			_vrmng = new VRManager();
 			_vrmng.Initialize(new Flow_Startup());
 			Harmony.CreateAndPatchAll(typeof(Main));
@@ -59,8 +57,9 @@ namespace PluggableVR.CS
 
 		private void _onSceneChanged(Scene scn, LoadSceneMode mode)
 		{
+			Logger.LogInfo("Scene: "+scn.name);
 			Global.LastLoadedScene = scn.name;
-//			Hierarchy.Dump2File("Hierarchy","Scene-"+scn.name);
+//			HierarchyDumper.Dumper.Dump2File("Hier_" + Paths.ProcessName, "Scene-"+scn.name);
 		}
 
 		protected void FixedUpdate()

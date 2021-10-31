@@ -37,6 +37,9 @@
     <Reference Include="Assembly-CSharp">
       <HintPath>..\External_CS\Assembly-CSharp.dll</HintPath>
     </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>..\External_CS\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
     <Reference Include="BepInEx">
       <HintPath>..\External_CS\BepInEx.dll</HintPath>
     </Reference>
@@ -54,8 +57,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\Flow\Flow_Common.cs" />
+    <Compile Include="src\Flow\Flow_Delay.cs" />
     <Compile Include="src\Flow\Flow_Edit.cs" />
     <Compile Include="src\Flow\Flow_SceneLoaded.cs" />
+    <Compile Include="src\Flow\Flow_SceneLoader.cs" />
     <Compile Include="src\Flow\Flow_ScenePurging.cs" />
     <Compile Include="src\Flow\Flow_Startup.cs" />
     <Compile Include="src\Global.cs" />
@@ -72,6 +78,7 @@
     <Compile Include="src\PluggableVR\DemoPlayer.cs" />
     <Compile Include="src\PluggableVR\PlugCommon.cs" />
     <Compile Include="src\PluggableVR\VRAvatar.cs" />
+    <Compile Include="src\PluggableVR\VRCamera.cs" />
     <Compile Include="src\PluggableVR\VRControl.cs" />
     <Compile Include="src\PluggableVR\VRManager.cs" />
     <Compile Include="src\PluggableVR\VRPlayer.cs" />
