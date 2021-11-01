@@ -18,7 +18,7 @@ namespace PluggableVR.KK
     [BepInProcess("Koikatu")]
     public class Main : BaseUnityPlugin
     {
-		public const string GUID = "com.nullpoppo.PluggableVR.CS";
+		public const string GUID = "com.nullpoppo.PluggableVR.KK";
 		public const string VERSION = "0.0.1.1";
 
 		public static Main Instance;
@@ -35,6 +35,7 @@ namespace PluggableVR.KK
 			Enabled = VRSettings.enabled;
 			if (!Enabled) return;
 
+			Global.ProcessName = Paths.ProcessName;
 			Global.Logger = Logger;
 			_vrmng = new VRManager();
 			_vrmng.Initialize(new Flow_Startup());
@@ -45,22 +46,15 @@ namespace PluggableVR.KK
         {
 			if (!Enabled) return;
 
-            SceneManager.sceneLoaded += _onSceneChanged;
+			Global.Scene.Enable();
         }
 
         protected void OnDisable()
         {
 			if (!Enabled) return;
 
-            SceneManager.sceneLoaded -= _onSceneChanged;
+			Global.Scene.Disable();
         }
-
-        private void _onSceneChanged(Scene scn, LoadSceneMode mode)
-        {
-			Logger.LogInfo("Scene: "+scn.name);
-			Global.LastLoadedScene = scn.name;
-			HierarchyDumper.Dumper.Dump2File("Hier_" + Paths.ProcessName, "Scene-"+scn.name);
-		}
 
 		protected void FixedUpdate()
 		{

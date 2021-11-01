@@ -13,8 +13,10 @@ namespace PluggableVR.KK
 {
 	internal static class Global
 	{
+		internal static string ProcessName;
 		internal static BepInEx.Logging.ManualLogSource Logger;
-		internal static string LastLoadedScene;
+
+		internal static SceneObserver Scene = new SceneObserver();
 
 		internal static Dictionary<string, Func<Flow>> Transit = new Dictionary<string, Func<Flow>>();
 	}

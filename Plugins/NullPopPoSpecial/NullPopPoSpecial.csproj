@@ -52,6 +52,7 @@
     <Compile Include="src\Rot2D.cs" />
     <Compile Include="src\RotUt.cs" />
     <Compile Include="src\SafeMathf.cs" />
+    <Compile Include="src\SceneObserverBase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

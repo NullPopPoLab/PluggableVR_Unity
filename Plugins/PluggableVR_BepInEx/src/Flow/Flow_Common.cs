@@ -17,17 +17,20 @@ namespace PluggableVR.KK
 		{
 			base.OnStart();
 
-			LastLoadedScene.Reset(Global.LastLoadedScene);
+//			LastLoadedScene.Reset(Global.LastLoadedScene);
 		}
 
 		//! 通常のシーン切り替え遷移 
 		internal Flow StepScene(){
 
+#if false
 			var scn = Global.LastLoadedScene;
 			if (!LastLoadedScene.Update(scn)) return null;
 
 			if (!Global.Transit.ContainsKey(scn)) return null;
 			return Global.Transit[scn]();
+#endif
+			return null;
 		}
 	}
 }

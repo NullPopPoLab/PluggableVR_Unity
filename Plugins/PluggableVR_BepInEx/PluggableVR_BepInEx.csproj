@@ -79,6 +79,7 @@
     <Compile Include="src\PluggableVR\VRControl.cs" />
     <Compile Include="src\PluggableVR\VRManager.cs" />
     <Compile Include="src\PluggableVR\VRPlayer.cs" />
+    <Compile Include="src\SceneObserver.cs" />
     <Compile Include="src\ThirdParty\openvr_api.cs" />
     <Compile Include="src\ThirdParty\SimpleJSON.cs" />
     <Compile Include="src\ThirdParty\SimpleJSONUnity.cs" />
