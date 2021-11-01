@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A5D9604F-C921-4AC8-B017-31FF3D07391A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HierarchyDumper</RootNamespace>
+    <AssemblyName>HierarchyDumper</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>..\External_KK\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\External_KK\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx">
+      <HintPath>..\External_KK\BepInEx.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\External_KK\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>..\External_KK\UnityEngine.UI.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Main.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\Dumper.cs" />
+    <Compile Include="src\Dumper_Animator.cs" />
+    <Compile Include="src\Dumper_Avatar.cs" />
+    <Compile Include="src\Dumper_Button.cs" />
+    <Compile Include="src\Dumper_Camera.cs" />
+    <Compile Include="src\Dumper_Canvas.cs" />
+    <Compile Include="src\Dumper_CanvasScaler.cs" />
+    <Compile Include="src\Dumper_Dropdown.cs" />
+    <Compile Include="src\Dumper_GameObject.cs" />
+    <Compile Include="src\Dumper_Graphic.cs" />
+    <Compile Include="src\Dumper_InputField.cs" />
+    <Compile Include="src\Dumper_Light.cs" />
+    <Compile Include="src\Dumper_LineRenderer.cs" />
+    <Compile Include="src\Dumper_MeshRenderer.cs" />
+    <Compile Include="src\Dumper_RectTransform.cs" />
+    <Compile Include="src\Dumper_Renderer.cs" />
+    <Compile Include="src\Dumper_Selectable.cs" />
+    <Compile Include="src\Dumper_SkinnedMeshRenderer.cs" />
+    <Compile Include="src\Dumper_Slider.cs" />
+    <Compile Include="src\Dumper_Text.cs" />
+    <Compile Include="src\Dumper_Toggle.cs" />
+    <Compile Include="src\Dumper_Transform.cs" />
+    <Compile Include="src\DumpForm.cs" />
+    <Compile Include="src\SpecialDumper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NullPopPoSpecial\NullPopPoSpecial.csproj">
+      <Project>{cbf208b1-6cfa-4871-b4f4-ba784ca7bfd8}</Project>
+      <Name>NullPopPoSpecial</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

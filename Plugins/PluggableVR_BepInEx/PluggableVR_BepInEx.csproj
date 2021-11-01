@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5ED194FF-D8A2-435B-B54A-011668B00F16}</ProjectGuid>
+    <ProjectGuid>{70B214A8-BDA1-4482-8676-EBC3D60EA39D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PluggableVR_KK</RootNamespace>
@@ -32,13 +32,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>External_KK\0Harmony.dll</HintPath>
+      <HintPath>..\External_KK\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>External_KK\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\External_KK\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="BepInEx">
-      <HintPath>External_KK\BepInEx.dll</HintPath>
+      <HintPath>..\External_KK\BepInEx.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,10 +47,14 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
-      <HintPath>External_KK\UnityEngine.dll</HintPath>
+      <HintPath>..\External_KK\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\Flow\Flow_Common.cs" />
+    <Compile Include="src\Flow\Flow_Delay.cs" />
+    <Compile Include="src\Flow\Flow_Startup.cs" />
+    <Compile Include="src\Global.cs" />
     <Compile Include="src\Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\Oculus\OVRBoundary.cs" />
@@ -66,19 +70,30 @@
     <Compile Include="src\Oculus\OVRProfile.cs" />
     <Compile Include="src\Oculus\OVRTracker.cs" />
     <Compile Include="src\Oculus\Util\OVRSystemPerfMetrics.cs" />
+    <Compile Include="src\PluggableVR\DemoAvatar.cs" />
+    <Compile Include="src\PluggableVR\DemoControl.cs" />
+    <Compile Include="src\PluggableVR\DemoPlayer.cs" />
+    <Compile Include="src\PluggableVR\PlugCommon.cs" />
+    <Compile Include="src\PluggableVR\VRAvatar.cs" />
+    <Compile Include="src\PluggableVR\VRCamera.cs" />
+    <Compile Include="src\PluggableVR\VRControl.cs" />
+    <Compile Include="src\PluggableVR\VRManager.cs" />
+    <Compile Include="src\PluggableVR\VRPlayer.cs" />
     <Compile Include="src\ThirdParty\openvr_api.cs" />
     <Compile Include="src\ThirdParty\SimpleJSON.cs" />
     <Compile Include="src\ThirdParty\SimpleJSONUnity.cs" />
-    <Compile Include="src\PluggableVR\AvatarControl.cs" />
-    <Compile Include="src\PluggableVR\Cycle.cs" />
-    <Compile Include="src\PluggableVR\Hierarchy.cs" />
     <Compile Include="src\PluggableVR\Input.cs" />
-    <Compile Include="src\PluggableVR\Loc.cs" />
     <Compile Include="src\PluggableVR\Oculus\Input.cs" />
-    <Compile Include="src\PluggableVR\Rot2D.cs" />
-    <Compile Include="src\PluggableVR\RotUt.cs" />
-    <Compile Include="src\PluggableVR\SafeMathf.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\HierarchyDumper\HierarchyDumper.csproj">
+      <Project>{a5d9604f-c921-4ac8-b017-31ff3d07391a}</Project>
+      <Name>HierarchyDumper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NullPopPoSpecial\NullPopPoSpecial.csproj">
+      <Project>{cbf208b1-6cfa-4871-b4f4-ba784ca7bfd8}</Project>
+      <Name>NullPopPoSpecial</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
