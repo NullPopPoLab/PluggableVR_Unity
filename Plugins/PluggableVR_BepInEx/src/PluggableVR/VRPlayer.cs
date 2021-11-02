@@ -26,6 +26,7 @@ namespace PluggableVR
 
 		public void SetCamera(Camera cam) {
 			Camera.Reset(cam);
+			if (cam == null) return;
 			Reloc(Loc.FromWorldTransform(cam.transform)); 
 		}
 

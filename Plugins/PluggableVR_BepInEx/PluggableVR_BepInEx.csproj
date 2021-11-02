@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;UNITY_5_6_OR_NEWER; UNITY_STANDALONE_WIN</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -26,7 +26,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;UNITY_5_6_OR_NEWER</DefineConstants>
+    <DefineConstants>TRACE;UNITY_5_6_OR_NEWER; UNITY_STANDALONE_WIN</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -36,6 +36,9 @@
     </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\External_KK\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>..\External_KK\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="BepInEx">
       <HintPath>..\External_KK\BepInEx.dll</HintPath>
@@ -52,11 +55,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Flow\Flow_Common.cs" />
+    <Compile Include="src\Flow\Flow_CustomScene.cs" />
     <Compile Include="src\Flow\Flow_Delay.cs" />
+    <Compile Include="src\Flow\Flow_Logo.cs" />
     <Compile Include="src\Flow\Flow_Startup.cs" />
+    <Compile Include="src\Flow\Flow_Title.cs" />
     <Compile Include="src\Global.cs" />
     <Compile Include="src\Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\Oculus\Composition\OVRCameraComposition.cs" />
+    <Compile Include="src\Oculus\Composition\OVRComposition.cs" />
+    <Compile Include="src\Oculus\Composition\OVRCompositionUtil.cs" />
+    <Compile Include="src\Oculus\Composition\OVRDirectComposition.cs" />
+    <Compile Include="src\Oculus\Composition\OVRExternalComposition.cs" />
+    <Compile Include="src\Oculus\Composition\OVRSandwichComposition.cs" />
     <Compile Include="src\Oculus\OVRBoundary.cs" />
     <Compile Include="src\Oculus\OVRCameraRig.cs" />
     <Compile Include="src\Oculus\OVRCommon.cs" />
@@ -65,6 +77,8 @@
     <Compile Include="src\Oculus\OVRHapticsClip.cs" />
     <Compile Include="src\Oculus\OVRInput.cs" />
     <Compile Include="src\Oculus\OVRManager.cs" />
+    <Compile Include="src\Oculus\OVRMixedReality.cs" />
+    <Compile Include="src\Oculus\Util\OVRMixedRealityCaptureSettings.cs" />
     <Compile Include="src\Oculus\Util\OVRNetwork.cs" />
     <Compile Include="src\Oculus\OVRPlugin.cs" />
     <Compile Include="src\Oculus\OVRProfile.cs" />

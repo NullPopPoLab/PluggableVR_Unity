@@ -3,6 +3,7 @@
 	@author NullPopPoLab
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
+using System;
 using UnityEngine;
 using NullPopPoSpecial;
 
@@ -16,22 +17,9 @@ namespace PluggableVR.KK
 			Global.Logger.LogInfo(ToString() + " bgn");
 			base.OnStart();
 
-			Terminate();
-			return;
-
 			// Unityシーンロードに連動する遷移 
-#if false
-			Global.Transit["StudioSceneLoad"] = () =>
-			{
-				if (GameObject.Find("/SceneLoadScene") == null) return null;
-				return new Flow_SceneLoader();
-			};
-			Global.Transit["StudioCheck"] = () =>
-			{
-				if (GameObject.Find("/StudioCheck") == null) return null;
-				return new Flow_ScenePurging();
-			};
-#endif
+			Global.Transit["Title"] =()=> new Flow_Title();
+			Global.Transit["CustomScene"] =()=> new Flow_CustomScene();
 
 			// VR初期設定 
 			var scale = 1.0f;
@@ -54,28 +42,7 @@ namespace PluggableVR.KK
 		protected override Flow OnUpdate()
 		{
 			base.OnUpdate();
-
-			// メインカメラ生成待ち 
-			var mc = Camera.main;
-			if (mc == null) return null;
-
-			var mng = VRManager.Instance;
-			var player = mng.Player;
-			player.SetCamera(mc);
-
-			// 元のカメラから移設するComponent 
-			var cam = player.Camera;
-//			cam.Possess<FlareLayer>();
-//			cam.Possess<UnityStandardAssets.ImageEffects.BloomAndFlares>();
-//			cam.Possess<AmplifyColorEffect>();
-//			cam.Possess<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration>();
-
-
-			// アバター表示Layerをカメラの表示対象内で選択 
-			mng.Avatar.SetLayer(4);
-
-//			return new Flow_Edit();
-			return null;
+			return new Flow_Logo();
 		}
 	}
 }

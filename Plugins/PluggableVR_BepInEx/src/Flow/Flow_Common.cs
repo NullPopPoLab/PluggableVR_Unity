@@ -11,26 +11,25 @@ namespace PluggableVR.KK
 	//! 手順遷移 共通機能
 	internal class Flow_Common : Flow
 	{
-		internal ChangingCensor<string> LastLoadedScene;
+		internal ChangingCensor<string> CurrentScene;
 
 		protected override void OnStart()
 		{
 			base.OnStart();
 
-//			LastLoadedScene.Reset(Global.LastLoadedScene);
+			CurrentScene.Reset(Global.Scene.ActiveScene);
 		}
 
 		//! 通常のシーン切り替え遷移 
 		internal Flow StepScene(){
 
-#if false
-			var scn = Global.LastLoadedScene;
-			if (!LastLoadedScene.Update(scn)) return null;
+			var path = Global.Scene.ActiveScene;
+			if (!CurrentScene.Update(path)) return null;
 
-			if (!Global.Transit.ContainsKey(scn)) return null;
-			return Global.Transit[scn]();
-#endif
-			return null;
+			var scn = Global.Scene.GetSceneInfo(path);
+			var n = scn.name;
+			if (!Global.Transit.ContainsKey(n)) return null;
+			return Global.Transit[n]();
 		}
 	}
 }

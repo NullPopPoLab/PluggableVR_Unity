@@ -1,6 +1,7 @@
 ﻿コイカツ+BepInEx5 インストールフォルダから
 
 Koikatu_Data/Managed/Assembly-CSharp.dll
+Koikatu_Data/Managed/Assembly-CSharp-firstpass.dll
 Koikatu_Data/Managed/UnityEngine.dll
 Koikatu_Data/Managed/UnityEngine.UI.dll
 BepInEx/core/BepInEx.dll
