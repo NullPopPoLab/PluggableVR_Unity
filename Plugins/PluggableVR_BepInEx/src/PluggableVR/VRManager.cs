@@ -21,6 +21,8 @@ namespace PluggableVR
 		internal VRPlayer Player { get; private set; }
 		//! VR操作先 
 		internal VRAvatar Avatar { get { return Player.Avatar; } }
+		//! VRカメラ 
+		internal VRCamera Camera { get { return Player.Camera; } }
 
 		//! 現在の手順遷移 
 		private Flow _curFlow;

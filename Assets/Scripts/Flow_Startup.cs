@@ -10,6 +10,13 @@ using PluggableVR;
 //! 手順遷移 開始時 
 public class Flow_Startup : Flow
 {
+	private VRCamera.ESourceMode _mode;
+
+	public Flow_Startup(VRCamera.ESourceMode mode)
+	{
+		_mode = mode;
+	}
+
 	protected override void OnStart()
 	{
 		base.OnStart();
@@ -18,6 +25,7 @@ public class Flow_Startup : Flow
 		var scale = 1.0f;
 		var avatar = new DemoAvatar(Loc.Identity, scale);
 		var player = new DemoPlayer(avatar, scale);
+		player.Camera.SourceMode = _mode;
 		VRManager.Instance.SetPlayer(player);
 
 		// 既存のAudioListener封印 

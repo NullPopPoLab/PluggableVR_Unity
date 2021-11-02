@@ -133,5 +133,14 @@ namespace PluggableVR
 				Component.Destroy(t.Dst);
 			}
 		}
+
+		//! VRカメラの位置を元カメラに反映 
+		public void Feedback()
+		{
+			if (Target == null) return;
+			if (Source == null) return;
+			Source.transform.position = Target.transform.position;
+			Source.transform.rotation = Target.transform.rotation;
+		}
 	}
 }
