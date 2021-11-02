@@ -25,7 +25,6 @@ namespace PluggableVR.KK
 			var scale = 1.0f;
 			var avatar = new DemoAvatar(Loc.Identity, scale);
 			var player = new DemoPlayer(avatar, scale);
-			player.Camera.SourceMode = VRCamera.ESourceMode.Disabled;
 			VRManager.Instance.SetPlayer(player);
 
 			// 手の軸表示を消す 

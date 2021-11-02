@@ -37,6 +37,10 @@ namespace PluggableVR.KK
 
 			Global.ProcessName = Paths.ProcessName;
 			Global.Logger = Logger;
+
+			VRCamera.Revision = VRCamera.ERevision.Legacy;
+			VRCamera.SourceMode = VRCamera.ESourceMode.Blind;
+
 			_vrmng = new VRManager();
 			_vrmng.Initialize(new Flow_Startup());
             Harmony.CreateAndPatchAll(typeof(Main));
