@@ -9,6 +9,7 @@
 /.vs
 /.vsconfig
 /Plugins/.vs
+/Plugins/game
 /Plugins/HierarchyDumper/bin
 /Plugins/HierarchyDumper/obj
 /Plugins/NullPopPoSpecial/bin

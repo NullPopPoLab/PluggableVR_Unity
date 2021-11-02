@@ -47,6 +47,11 @@ namespace PluggableVR.KK
 		protected override Flow OnUpdate()
 		{
 			base.OnUpdate();
+
+			// メインカメラ位置更新 
+			var mng = VRManager.Instance;
+			mng.Camera.Feedback();
+
 			return base.StepScene();
 		}
 	}

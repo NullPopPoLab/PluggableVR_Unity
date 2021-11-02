@@ -19,7 +19,7 @@ namespace PluggableVR.KK
     public class Main : BaseUnityPlugin
     {
 		public const string GUID = "com.nullpoppo.PluggableVR.KK";
-		public const string VERSION = "0.0.1.1";
+		public const string VERSION = "0.0.3.2";
 
 		public static Main Instance;
 		public static bool Enabled { get; private set; }
@@ -39,7 +39,7 @@ namespace PluggableVR.KK
 			Global.Logger = Logger;
 
 			VRCamera.Revision = VRCamera.ERevision.Legacy;
-			VRCamera.SourceMode = VRCamera.ESourceMode.Blind;
+			VRCamera.SourceMode = VRCamera.ESourceMode.Disabled;
 
 			_vrmng = new VRManager();
 			_vrmng.Initialize(new Flow_Startup());
