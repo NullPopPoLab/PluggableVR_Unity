@@ -12,13 +12,20 @@ namespace PluggableVR
 	//! VRカメラ管理 
 	public class VRCamera : PlugCommon
 	{
+		public enum ERevision
+		{
+			Legacy,
+			Unity2019,
+		}
+		public static ERevision Revision;
+
 		public enum ESourceMode
 		{
 			Disabled, //!< 元カメラは無効化 
 			Blind, //!< 元カメラの可視対象を全て外す 
 		}
+		public static ESourceMode SourceMode;
 
-		public ESourceMode SourceMode;
 		public Camera Target { get; private set; }
 		public Camera Source { get; private set; }
 
@@ -46,13 +53,20 @@ namespace PluggableVR
 
 		public VRCamera(Transform rig)
 		{
-			SourceMode = ESourceMode.Disabled;
-
 			var obj = CreateChildObject("VRCamera", rig, Loc.Identity, false);
-			Target = obj.AddComponent<Camera>();
+			switch(Revision){
+				case ERevision.Legacy:
+					Target = obj.AddComponent<Camera>();
+					break;
+
+				case ERevision.Unity2019:
+					obj.AddComponent<OVRCameraRig>();
+					Target = obj.transform.Find("TrackingSpace/CenterEyeAnchor").GetComponent<Camera>();
+					break;
+			}
+
 			Target.nearClipPlane = 0.01f;
 			Target.gameObject.AddComponent<AudioListener>();
-
 			Suppress<AudioListener>();
 		}
 

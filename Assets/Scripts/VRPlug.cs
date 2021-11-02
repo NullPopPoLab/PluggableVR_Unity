@@ -110,7 +110,10 @@ public class VRPlug : MonoBehaviour
 	//! 初期設定 
 	protected void Awake()
 	{
-		_vrmng.Initialize(new Flow_Startup(_cameraMode));
+		VRCamera.Revision = VRCamera.ERevision.Legacy;
+		VRCamera.SourceMode = _cameraMode;
+
+		_vrmng.Initialize(new Flow_Startup());
 	}
 
 	//! 終了 
