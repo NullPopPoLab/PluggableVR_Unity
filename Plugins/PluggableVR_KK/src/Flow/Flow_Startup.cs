@@ -22,6 +22,7 @@ namespace PluggableVR_KK
 			Global.Transit["CustomScene"] =()=> new Flow_CustomScene();
 			Global.Transit["LiveStage"] =()=> new Flow_LiveStage();
 			Global.Transit["Title"] =()=> new Flow_Title();
+			Global.Transit["Wedding"] =()=> new Flow_Wedding();
 
 			// VR初期設定 
 			var scale = 1.0f;

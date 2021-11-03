@@ -23,6 +23,7 @@ namespace HierarchyDumper
 			s += indent + "ClearFlags: " + _obj.clearFlags + "\n";
 			s += indent + "CullingMask: " + _obj.cullingMask.ToString("X") + "\n";
 			s += indent + "ClipPlane: " + _obj.nearClipPlane + "~" + _obj.farClipPlane + "\n";
+			s += indent + "Depth: " + _obj.depth + "\n";
 			s += indent + "FieldOfView: " + _obj.fieldOfView + "\n";
 			s += indent + "PixelRect: " + _obj.pixelRect + "\n";
 			s += indent + "UseOcclusionCulling: " + _obj.useOcclusionCulling + "\n";

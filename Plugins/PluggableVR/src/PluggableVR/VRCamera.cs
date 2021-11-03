@@ -117,6 +117,7 @@ namespace PluggableVR
 			Target.clearFlags = Source.clearFlags;
 			Target.cullingMask = Source.cullingMask;
 			Target.farClipPlane = Source.farClipPlane;
+			Target.depth = Source.depth;
 
 			// 元のメインカメラに対する措置 
 			switch (SourceMode)

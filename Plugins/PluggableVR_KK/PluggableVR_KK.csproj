@@ -62,6 +62,7 @@
     <Compile Include="src\Flow\Flow_Logo.cs" />
     <Compile Include="src\Flow\Flow_Startup.cs" />
     <Compile Include="src\Flow\Flow_Title.cs" />
+    <Compile Include="src\Flow\Flow_Wedding.cs" />
     <Compile Include="src\Global.cs" />
     <Compile Include="src\Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
