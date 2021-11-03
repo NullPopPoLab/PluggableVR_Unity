@@ -1,7 +1,7 @@
 ﻿/*!	@file
 	@brief HierarchyDumper: GameObject 情報取得 
 	@author NullPopPoLab
-	@sa https://github.com/NullPopPoLab/Dumper_Unity
+	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
 using System;
 using System.Collections.Generic;

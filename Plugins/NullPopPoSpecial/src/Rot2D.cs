@@ -1,7 +1,7 @@
 ﻿/*!	@file
 	@brief NullPopPoSpecial: 2次元回転 
 	@author NullPopPoLab
-	@sa https://github.com/NullPopPoLab/NullPopPoSpecial_Unity
+	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
 using UnityEngine;
 

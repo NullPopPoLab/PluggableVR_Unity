@@ -1,7 +1,7 @@
 ﻿/*!	@file
 	@brief NullPopPoSpecial: 位置情報単位構造 
 	@author NullPopPoLab
-	@sa https://github.com/NullPopPoLab/NullPopPoSpecial_Unity
+	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
 using System;
 using UnityEngine;
