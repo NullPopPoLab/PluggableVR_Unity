@@ -9,7 +9,7 @@ using NullPopPoSpecial;
 namespace PluggableVR
 {
 	//! デモ用VR操作先 
-	internal class DemoAvatar : VRAvatar
+	public class DemoAvatar : VRAvatar
 	{
 		public const float HeadToEye = 0.1f; //!< 目と頭の距離 
 		public const float EyeHeight = 1.5f; //!< 仮想的な目の高さ 
