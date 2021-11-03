@@ -1,7 +1,7 @@
 ﻿/*!	@file
 	@brief NullPopPoSpecial: 安全な数学関数 
 	@author NullPopPoLab
-	@sa https://github.com/NullPopPoLab/NullPopPoSpecial_Unity
+	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
 using UnityEngine;
 

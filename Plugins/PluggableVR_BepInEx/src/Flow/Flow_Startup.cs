@@ -18,8 +18,9 @@ namespace PluggableVR.KK
 			base.OnStart();
 
 			// Unityシーンロードに連動する遷移 
-			Global.Transit["Title"] =()=> new Flow_Title();
 			Global.Transit["CustomScene"] =()=> new Flow_CustomScene();
+			Global.Transit["LiveStage"] =()=> new Flow_LiveStage();
+			Global.Transit["Title"] =()=> new Flow_Title();
 
 			// VR初期設定 
 			var scale = 1.0f;

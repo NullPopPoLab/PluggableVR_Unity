@@ -53,6 +53,7 @@
     <Compile Include="src\RotUt.cs" />
     <Compile Include="src\SafeMathf.cs" />
     <Compile Include="src\SceneObserverBase.cs" />
+    <Compile Include="src\Serializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

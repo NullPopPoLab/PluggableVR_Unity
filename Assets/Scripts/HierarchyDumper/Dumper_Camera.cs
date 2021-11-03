@@ -1,7 +1,7 @@
 ﻿/*!	@file
 	@brief HierarchyDumper: Camera 情報取得 
 	@author NullPopPoLab
-	@sa https://github.com/NullPopPoLab/Dumper_Unity
+	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
 using UnityEngine;
 
@@ -27,6 +27,7 @@ namespace HierarchyDumper
 			s += indent + "PixelRect: " + _obj.pixelRect + "\n";
 			s += indent + "UseOcclusionCulling: " + _obj.useOcclusionCulling + "\n";
 			s += indent + "TargetDisplay: " + _obj.targetDisplay + "\n";
+			s += indent + "TargetTexture: " + ((_obj.targetTexture == null) ? "None" : _obj.targetTexture.ToString()) + "\n";
 
 			return s;
 		}

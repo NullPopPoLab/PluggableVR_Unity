@@ -39,6 +39,7 @@ public class Flow_Startup : Flow
 		// 移設先で生成されたコンポーネントが Awake() を呼ばないように一旦Active外しとく 
 		player.Camera.Active = false;
 		player.Camera.Possess<FlareLayer>();
+		player.Camera.Possess<Light>();
 		player.Camera.Active = true;
 
 		// アバター表示Layerをカメラの表示対象内で選択 

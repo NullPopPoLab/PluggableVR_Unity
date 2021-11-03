@@ -54,9 +54,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\Flow\Flow_Abandoned.cs" />
     <Compile Include="src\Flow\Flow_Common.cs" />
     <Compile Include="src\Flow\Flow_CustomScene.cs" />
     <Compile Include="src\Flow\Flow_Delay.cs" />
+    <Compile Include="src\Flow\Flow_LiveStage.cs" />
     <Compile Include="src\Flow\Flow_Logo.cs" />
     <Compile Include="src\Flow\Flow_Startup.cs" />
     <Compile Include="src\Flow\Flow_Title.cs" />

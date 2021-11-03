@@ -36,8 +36,11 @@ namespace PluggableVR.KK
 		{
 			Global.Logger.LogInfo(ToString() + " end");
 
-			// メインカメラ切断 
+			// 移設Component除去 
 			var mng = VRManager.Instance;
+			mng.Camera.Dispose();
+
+			// メインカメラ切断 
 			var player = mng.Player;
 			player.SetCamera(null);
 

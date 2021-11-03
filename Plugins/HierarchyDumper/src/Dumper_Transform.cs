@@ -1,7 +1,7 @@
 ﻿/*!	@file
 	@brief HierarchyDumper: Transform 情報取得 
 	@author NullPopPoLab
-	@sa https://github.com/NullPopPoLab/Dumper_Unity
+	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
 using UnityEngine;
 using NullPopPoSpecial;
@@ -18,7 +18,7 @@ namespace HierarchyDumper
 		public string Dump(string indent = "")
 		{
 
-			if (_obj == null) return "!!! Type Mismatch !!!\n";
+			if (_obj == null) return DumpForm.TypeMismatch;
 
 			var s = "";
 			s += indent + "Pos: " + DumpForm.From(_obj.position) + "\n";
