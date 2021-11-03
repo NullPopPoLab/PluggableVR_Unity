@@ -9,31 +9,31 @@ using NullPopPoSpecial;
 namespace PluggableVR
 {
 	//! VRシステム管理 
-	internal class VRManager : PlugCommon
+	public class VRManager : PlugCommon
 	{
-		internal static VRManager Instance;
+		public static VRManager Instance;
 
-		internal bool IsReady { get; private set; }
+		public bool IsReady { get; private set; }
 
 		//! ユーザ入力部 
-		internal static Input Input { get; private set; }
+		public static Input Input { get; private set; }
 		//! VR操作元 
-		internal VRPlayer Player { get; private set; }
+		public VRPlayer Player { get; private set; }
 		//! VR操作先 
-		internal VRAvatar Avatar { get { return Player.Avatar; } }
+		public VRAvatar Avatar { get { return Player.Avatar; } }
 		//! VRカメラ 
-		internal VRCamera Camera { get { return Player.Camera; } }
+		public VRCamera Camera { get { return Player.Camera; } }
 
 		//! 現在の手順遷移 
 		private Flow _curFlow;
 
-		internal VRManager()
+		public VRManager()
 		{
 			Instance = this;
 		}
 
 		//! 初期設定 
-		internal void Initialize(Flow flow)
+		public void Initialize(Flow flow)
 		{
 			if (IsReady) return;
 			IsReady = true;
@@ -47,14 +47,14 @@ namespace PluggableVR
 		}
 
 		//! 機能終了 
-		internal void Shutdown()
+		public void Shutdown()
 		{
 			if (!IsReady) return;
 			IsReady = false;
 		}
 
 		//! 遷移開始 
-		internal void Start(Flow flow)
+		public void Start(Flow flow)
 		{
 			if (!IsReady) return;
 			if (_curFlow != null) return;
@@ -64,41 +64,41 @@ namespace PluggableVR
 		}
 
 		//! プレイヤー設定 
-		internal void SetPlayer(VRPlayer player)
+		public void SetPlayer(VRPlayer player)
 		{
 			if (!IsReady) return;
 			Player = player;
 		}
 
 		//! 位置だけ変更 
-		internal void Repos(Vector3 pos)
+		public void Repos(Vector3 pos)
 		{
 			if (!IsReady) return;
 			if (Player != null) Player.Repos(pos);
 		}
 
 		//! 向きだけ変更 
-		internal void Rerot(Quaternion rot)
+		public void Rerot(Quaternion rot)
 		{
 			if (!IsReady) return;
 			if (Player != null) Player.Rerot(rot);
 		}
 
 		//! 位置,向き変更 
-		internal void Reloc(Loc loc)
+		public void Reloc(Loc loc)
 		{
 			if (!IsReady) return;
 			if (Player != null) Player.Reloc(loc);
 		}
 
 		//! 物理フレーム毎の更新 
-		internal void FixedUpdate()
+		public void FixedUpdate()
 		{
 			Input.FixedUpdate();
 		}
 
 		//! 描画フレーム毎の更新 
-		internal void Update()
+		public void Update()
 		{
 			if (!IsReady) return;
 			Input.Update();
@@ -111,7 +111,7 @@ namespace PluggableVR
 		}
 
 		//! アニメーション処理後の更新 
-		internal void LateUpdate()
+		public void LateUpdate()
 		{
 			Input.LateUpdate();
 		}

@@ -5,8 +5,9 @@
 */
 using UnityEngine;
 using NullPopPoSpecial;
+using PluggableVR;
 
-namespace PluggableVR.KK
+namespace PluggableVR_KK
 {
 	//! ライブ状態 
 	internal class Prop_LiveStage

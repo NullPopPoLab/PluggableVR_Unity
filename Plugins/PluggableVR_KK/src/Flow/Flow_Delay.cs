@@ -5,8 +5,9 @@
 */
 using UnityEngine;
 using NullPopPoSpecial;
+using PluggableVR;
 
-namespace PluggableVR.KK
+namespace PluggableVR_KK
 {
 	//! 手順遷移 フレーム経過待ち 
 	public class Flow_Delay : Flow

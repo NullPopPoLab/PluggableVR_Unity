@@ -56,4 +56,10 @@
     <Compile Include="src\Serializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if not exist $(SolutionDir)game\BepInEx\plugins\!myworks mkdir $(SolutionDir)game\BepInEx\plugins\!myworks
+copy /y NullPopPoSpecial.dll $(SolutionDir)game\BepInEx\plugins\!myworks\
+copy /y NullPopPoSpecial.pdb $(SolutionDir)game\BepInEx\plugins\!myworks\
+</PostBuildEvent>
+  </PropertyGroup>
 </Project>

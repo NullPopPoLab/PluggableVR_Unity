@@ -3,8 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31402.337
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluggableVR_BepInEx", "PluggableVR_BepInEx\PluggableVR_BepInEx.csproj", "{70B214A8-BDA1-4482-8676-EBC3D60EA39D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluggableVR_KK", "PluggableVR_KK\PluggableVR_KK.csproj", "{70B214A8-BDA1-4482-8676-EBC3D60EA39D}"
 	ProjectSection(ProjectDependencies) = postProject
+		{FF677508-A0DB-4479-8448-E0948BADC008} = {FF677508-A0DB-4479-8448-E0948BADC008}
 		{A5D9604F-C921-4AC8-B017-31FF3D07391A} = {A5D9604F-C921-4AC8-B017-31FF3D07391A}
 		{CBF208B1-6CFA-4871-B4F4-BA784CA7BFD8} = {CBF208B1-6CFA-4871-B4F4-BA784CA7BFD8}
 	EndProjectSection
@@ -15,6 +16,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HierarchyDumper", "Hierarch
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NullPopPoSpecial", "NullPopPoSpecial\NullPopPoSpecial.csproj", "{CBF208B1-6CFA-4871-B4F4-BA784CA7BFD8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluggableVR", "PluggableVR\PluggableVR.csproj", "{FF677508-A0DB-4479-8448-E0948BADC008}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CBF208B1-6CFA-4871-B4F4-BA784CA7BFD8} = {CBF208B1-6CFA-4871-B4F4-BA784CA7BFD8}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluggableVR_CS", "PluggableVR_CS\PluggableVR_CS.csproj", "{5ED194FF-D8A2-435B-B54A-011668B00F16}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FF677508-A0DB-4479-8448-E0948BADC008} = {FF677508-A0DB-4479-8448-E0948BADC008}
+		{A5D9604F-C921-4AC8-B017-31FF3D07391A} = {A5D9604F-C921-4AC8-B017-31FF3D07391A}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,6 +46,14 @@ Global
 		{CBF208B1-6CFA-4871-B4F4-BA784CA7BFD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBF208B1-6CFA-4871-B4F4-BA784CA7BFD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBF208B1-6CFA-4871-B4F4-BA784CA7BFD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF677508-A0DB-4479-8448-E0948BADC008}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF677508-A0DB-4479-8448-E0948BADC008}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF677508-A0DB-4479-8448-E0948BADC008}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF677508-A0DB-4479-8448-E0948BADC008}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5ED194FF-D8A2-435B-B54A-011668B00F16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ED194FF-D8A2-435B-B54A-011668B00F16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ED194FF-D8A2-435B-B54A-011668B00F16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5ED194FF-D8A2-435B-B54A-011668B00F16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

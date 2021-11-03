@@ -9,11 +9,11 @@ using NullPopPoSpecial;
 namespace PluggableVR
 {
 	//! デモ用VR操作元 
-	internal class DemoPlayer : VRPlayer
+	public class DemoPlayer : VRPlayer
 	{
-		internal float Scale { get; private set; }
-		internal Transform Rig { get; private set; }
-		internal new DemoAvatar Avatar { get { return base.Avatar as DemoAvatar; } set { base.Avatar = value; } }
+		public float Scale { get; private set; }
+		public Transform Rig { get; private set; }
+		public new DemoAvatar Avatar { get { return base.Avatar as DemoAvatar; } set { base.Avatar = value; } }
 
 		private DemoControl _ctrl;
 		private Loc _offset;
@@ -21,7 +21,7 @@ namespace PluggableVR
 		private bool _elevating = false;
 		private RelativeBool _push_pstk = new RelativeBool();
 
-		internal DemoPlayer(DemoAvatar target, float scale = 1.0f)
+		public DemoPlayer(DemoAvatar target, float scale = 1.0f)
 		{
 			Scale = scale;
 
@@ -144,7 +144,7 @@ namespace PluggableVR
 		}
 
 		//! VRカメラを所定の位置に戻す 
-		internal void ResetRig()
+		public void ResetRig()
 		{
 			var inp = VRManager.Input;
 

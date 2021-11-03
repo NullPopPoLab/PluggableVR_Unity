@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
-namespace PluggableVR.KK
+namespace PluggableVR_CS
 {
 	internal class SceneObserver: SceneObserverBase
 	{

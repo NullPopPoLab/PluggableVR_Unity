@@ -11,15 +11,16 @@ using UnityEngine;
 using UnityEngine.VR;
 using UnityEngine.SceneManagement;
 using NullPopPoSpecial;
+using PluggableVR;
 
-namespace PluggableVR.KK
+namespace PluggableVR_CS
 {
-    [BepInPlugin(GUID, "PluggableVR.KK", VERSION)]
-    [BepInProcess("Koikatu")]
-    public class Main : BaseUnityPlugin
-    {
-		public const string GUID = "com.nullpoppo.PluggableVR.KK";
-		public const string VERSION = "0.0.3.3";
+	[BepInPlugin(GUID, "PluggableVR_CS", VERSION)]
+	[BepInProcess("CharaStudio")]
+	public class Main : BaseUnityPlugin
+	{
+		public const string GUID = "com.nullpoppo.PluggableVR.CS";
+		public const string VERSION = "0.0.4.1";
 
 		public static Main Instance;
 		public static bool Enabled { get; private set; }
@@ -28,8 +29,8 @@ namespace PluggableVR.KK
 
 		private RelativeBool _push_rbtn2 = new RelativeBool();
 
-        protected void Awake()
-        {
+		protected void Awake()
+		{
 			Instance = this;
 
 			Enabled = VRSettings.enabled;
@@ -43,22 +44,22 @@ namespace PluggableVR.KK
 
 			_vrmng = new VRManager();
 			_vrmng.Initialize(new Flow_Startup());
-            Harmony.CreateAndPatchAll(typeof(Main));
-        }
+			Harmony.CreateAndPatchAll(typeof(Main));
+		}
 
-        protected void OnEnable()
-        {
+		protected void OnEnable()
+		{
 			if (!Enabled) return;
 
 			Global.Scene.Enable();
-        }
+		}
 
-        protected void OnDisable()
-        {
+		protected void OnDisable()
+		{
 			if (!Enabled) return;
 
 			Global.Scene.Disable();
-        }
+		}
 
 		protected void FixedUpdate()
 		{
@@ -87,5 +88,5 @@ namespace PluggableVR.KK
 
 			_vrmng.LateUpdate();
 		}
-    }
+	}
 }

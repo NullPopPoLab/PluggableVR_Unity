@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;UNITY_5_6_OR_NEWER; UNITY_STANDALONE_WIN</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -26,7 +26,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;UNITY_5_6_OR_NEWER; UNITY_STANDALONE_WIN</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -65,42 +65,7 @@
     <Compile Include="src\Global.cs" />
     <Compile Include="src\Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\Oculus\Composition\OVRCameraComposition.cs" />
-    <Compile Include="src\Oculus\Composition\OVRComposition.cs" />
-    <Compile Include="src\Oculus\Composition\OVRCompositionUtil.cs" />
-    <Compile Include="src\Oculus\Composition\OVRDirectComposition.cs" />
-    <Compile Include="src\Oculus\Composition\OVRExternalComposition.cs" />
-    <Compile Include="src\Oculus\Composition\OVRSandwichComposition.cs" />
-    <Compile Include="src\Oculus\OVRBoundary.cs" />
-    <Compile Include="src\Oculus\OVRCameraRig.cs" />
-    <Compile Include="src\Oculus\OVRCommon.cs" />
-    <Compile Include="src\Oculus\OVRDisplay.cs" />
-    <Compile Include="src\Oculus\OVRHaptics.cs" />
-    <Compile Include="src\Oculus\OVRHapticsClip.cs" />
-    <Compile Include="src\Oculus\OVRInput.cs" />
-    <Compile Include="src\Oculus\OVRManager.cs" />
-    <Compile Include="src\Oculus\OVRMixedReality.cs" />
-    <Compile Include="src\Oculus\Util\OVRMixedRealityCaptureSettings.cs" />
-    <Compile Include="src\Oculus\Util\OVRNetwork.cs" />
-    <Compile Include="src\Oculus\OVRPlugin.cs" />
-    <Compile Include="src\Oculus\OVRProfile.cs" />
-    <Compile Include="src\Oculus\OVRTracker.cs" />
-    <Compile Include="src\Oculus\Util\OVRSystemPerfMetrics.cs" />
-    <Compile Include="src\PluggableVR\DemoAvatar.cs" />
-    <Compile Include="src\PluggableVR\DemoControl.cs" />
-    <Compile Include="src\PluggableVR\DemoPlayer.cs" />
-    <Compile Include="src\PluggableVR\PlugCommon.cs" />
-    <Compile Include="src\PluggableVR\VRAvatar.cs" />
-    <Compile Include="src\PluggableVR\VRCamera.cs" />
-    <Compile Include="src\PluggableVR\VRControl.cs" />
-    <Compile Include="src\PluggableVR\VRManager.cs" />
-    <Compile Include="src\PluggableVR\VRPlayer.cs" />
     <Compile Include="src\SceneObserver.cs" />
-    <Compile Include="src\ThirdParty\openvr_api.cs" />
-    <Compile Include="src\ThirdParty\SimpleJSON.cs" />
-    <Compile Include="src\ThirdParty\SimpleJSONUnity.cs" />
-    <Compile Include="src\PluggableVR\Input.cs" />
-    <Compile Include="src\PluggableVR\Oculus\Input.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HierarchyDumper\HierarchyDumper.csproj">
@@ -111,13 +76,16 @@
       <Project>{cbf208b1-6cfa-4871-b4f4-ba784ca7bfd8}</Project>
       <Name>NullPopPoSpecial</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PluggableVR\PluggableVR.csproj">
+      <Project>{ff677508-a0db-4479-8448-e0948badc008}</Project>
+      <Name>PluggableVR</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if not exist $(SolutionDir)game\BepInEx\plugins\!myworks mkdir $(SolutionDir)game\BepInEx\plugins\!myworks
-copy /y NullPopPoSpecial.dll $(SolutionDir)game\BepInEx\plugins\!myworks\
-copy /y HierarchyDumper.dll $(SolutionDir)game\BepInEx\plugins\!myworks\
 copy /y PluggableVR_KK.dll $(SolutionDir)game\BepInEx\plugins\!myworks\
+copy /y PluggableVR_KK.pdb $(SolutionDir)game\BepInEx\plugins\!myworks\
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

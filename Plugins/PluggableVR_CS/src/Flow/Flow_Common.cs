@@ -5,8 +5,9 @@
 */
 using UnityEngine;
 using NullPopPoSpecial;
+using PluggableVR;
 
-namespace PluggableVR.KK
+namespace PluggableVR_CS
 {
 	//! 手順遷移 共通機能
 	internal class Flow_Common : Flow

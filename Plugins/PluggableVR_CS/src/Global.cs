@@ -9,7 +9,7 @@ using PluggableVR;
 using System;
 using System.Collections.Generic;
 
-namespace PluggableVR.KK
+namespace PluggableVR_CS
 {
 	internal static class Global
 	{

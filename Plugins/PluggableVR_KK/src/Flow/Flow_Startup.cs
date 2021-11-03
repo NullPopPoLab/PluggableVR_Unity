@@ -6,8 +6,9 @@
 using System;
 using UnityEngine;
 using NullPopPoSpecial;
+using PluggableVR;
 
-namespace PluggableVR.KK
+namespace PluggableVR_KK
 {
 	//! 手順遷移 開始時 
 	internal class Flow_Startup : Flow

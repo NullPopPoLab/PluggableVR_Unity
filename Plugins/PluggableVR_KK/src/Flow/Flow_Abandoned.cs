@@ -1,15 +1,16 @@
 ﻿/*!	@file
-	@brief PluggableVR: 手順遷移 ロゴシーン 
+	@brief PluggableVR: 手順遷移 破棄されたシーン 
 	@author NullPopPoLab
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
 using UnityEngine;
 using NullPopPoSpecial;
+using PluggableVR;
 
-namespace PluggableVR.KK
+namespace PluggableVR_KK
 {
-	//! 手順遷移 ロゴシーン 
-	internal class Flow_Logo : Flow_Common
+	//! 手順遷移 破棄されたシーン 
+	internal class Flow_Abandoned : Flow_Common
 	{
 		protected override void OnStart()
 		{

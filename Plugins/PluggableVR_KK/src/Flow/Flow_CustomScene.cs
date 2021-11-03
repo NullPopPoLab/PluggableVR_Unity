@@ -5,8 +5,9 @@
 */
 using UnityEngine;
 using NullPopPoSpecial;
+using PluggableVR;
 
-namespace PluggableVR.KK
+namespace PluggableVR_KK
 {
 	//! 手順遷移 キャラエディット 
 	internal class Flow_CustomScene : Flow_Common
