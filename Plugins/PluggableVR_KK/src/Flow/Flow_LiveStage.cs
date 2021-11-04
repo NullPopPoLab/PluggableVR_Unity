@@ -106,11 +106,11 @@ namespace PluggableVR_KK
 			base.OnUpdate();
 
 			// 抜け検知 
-			if(Global.Scene.ActiveScene!="Assets/LiveStage/LiveStage.unity")return new Flow_Abandoned();
+			if(Global.Scene.ActiveScene!="Assets/LiveStage/LiveStage.unity")return new Flow_Delay(new Flow_Title());
 			// 開演検知 
 			if (_prop.Camera_Show.gameObject.activeInHierarchy) return new Flow_LiveStage_Show(_prop);
 
-			return base.StepScene();
+			return StepScene();
 		}
 	}
 
