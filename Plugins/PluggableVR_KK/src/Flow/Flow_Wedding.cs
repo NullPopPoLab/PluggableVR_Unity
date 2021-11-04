@@ -12,10 +12,13 @@ namespace PluggableVR_KK
 	//! 手順遷移 ウェディング 準備
 	internal class Flow_Wedding : Flow_Common
 	{
+		private bool _show;
 		protected override void OnStart()
 		{
 			Global.Logger.LogInfo(ToString() + " bgn");
 			base.OnStart();
+
+			_show = false;
 
 			// メインカメラ捕捉 
 			var mng = VRManager.Instance;
@@ -43,10 +46,17 @@ namespace PluggableVR_KK
 
 			// 移設Component除去 
 			var mng = VRManager.Instance;
-			mng.Camera.Recall();
-
-			// 元カメラを有効に戻しとく 
-			mng.Camera.Source.enabled = true;
+			if (_show)
+			{
+				// 終宴後また使うので有効に戻しとく 
+				mng.Camera.Recall();
+				mng.Camera.Source.enabled = true;
+			}
+			else
+			{
+				// もう参照残ってないので捨て 
+				mng.Camera.Dispose();
+			}
 
 			// メインカメラ切断 
 			var player = mng.Player;
@@ -60,7 +70,11 @@ namespace PluggableVR_KK
 			base.OnUpdate();
 
 			// 開宴検知 
-			if(Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scene/ADV.unity").isLoaded)return new Flow_Wedding_Show();
+			if (Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scene/ADV.unity").isLoaded)
+			{
+				_show = true;
+				return new Flow_Wedding_Show();
+			}
 
 			// メインカメラ位置更新 
 			var mng = VRManager.Instance;
@@ -73,6 +87,8 @@ namespace PluggableVR_KK
 	//! 手順遷移 ウェディング 開宴
 	internal class Flow_Wedding_Show : Flow_Common
 	{
+		private Chaser _chaser;
+
 		protected override void OnStart()
 		{
 			Global.Logger.LogInfo(ToString() + " bgn");
@@ -93,6 +109,9 @@ namespace PluggableVR_KK
 
 			// アバター表示Layerをカメラの表示対象内で選択 
 			mng.Avatar.SetLayer(4);
+
+			// メインカメラ追跡 
+			_chaser = new Chaser(cam.Source.transform);
 		}
 
 		protected override void OnTerminate()
@@ -115,11 +134,19 @@ namespace PluggableVR_KK
 			base.OnUpdate();
 
 			// 脱出検知 
-			if(!Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scripts/Scene/Wedding/Wedding.unity").isLoaded)return new Flow_Delay(new Flow_Title());
+			if (!Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scripts/Scene/Wedding/Wedding.unity").isLoaded) return new Flow_Delay(new Flow_Title());
 			// 終宴検知 
-			if(!Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scene/ADV.unity").isLoaded)return new Flow_Delay(new Flow_Wedding());
+			if (!Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scene/ADV.unity").isLoaded) return new Flow_Delay(new Flow_Wedding());
 
-			return  null;
+			// カメラ位置変更検知 
+			if (_chaser.Update())
+			{
+				var mng = VRManager.Instance;
+				var player = mng.Player;
+				player.Reloc(_chaser.Loc);
+			}
+
+			return null;
 		}
 	}
 }
