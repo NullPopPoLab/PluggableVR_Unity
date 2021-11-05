@@ -42,6 +42,8 @@ namespace PluggableVR_KK
 			VRCamera.Revision = VRCamera.ERevision.Legacy;
 			VRCamera.SourceMode = VRCamera.ESourceMode.Disabled;
 
+			Dumper.Register();
+
 			_vrmng = new VRManager();
 			_vrmng.Initialize(new Flow_Startup());
             Harmony.CreateAndPatchAll(typeof(Main));
