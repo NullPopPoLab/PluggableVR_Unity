@@ -15,7 +15,7 @@ namespace HierarchyDumper
 	public class Main : BaseUnityPlugin
 	{
 		public const string GUID = "com.nullpoppo.HierarchyDumper";
-		public const string VERSION = "0.0.4.2";
+		public const string VERSION = "0.0.4.3";
 
 		public static Main Instance;
 

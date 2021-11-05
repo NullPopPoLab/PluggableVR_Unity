@@ -20,7 +20,7 @@ namespace PluggableVR_CS
 	public class Main : BaseUnityPlugin
 	{
 		public const string GUID = "com.nullpoppo.PluggableVR.CS";
-		public const string VERSION = "0.0.4.1";
+		public const string VERSION = "0.0.4.2";
 
 		public static Main Instance;
 		public static bool Enabled { get; private set; }
@@ -41,6 +41,8 @@ namespace PluggableVR_CS
 
 			VRCamera.Revision = VRCamera.ERevision.Legacy;
 			VRCamera.SourceMode = VRCamera.ESourceMode.Disabled;
+
+			Dumper.Register();
 
 			_vrmng = new VRManager();
 			_vrmng.Initialize(new Flow_Startup());

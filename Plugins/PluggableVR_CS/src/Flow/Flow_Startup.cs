@@ -25,8 +25,8 @@ namespace PluggableVR_CS
 			VRManager.Instance.SetPlayer(player);
 
 			// 手の軸表示を消す 
-			avatar.LeftHand.SetActive(false);
-			avatar.RightHand.SetActive(false);
+			avatar.LeftHand.Axes.Node.SetActive(false);
+			avatar.RightHand.Axes.Node.SetActive(false);
 		}
 
 		protected override void OnTerminate()
