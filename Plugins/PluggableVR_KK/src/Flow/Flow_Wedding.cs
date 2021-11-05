@@ -20,6 +20,9 @@ namespace PluggableVR_KK
 
 			_show = false;
 
+			// メインカメラの扱い 
+			VRCamera.SourceMode = VRCamera.ESourceMode.Disabled;
+
 			// メインカメラ捕捉 
 			var mng = VRManager.Instance;
 			var player = mng.Player;

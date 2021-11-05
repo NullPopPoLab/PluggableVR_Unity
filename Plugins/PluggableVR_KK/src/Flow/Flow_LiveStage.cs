@@ -24,6 +24,10 @@ namespace PluggableVR_KK
 		protected override void OnStart()
 		{
 			Global.Logger.LogInfo(ToString() + " bgn");
+
+			// メインカメラの扱い 
+			VRCamera.SourceMode = VRCamera.ESourceMode.Disabled;
+
 			base.OnStart();
 		}
 
@@ -76,9 +80,6 @@ namespace PluggableVR_KK
 			cam.Suppress<UnityStandardAssets.ImageEffects.DepthOfField>();
 			cam.Suppress<AmplifyColorEffect>();
 			cam.Suppress<AmplifyOcclusionEffect>();
-//			cam.Suppress<CrossFade>();
-//			cam.Suppress<CameraEffector>();
-//			cam.Suppress<CameraEffectorConfig>();
 
 			// アバター表示Layerをカメラの表示対象内で選択 
 			mng.Avatar.SetLayer(0);

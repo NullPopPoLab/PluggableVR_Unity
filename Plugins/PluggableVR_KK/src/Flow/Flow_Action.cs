@@ -1,5 +1,5 @@
 ﻿/*!	@file
-	@brief PluggableVR: 手順遷移 キャラエディット 
+	@brief PluggableVR: 手順遷移 インゲーム 
 	@author NullPopPoLab
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
@@ -9,8 +9,8 @@ using PluggableVR;
 
 namespace PluggableVR_KK
 {
-	//! 手順遷移 キャラエディット 
-	internal class Flow_CustomScene : Flow_Common
+	//! 手順遷移 インゲーム 
+	internal class Flow_Action : Flow_Common
 	{
 		protected override void OnStart()
 		{
@@ -18,7 +18,7 @@ namespace PluggableVR_KK
 			base.OnStart();
 
 			// メインカメラの扱い 
-			VRCamera.SourceMode = VRCamera.ESourceMode.Disabled;
+			VRCamera.SourceMode = VRCamera.ESourceMode.Blind;
 
 			// メインカメラ捕捉 
 			var mng = VRManager.Instance;
@@ -28,12 +28,18 @@ namespace PluggableVR_KK
 			// メインカメラから移設するComponent 
 			var cam = player.Camera;
 			cam.Possess<FlareLayer>();
-			cam.Possess<AmplifyColorEffect>();
+			cam.Possess<UnityStandardAssets.ImageEffects.GlobalFog>();
 			cam.Possess<UnityStandardAssets.ImageEffects.BloomAndFlares>();
-			cam.Possess<ChaCustom.CustomRender>();
+			cam.Possess<UnityStandardAssets.ImageEffects.SunShafts>();
+			cam.Possess<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration>();
+
+			// メインカメラから遮断するComponent 
+			cam.Suppress<UnityStandardAssets.ImageEffects.DepthOfField>();
+			cam.Suppress<AmplifyColorEffect>();
+			cam.Suppress<AmplifyOcclusionEffect>();
 
 			// アバター表示Layerをカメラの表示対象内で選択 
-			mng.Avatar.SetLayer(0);
+			mng.Avatar.SetLayer(4);
 		}
 
 		protected override void OnTerminate()
@@ -54,11 +60,6 @@ namespace PluggableVR_KK
 		protected override Flow OnUpdate()
 		{
 			base.OnUpdate();
-
-			// メインカメラ位置更新 
-			var mng = VRManager.Instance;
-			mng.Camera.Feedback();
-
 			return base.StepScene();
 		}
 	}

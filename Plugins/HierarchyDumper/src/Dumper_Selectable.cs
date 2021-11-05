@@ -20,7 +20,7 @@ namespace HierarchyDumper
 
 			var s = "";
 			s += indent + "Interactable: " + _obj.interactable + "\n";
-			s += indent + "TargetGraphic: \n" + ((_obj.targetGraphic == null) ? "None\n" : new Dumper_Graphic(_obj.targetGraphic).Dump(indent + "  "));
+			s += indent + DumpForm.Deep(_obj.targetGraphic, "TargetGraphic", (o) => o.name, (o) => new Dumper_Graphic(o).Dump(indent + "  "));
 
 			return s;
 		}

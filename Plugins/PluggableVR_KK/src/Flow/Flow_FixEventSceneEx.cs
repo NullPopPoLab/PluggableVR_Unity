@@ -48,6 +48,9 @@ namespace PluggableVR_KK
 			Global.Logger.LogInfo(ToString() + " bgn");
 			base.OnStart();
 
+			// メインカメラの扱い 
+			VRCamera.SourceMode = VRCamera.ESourceMode.Disabled;
+
 			// メインカメラ捕捉 
 			var mng = VRManager.Instance;
 			var player = mng.Player;
