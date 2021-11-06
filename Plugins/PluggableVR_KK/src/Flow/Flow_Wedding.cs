@@ -53,7 +53,6 @@ namespace PluggableVR_KK
 			{
 				// 終宴後また使うので有効に戻しとく 
 				mng.Camera.Recall();
-				mng.Camera.Source.enabled = true;
 			}
 			else
 			{
@@ -76,7 +75,7 @@ namespace PluggableVR_KK
 			if (Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scene/ADV.unity").isLoaded)
 			{
 				_show = true;
-				return new Flow_ADV(this);
+				return new Flow_ADV(this, "Assets/Illusion/Game/Scripts/Scene/Wedding/Wedding.unity");
 			}
 
 			return StepScene();

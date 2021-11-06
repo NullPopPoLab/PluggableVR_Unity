@@ -87,6 +87,8 @@ namespace PluggableVR
 			set { Object.SetActive(value); }
 		}
 
+		StereoTargetEyeMask _backupStereoTargetEyeMask;
+
 		public VRCamera(Transform rig)
 		{
 			var obj = CreateChildObject("VRCamera", rig, Loc.Identity, false);
@@ -120,6 +122,8 @@ namespace PluggableVR
 			Target.depth = Source.depth;
 
 			// 元のメインカメラに対する措置 
+			_backupStereoTargetEyeMask = Source.stereoTargetEye;
+			Source.stereoTargetEye = StereoTargetEyeMask.None;
 			switch (SourceMode)
 			{
 				case ESourceMode.Disabled:
@@ -206,6 +210,10 @@ namespace PluggableVR
 				t.Src.enabled = t.Dst.enabled;
 				Component.DestroyImmediate(t.Dst);
 			}
+			Source.clearFlags = Target.clearFlags;
+			Source.cullingMask = Target.cullingMask;
+			Source.stereoTargetEye = _backupStereoTargetEyeMask;
+			Source.enabled = Target.enabled;
 		}
 
 		//! 移設された Component 除去 

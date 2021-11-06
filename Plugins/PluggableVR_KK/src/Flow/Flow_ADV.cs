@@ -12,11 +12,13 @@ namespace PluggableVR_KK
 	//! 手順遷移 会話
 	internal class Flow_ADV : Flow_Common
 	{
+		private string _basescene;
 		private Flow _prev;
 		private Chaser _chaser;
 
-		internal Flow_ADV(Flow prev)
+		internal Flow_ADV(Flow prev, string basescene)
 		{
+			_basescene = basescene;
 			_prev=prev;
 		}
 
@@ -26,7 +28,7 @@ namespace PluggableVR_KK
 			base.OnStart();
 
 			// メインカメラの扱い 
-			VRCamera.SourceMode = VRCamera.ESourceMode.Disabled;
+			VRCamera.SourceMode = VRCamera.ESourceMode.Blind;
 
 			// メインカメラ捕捉 
 			var mng = VRManager.Instance;
@@ -36,10 +38,10 @@ namespace PluggableVR_KK
 			// メインカメラから移設するComponent 
 			var cam = player.Camera;
 			cam.Possess<FlareLayer>();
-			cam.Possess<AmplifyColorEffect>();
-			cam.Possess<UnityStandardAssets.ImageEffects.GlobalFog>();
-			cam.Possess<UnityStandardAssets.ImageEffects.BloomAndFlares>();
-			cam.Possess<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration>();
+//			cam.Possess<AmplifyColorEffect>();
+//			cam.Possess<UnityStandardAssets.ImageEffects.GlobalFog>();
+//			cam.Possess<UnityStandardAssets.ImageEffects.BloomAndFlares>();
+//			cam.Possess<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration>();
 
 			// アバター表示Layerをカメラの表示対象内で選択 
 			mng.Avatar.SetLayer(4);
@@ -68,7 +70,7 @@ namespace PluggableVR_KK
 			base.OnUpdate();
 
 			// 脱出検知 
-			if (!Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scripts/Scene/Wedding/Wedding.unity").isLoaded) return new Flow_Delay(new Flow_Title());
+			if (!Global.Scene.GetSceneInfo(_basescene).isLoaded) return new Flow_Delay(new Flow_Title());
 			// 終宴検知 
 			if (!Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scene/ADV.unity").isLoaded) return new Flow_Delay(_prev);
 
