@@ -74,7 +74,6 @@ namespace PluggableVR_KK
 			// えっち遷移検知 
 			if (Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scene/H.unity").isLoaded)
 			{
-				HierarchyDumper.Dumper.Dump2File("Hier", "BeforeH");
 				// この時点で元カメラもうないらしい 
 				VRManager.Instance.Camera.Dispose();
 				return new Flow_H(this);

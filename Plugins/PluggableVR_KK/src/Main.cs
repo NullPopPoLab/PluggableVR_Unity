@@ -20,7 +20,7 @@ namespace PluggableVR_KK
     public class Main : BaseUnityPlugin
     {
 		public const string GUID = "com.nullpoppo.PluggableVR.KK";
-		public const string VERSION = "0.0.3.6";
+		public const string VERSION = "0.0.5.0";
 
 		public static Main Instance;
 		public static bool Enabled { get; private set; }

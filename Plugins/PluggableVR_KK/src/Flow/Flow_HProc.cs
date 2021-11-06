@@ -24,6 +24,10 @@ namespace PluggableVR_KK
 			Global.Logger.LogInfo(ToString() + " bgn");
 			base.OnStart();
 
+			// UIのVR対応までひとまず Canvas をoverlayにしとく 
+			var ui = GameObject.Find("/Canvas").GetComponent<Canvas>();
+			ui.renderMode = RenderMode.ScreenSpaceOverlay;
+
 			// メインカメラの扱い 
 			VRCamera.SourceMode = VRCamera.ESourceMode.Blind;
 
