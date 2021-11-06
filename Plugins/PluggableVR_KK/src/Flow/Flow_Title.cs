@@ -27,6 +27,10 @@ namespace PluggableVR_KK
 		protected override Flow OnUpdate()
 		{
 			base.OnUpdate();
+
+			// キャラメイク遷移検知 
+			if (Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scripts/Scene/Custom/CustomScene.unity").isLoaded) return new Flow_CustomScene(this);
+
 			return base.StepScene();
 		}
 	}

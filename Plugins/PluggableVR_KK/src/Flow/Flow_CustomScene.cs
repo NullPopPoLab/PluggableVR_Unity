@@ -12,6 +12,11 @@ namespace PluggableVR_KK
 	//! 手順遷移 キャラエディット 
 	internal class Flow_CustomScene : Flow_Common
 	{
+		private Flow _prev;
+		public Flow_CustomScene(Flow prev){
+			_prev = prev;
+		}
+
 		protected override void OnStart()
 		{
 			Global.Logger.LogInfo(ToString() + " bgn");
@@ -54,6 +59,9 @@ namespace PluggableVR_KK
 		protected override Flow OnUpdate()
 		{
 			base.OnUpdate();
+
+			// キャラメイク終了検知 
+			if (!Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scripts/Scene/Custom/CustomScene.unity").isLoaded) return new Flow_Delay(_prev);
 
 			// メインカメラ位置更新 
 			var mng = VRManager.Instance;

@@ -20,7 +20,6 @@ namespace PluggableVR_KK
 
 			// Unityシーンロードに連動する遷移 
 			Global.Transit["Action"] =()=> new Flow_Action();
-			Global.Transit["CustomScene"] =()=> new Flow_CustomScene();
 			Global.Transit["FixEventSceneEx"] =()=> new Flow_FixEventSceneEx();
 			Global.Transit["LiveStage"] =()=> new Flow_LiveStage();
 			Global.Transit["Title"] =()=> new Flow_Title();
