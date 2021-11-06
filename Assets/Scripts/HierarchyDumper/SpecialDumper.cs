@@ -25,29 +25,29 @@ namespace HierarchyDumper
 		public SpecialDumper()
 		{
 			Selector = new Dictionary<string, CB_Dumper>();
-			Selector["Animator"] = (o, i) => new Dumper_Animator(o).Dump(i);
-			Selector["Avatar"] = (o, i) => new Dumper_Avatar(o).Dump(i);
-			Selector["BoxCollider"] = (o, i) => new Dumper_BoxCollider(o).Dump(i);
-			Selector["Button"] = (o, i) => new Dumper_Button(o).Dump(i);
-			Selector["Camera"] = (o, i) => new Dumper_Camera(o).Dump(i);
-			Selector["Canvas"] = (o, i) => new Dumper_Canvas(o).Dump(i);
-			Selector["CanvasScaler"] = (o, i) => new Dumper_CanvasScaler(o).Dump(i);
-			Selector["CapsuleCollider"] = (o, i) => new Dumper_CapsuleCollider(o).Dump(i);
-			Selector["Dropdown"] = (o, i) => new Dumper_Dropdown(o).Dump(i);
-			Selector["InputField"] = (o, i) => new Dumper_InputField(o).Dump(i);
-			Selector["Light"] = (o, i) => new Dumper_Light(o).Dump(i);
-			Selector["LineRenderer"] = (o, i) => new Dumper_LineRenderer(o).Dump(i);
-			Selector["MeshCollider"] = (o, i) => new Dumper_MeshCollider(o).Dump(i);
-			Selector["MeshRenderer"] = (o, i) => new Dumper_MeshRenderer(o).Dump(i);
-			Selector["RectTransform"] = (o, i) => new Dumper_RectTransform(o).Dump(i);
-			Selector["Renderer"] = (o, i) => new Dumper_Renderer(o).Dump(i);
-			Selector["Rigidbody"] = (o, i) => new Dumper_Rigidbody(o).Dump(i);
-			Selector["SkinnedMeshRenderer"] = (o, i) => new Dumper_SkinnedMeshRenderer(o).Dump(i);
-			Selector["Slider"] = (o, i) => new Dumper_Slider(o).Dump(i);
-			Selector["SphereCollider"] = (o, i) => new Dumper_SphereCollider(o).Dump(i);
-			Selector["Text"] = (o, i) => new Dumper_Text(o).Dump(i);
-			Selector["Toggle"] = (o, i) => new Dumper_Toggle(o).Dump(i);
-			Selector["Transform"] = (o, i) => new Dumper_Transform(o).Dump(i);
+			Selector["UnityEngine.Animator"] = (o, i) => new Dumper_Animator(o).Dump(i);
+			Selector["UnityEngine.Avatar"] = (o, i) => new Dumper_Avatar(o).Dump(i);
+			Selector["UnityEngine.BoxCollider"] = (o, i) => new Dumper_BoxCollider(o).Dump(i);
+			Selector["UnityEngine.Button"] = (o, i) => new Dumper_Button(o).Dump(i);
+			Selector["UnityEngine.Camera"] = (o, i) => new Dumper_Camera(o).Dump(i);
+			Selector["UnityEngine.Canvas"] = (o, i) => new Dumper_Canvas(o).Dump(i);
+			Selector["UnityEngine.CanvasScaler"] = (o, i) => new Dumper_CanvasScaler(o).Dump(i);
+			Selector["UnityEngine.CapsuleCollider"] = (o, i) => new Dumper_CapsuleCollider(o).Dump(i);
+			Selector["UnityEngine.Dropdown"] = (o, i) => new Dumper_Dropdown(o).Dump(i);
+			Selector["UnityEngine.InputField"] = (o, i) => new Dumper_InputField(o).Dump(i);
+			Selector["UnityEngine.Light"] = (o, i) => new Dumper_Light(o).Dump(i);
+			Selector["UnityEngine.LineRenderer"] = (o, i) => new Dumper_LineRenderer(o).Dump(i);
+			Selector["UnityEngine.MeshCollider"] = (o, i) => new Dumper_MeshCollider(o).Dump(i);
+			Selector["UnityEngine.MeshRenderer"] = (o, i) => new Dumper_MeshRenderer(o).Dump(i);
+			Selector["UnityEngine.RectTransform"] = (o, i) => new Dumper_RectTransform(o).Dump(i);
+			Selector["UnityEngine.Renderer"] = (o, i) => new Dumper_Renderer(o).Dump(i);
+			Selector["UnityEngine.Rigidbody"] = (o, i) => new Dumper_Rigidbody(o).Dump(i);
+			Selector["UnityEngine.SkinnedMeshRenderer"] = (o, i) => new Dumper_SkinnedMeshRenderer(o).Dump(i);
+			Selector["UnityEngine.Slider"] = (o, i) => new Dumper_Slider(o).Dump(i);
+			Selector["UnityEngine.SphereCollider"] = (o, i) => new Dumper_SphereCollider(o).Dump(i);
+			Selector["UnityEngine.Text"] = (o, i) => new Dumper_Text(o).Dump(i);
+			Selector["UnityEngine.Toggle"] = (o, i) => new Dumper_Toggle(o).Dump(i);
+			Selector["UnityEngine.Transform"] = (o, i) => new Dumper_Transform(o).Dump(i);
 		}
 
 		//! 型別の動作を登録 
@@ -60,7 +60,9 @@ namespace HierarchyDumper
 		public static string Dump(object obj, string indent = "")
 		{
 			if (_instance == null) _instance = new SpecialDumper();
-			var name = obj.GetType().Name;
+			var type = obj.GetType();
+			var name = type.Name;
+			if (!String.IsNullOrEmpty(type.Namespace)) name = type.Namespace + "." + name;
 			if (!Selector.ContainsKey(name)) return "";
 			return Selector[name](obj, indent);
 		}

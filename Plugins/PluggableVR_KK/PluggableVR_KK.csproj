@@ -58,6 +58,7 @@
     <Compile Include="src\Dumper\Dumper_DynamicBoneCollider.cs" />
     <Compile Include="src\Flow\Flow_Abandoned.cs" />
     <Compile Include="src\Flow\Flow_Action.cs" />
+    <Compile Include="src\Flow\Flow_ADV.cs" />
     <Compile Include="src\Flow\Flow_Common.cs" />
     <Compile Include="src\Flow\Flow_CustomScene.cs" />
     <Compile Include="src\Flow\Flow_Delay.cs" />

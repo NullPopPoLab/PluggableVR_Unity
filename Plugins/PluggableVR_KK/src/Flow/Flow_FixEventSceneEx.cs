@@ -9,7 +9,7 @@ using PluggableVR;
 
 namespace PluggableVR_KK
 {
-	//! 手順遷移 イベント 選択
+	//! 手順遷移 イベント 
 	internal class Flow_FixEventSceneEx : Flow_Common
 	{
 		protected override void OnStart()
@@ -31,80 +31,10 @@ namespace PluggableVR_KK
 			// 再生検知 
 			if (Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scene/ADV.unity").isLoaded)
 			{
-				return new Flow_FixEventSceneEx_Show();
+				return new Flow_ADV(this);
 			}
 
 			return StepScene();
-		}
-	}
-
-	//! 手順遷移 イベント 再生
-	internal class Flow_FixEventSceneEx_Show : Flow_Common
-	{
-		private Chaser _chaser;
-
-		protected override void OnStart()
-		{
-			Global.Logger.LogInfo(ToString() + " bgn");
-			base.OnStart();
-
-			// メインカメラの扱い 
-			VRCamera.SourceMode = VRCamera.ESourceMode.Disabled;
-
-			// メインカメラ捕捉 
-			var mng = VRManager.Instance;
-			var player = mng.Player;
-			player.SetCamera(Camera.main);
-
-			// メインカメラから移設するComponent 
-			var cam = player.Camera;
-			cam.Possess<FlareLayer>();
-			cam.Possess<AmplifyColorEffect>();
-			cam.Possess<UnityStandardAssets.ImageEffects.GlobalFog>();
-			cam.Possess<UnityStandardAssets.ImageEffects.BloomAndFlares>();
-			cam.Possess<UnityStandardAssets.ImageEffects.SunShafts>();
-			cam.Possess<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration>();
-
-			// アバター表示Layerをカメラの表示対象内で選択 
-			mng.Avatar.SetLayer(4);
-
-			// メインカメラ追跡 
-			_chaser = new Chaser(cam.Source.transform);
-		}
-
-		protected override void OnTerminate()
-		{
-			Global.Logger.LogInfo(ToString() + " end");
-
-			// 移設Component除去 
-			var mng = VRManager.Instance;
-			mng.Camera.Dispose();
-
-			// メインカメラ切断 
-			var player = mng.Player;
-			player.SetCamera(null);
-
-			base.OnTerminate();
-		}
-
-		protected override Flow OnUpdate()
-		{
-			base.OnUpdate();
-
-			// 脱出検知 
-			if (!Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scene/FixEventSceneEx.unity").isLoaded) return new Flow_Delay(new Flow_Title());
-			// 終了検知 
-			if (!Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scene/ADV.unity").isLoaded) return new Flow_Delay(new Flow_FixEventSceneEx());
-
-			// カメラ位置変更検知 
-			if (_chaser.Update())
-			{
-				var mng = VRManager.Instance;
-				var player = mng.Player;
-				player.Reloc(_chaser.Loc);
-			}
-
-			return null;
 		}
 	}
 }
