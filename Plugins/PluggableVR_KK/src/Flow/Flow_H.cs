@@ -1,5 +1,5 @@
 ﻿/*!	@file
-	@brief PluggableVR: 手順遷移 タイトルシーン 
+	@brief PluggableVR: 手順遷移 えっち ローディング 
 	@author NullPopPoLab
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
@@ -9,9 +9,16 @@ using PluggableVR;
 
 namespace PluggableVR_KK
 {
-	//! 手順遷移 タイトルシーン 
-	internal class Flow_Title : Flow_Common
+	//! 手順遷移 えっち ローディング 
+	internal class Flow_H : Flow_Common
 	{
+		private Flow _prev;
+
+		internal Flow_H(Flow prev)
+		{
+			_prev=prev;
+		}
+
 		protected override void OnStart()
 		{
 			Global.Logger.LogInfo(ToString() + " bgn");
@@ -28,14 +35,13 @@ namespace PluggableVR_KK
 		{
 			base.OnUpdate();
 
-			// えっち遷移検知 
-			if (Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scene/H.unity").isLoaded)
-				return new Flow_H(this);
-			// キャラメイク遷移検知 
-			if (Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scripts/Scene/Custom/CustomScene.unity").isLoaded)
-				return new Flow_CustomScene(this);
+			// ロード完了検知 
+			if (Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scene/HProc.unity").isLoaded)
+			{
+				return new Flow_HProc(_prev);
+			}
 
-			return base.StepScene();
+			return null;
 		}
 	}
 }

@@ -19,7 +19,8 @@ namespace PluggableVR_KK
 			Global.Logger.LogInfo(ToString() + " bgn");
 			base.OnStart();
 
-			_minimap2d = GameObject.Find("/ActionScene/UI/Minimap/MiniMapCircle/MiniMapCanvas2D").GetComponent<Canvas>();
+			var mm2 = GameObject.Find("/ActionScene/UI/Minimap/MiniMapCircle/MiniMapCanvas2D");
+			_minimap2d = (mm2==null)?null:mm2.GetComponent<Canvas>();
 
 			// メインカメラの扱い 
 			VRCamera.SourceMode = VRCamera.ESourceMode.Blind;
@@ -70,10 +71,20 @@ namespace PluggableVR_KK
 				return new Flow_NightMenu(this);
 			}
 
+			// えっち遷移検知 
+			if (Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scene/H.unity").isLoaded)
+			{
+				HierarchyDumper.Dumper.Dump2File("Hier", "BeforeH");
+				// この時点で元カメラもうないらしい 
+				VRManager.Instance.Camera.Dispose();
+				return new Flow_H(this);
+			}
+
 			// 会話遷移検知 
 			var mng = VRManager.Instance;
 			var camera = mng.Camera;
-			if (camera.Source.transform.parent.name == "Cameras")
+			var cs = camera.Source;
+			if (cs!=null && cs.transform.parent.name == "Cameras")
 			{
 				// 戻ってきてまた使うので有効に戻しとく 
 				VRManager.Instance.Camera.Recall();
@@ -81,7 +92,7 @@ namespace PluggableVR_KK
 			}
 
 			// 移動シーン検知 
-			if(_minimap2d.enabled){
+			if(_minimap2d!=null && _minimap2d.enabled){
 				// 戻ってきてまた使うので有効に戻しとく 
 				VRManager.Instance.Camera.Recall();
 				return new Flow_Moving(this);

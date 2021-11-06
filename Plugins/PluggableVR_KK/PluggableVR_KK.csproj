@@ -63,6 +63,8 @@
     <Compile Include="src\Flow\Flow_CustomScene.cs" />
     <Compile Include="src\Flow\Flow_Delay.cs" />
     <Compile Include="src\Flow\Flow_FixEventSceneEx.cs" />
+    <Compile Include="src\Flow\Flow_H.cs" />
+    <Compile Include="src\Flow\Flow_HProc.cs" />
     <Compile Include="src\Flow\Flow_LiveStage.cs" />
     <Compile Include="src\Flow\Flow_Logo.cs" />
     <Compile Include="src\Flow\Flow_Moving.cs" />
