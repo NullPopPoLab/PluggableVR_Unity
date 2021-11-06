@@ -31,7 +31,7 @@ namespace PluggableVR_KK
 			// 再生検知 
 			if (Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scene/ADV.unity").isLoaded)
 			{
-				return new Flow_ADV(this, "Assets/Illusion/Game/Scene/FixEventSceneEx.unity");
+				return new Flow_ADV(this, false, "Assets/Illusion/Game/Scene/FixEventSceneEx.unity");
 			}
 
 			return StepScene();

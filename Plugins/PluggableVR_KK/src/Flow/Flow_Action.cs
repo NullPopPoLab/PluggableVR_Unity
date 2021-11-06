@@ -77,14 +77,14 @@ namespace PluggableVR_KK
 			{
 				// 戻ってきてまた使うので有効に戻しとく 
 				VRManager.Instance.Camera.Recall();
-				return new Flow_ADV(this, "Assets/Illusion/Game/Scene/Action.unity");
+				return new Flow_ADV(this, true, "Assets/Illusion/Game/Scene/Action.unity");
 			}
 
 			// 移動シーン検知 
 			if(_minimap2d.enabled){
 				// 戻ってきてまた使うので有効に戻しとく 
 				VRManager.Instance.Camera.Recall();
-				return new Flow_NightMenu(this);
+				return new Flow_Moving(this);
 			}
 
 			var next = StepScene();

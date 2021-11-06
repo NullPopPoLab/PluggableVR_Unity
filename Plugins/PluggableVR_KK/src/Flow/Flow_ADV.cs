@@ -13,12 +13,14 @@ namespace PluggableVR_KK
 	internal class Flow_ADV : Flow_Common
 	{
 		private string _basescene;
+		private bool _recall;
 		private Flow _prev;
 		private Chaser _chaser;
 
-		internal Flow_ADV(Flow prev, string basescene)
+		internal Flow_ADV(Flow prev, bool recall, string basescene)
 		{
 			_basescene = basescene;
+			_recall = recall;
 			_prev=prev;
 		}
 
@@ -56,7 +58,8 @@ namespace PluggableVR_KK
 
 			// 移設Component除去 
 			var mng = VRManager.Instance;
-			mng.Camera.Dispose();
+			if (_recall) mng.Camera.Recall();
+			else mng.Camera.Dispose();
 
 			// メインカメラ切断 
 			var player = mng.Player;
@@ -70,7 +73,11 @@ namespace PluggableVR_KK
 			base.OnUpdate();
 
 			// 脱出検知 
-			if (!Global.Scene.GetSceneInfo(_basescene).isLoaded) return new Flow_Delay(new Flow_Title());
+			if (!Global.Scene.GetSceneInfo(_basescene).isLoaded)
+			{
+				_recall = false;
+				return new Flow_Delay(new Flow_Title());
+			}
 			// 終了検知 
 			if (GameObject.Find("ADVScene")==null) return new Flow_Delay(_prev);
 

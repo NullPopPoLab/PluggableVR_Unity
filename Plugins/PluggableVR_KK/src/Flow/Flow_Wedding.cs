@@ -61,7 +61,7 @@ namespace PluggableVR_KK
 			{
 				// 終宴後また使うので有効に戻しとく 
 				VRManager.Instance.Camera.Recall();
-				return new Flow_ADV(this, "Assets/Illusion/Game/Scripts/Scene/Wedding/Wedding.unity");
+				return new Flow_ADV(this, false, "Assets/Illusion/Game/Scripts/Scene/Wedding/Wedding.unity");
 			}
 
 			var next = StepScene();

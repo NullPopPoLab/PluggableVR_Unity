@@ -10,12 +10,12 @@ using PluggableVR;
 namespace PluggableVR_KK
 {
 	//! 手順遷移 移動シーン 
-	internal class Flow_InLevel : Flow_Common
+	internal class Flow_Moving : Flow_Common
 	{
 		private Flow _prev;
 		private Canvas _minimap2d;
 
-		public Flow_InLevel(Flow prev){
+		public Flow_Moving(Flow prev){
 			_prev = prev;
 		}
 
