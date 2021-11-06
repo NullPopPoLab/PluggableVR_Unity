@@ -3,6 +3,7 @@
 	@author NullPopPoLab
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
+using System;
 using UnityEngine;
 using NullPopPoSpecial;
 
@@ -24,21 +25,40 @@ namespace PluggableVR
 		//! 肩の高さ 
 		public static float ShoulderHeight { get { return EyeHeight - NeckLength; } }
 
+		public class AxesView
+		{
+			public GameObject Node;
+			public GameObject X, Y, Z;
+		}
+
+		public class HeadView
+		{
+			public GameObject Node;
+			public AxesView Axes;
+			public GameObject Head;
+			public GameObject Neck;
+			public GameObject Shoulder;
+		}
+
+		public class HandView
+		{
+			public GameObject Node;
+			public AxesView Axes;
+			public GameObject Collider;
+		}
+
+
 		//! 拡大率 
 		public float Scale { get; private set; }
 
 		public Transform Origin { get; private set; }
 		public Transform Pivot { get; private set; }
 		public Transform Eye { get; private set; }
-		public GameObject View { get; private set; }
-		public GameObject Head { get; private set; }
-		public GameObject LeftHand { get; private set; }
-		public GameObject RightHand { get; private set; }
-		public GameObject RightFromHead { get; private set; }
-		public GameObject UpFromHead { get; private set; }
-		public GameObject ForeFromHead { get; private set; }
+		public HeadView Head { get; private set; }
+		public HandView LeftHand { get; private set; }
+		public HandView RightHand { get; private set; }
 
-		public DemoAvatar(Loc loc,float scale=1.0f)
+		public DemoAvatar(Loc loc, float scale = 1.0f)
 		{
 			Scale = scale;
 			// 頭 
@@ -54,28 +74,33 @@ namespace PluggableVR
 			Eye = CreateChildObject("Eye", Origin, loc, true).transform;
 
 			// 表示部 
-			View = CreateChildObject("View", Eye, loc_head, true);
-			Head = CreateChildPrimitive(PrimitiveType.Sphere, false, "Head", View.transform, Loc.Identity, false);
-			Head.transform.localScale = new Vector3(HeadScale, HeadScale, HeadScale) * scale;
-			_addAxes(View.transform);
+			Head = new HeadView();
+			Head.Node = CreateChildObject("View", Eye, loc_head, true);
+			Head.Head = CreateChildPrimitive(PrimitiveType.Sphere, false, "Head", Head.Node.transform, Loc.Identity, false);
+			Head.Head.transform.localScale = new Vector3(HeadScale, HeadScale, HeadScale) * scale;
+			Head.Axes = _addAxes(Head.Node.transform);
 
-			var neck = CreateChildPrimitive(PrimitiveType.Cylinder, false, "Neck", View.transform, new Loc(new Vector3(0, -NeckLength * 0.5f, 0) * scale, Quaternion.identity), false);
-			neck.transform.localScale = new Vector3(NeckWidth, NeckLength * 0.5f, NeckWidth) * scale;
+			Head.Neck = CreateChildPrimitive(PrimitiveType.Cylinder, false, "Neck", Head.Node.transform, new Loc(new Vector3(0, -NeckLength * 0.5f, 0) * scale, Quaternion.identity), false);
+			Head.Neck.transform.localScale = new Vector3(NeckWidth, NeckLength * 0.5f, NeckWidth) * scale;
 
-			var shoulder = CreateChildPrimitive(PrimitiveType.Cylinder, false, "Shoulder", View.transform, new Loc(new Vector3(0, -NeckLength, 0) * scale, RotUt.RotZ(Mathf.Deg2Rad * 90)), false);
-			shoulder.transform.localScale = new Vector3(ShoulderWidth, ShoulderLength * 0.5f, ShoulderWidth) * scale;
+			Head.Shoulder = CreateChildPrimitive(PrimitiveType.Cylinder, false, "Shoulder", Head.Node.transform, new Loc(new Vector3(0, -NeckLength, 0) * scale, RotUt.RotZ(Mathf.Deg2Rad * 90)), false);
+			Head.Shoulder.transform.localScale = new Vector3(ShoulderWidth, ShoulderLength * 0.5f, ShoulderWidth) * scale;
 
-			LeftHand = CreateChildObject("LeftHand", Origin, Loc.Identity, false);
-			_addAxes(LeftHand.transform);
+			LeftHand = new HandView();
+			LeftHand.Node = CreateChildObject("LeftHand", Origin, Loc.Identity, false);
+			LeftHand.Axes = _addAxes(LeftHand.Node.transform);
+			LeftHand.Collider = CreateChildObject("Collider", LeftHand.Node.transform, new Loc(new Vector3(0.025f, 0, -0.04f) * scale, Quaternion.identity), false);
+			LeftHand.Collider.transform.localScale = new Vector3(0.1f, 0.02f, 0.08f);
+			_addCollider(LeftHand.Collider);
 
-			RightHand = CreateChildObject("RightHand", Origin, Loc.Identity, false);
-			_addAxes(RightHand.transform);
+			RightHand = new HandView();
+			RightHand.Node = CreateChildObject("RightHand", Origin, Loc.Identity, false);
+			RightHand.Axes = _addAxes(RightHand.Node.transform);
+			RightHand.Collider = CreateChildObject("Collider", RightHand.Node.transform, new Loc(new Vector3(-0.025f, 0, -0.04f) * scale, Quaternion.identity), false);
+			RightHand.Collider.transform.localScale = new Vector3(0.1f, 0.02f, 0.08f);
+			_addCollider(RightHand.Collider);
 
-			RightFromHead = View.transform.Find("AxisX").gameObject;
-			UpFromHead = View.transform.Find("AxisY").gameObject;
-			ForeFromHead = View.transform.Find("AxisZ").gameObject;
-
-			RightFromHead.SetActive(false);
+			Head.Axes.X.SetActive(false);
 		}
 
 		private struct _AxisParam
@@ -83,29 +108,34 @@ namespace PluggableVR
 			public string Name;
 			public Vector3 Dir;
 			public Color Col;
+			public Action<AxesView, GameObject> Recept;
 
-			public _AxisParam(string n, Vector3 d, Color c)
+			public _AxisParam(string n, Vector3 d, Color c, Action<AxesView, GameObject> r)
 			{
 				Name = n;
 				Dir = d;
 				Col = c;
+				Recept = r;
 			}
 		}
 
 		private static _AxisParam[] _axisParam ={
-			new _AxisParam("AxisX", new Vector3(AxisLength, 0, 0),new Color(128, 0, 128)),
-			new _AxisParam("AxisY", new Vector3(0,AxisLength), new Color(0, 255, 0)),
-			new _AxisParam("AxisZ", new Vector3(0,0,AxisLength), new Color(0, 128, 255)),
+			new _AxisParam("X", new Vector3(AxisLength, 0, 0),new Color(128, 0, 128),(v,o)=>{ v.X=o; }),
+			new _AxisParam("Y", new Vector3(0,AxisLength), new Color(0, 255, 0),(v,o)=>{ v.Y=o; }),
+			new _AxisParam("Z", new Vector3(0,0,AxisLength), new Color(0, 128, 255),(v,o)=>{ v.Z=o; }),
 		};
 
-		private void _addAxes(Transform parent)
+		private AxesView _addAxes(Transform parent)
 		{
+			var t = new AxesView();
+			t.Node = CreateChildObject("Axes", parent, Loc.Identity, false);
+
 			var il = _axisParam.Length;
 			for (var i = 0; i < il; ++i)
 			{
 				var prm = _axisParam[i];
 
-				var ax = CreateChildObject(prm.Name, parent, Loc.Identity, false);
+				var ax = CreateChildObject(prm.Name, t.Node.transform, Loc.Identity, false);
 				var lx = ax.AddComponent<LineRenderer>();
 				lx.useWorldSpace = false;
 				lx.receiveShadows = false;
@@ -114,16 +144,32 @@ namespace PluggableVR
 				lx.startColor = lx.endColor = prm.Col;
 				lx.numCapVertices = 5;
 				lx.widthMultiplier = AxisWidth;
+				prm.Recept(t, ax);
 			}
+			return t;
 		}
 
-		protected override void OnChangeLayer(int layer) {
+		private void _addCollider(GameObject target)
+		{
+			var c = target.AddComponent<CapsuleCollider>();
+			c.radius = 0.5f;
+			c.height = 2.0f;
+			c.direction = 0;
 
-			Head.layer = layer;
-			View.transform.Find("Neck").gameObject.layer = layer;
-			View.transform.Find("Shoulder").gameObject.layer = layer;
-			UpFromHead.layer = layer;
-			ForeFromHead.layer = layer;
+			var r = target.AddComponent<Rigidbody>();
+			r.useGravity = false;
+			r.isKinematic = true;
+			r.drag = Mathf.Infinity;
+			r.angularDrag = Mathf.Infinity;
+		}
+
+		protected override void OnChangeLayer(int layer)
+		{
+			Head.Head.layer = layer;
+			Head.Neck.layer = layer;
+			Head.Shoulder.layer = layer;
+			Head.Axes.Y.layer = layer;
+			Head.Axes.Z.layer = layer;
 		}
 
 		//! 操作構造生成 
@@ -137,8 +183,8 @@ namespace PluggableVR
 			var inv = t.Origin.Inversed;
 			t.LocalPivot = inv * Loc.FromWorldTransform(Pivot);
 			t.LocalEye = inv * Loc.FromWorldTransform(Eye);
-			t.LocalLeftHand = inv * Loc.FromWorldTransform(LeftHand.transform);
-			t.LocalRightHand = inv * Loc.FromWorldTransform(RightHand.transform);
+			t.LocalLeftHand = inv * Loc.FromWorldTransform(LeftHand.Node.transform);
+			t.LocalRightHand = inv * Loc.FromWorldTransform(RightHand.Node.transform);
 			return t;
 		}
 
@@ -148,8 +194,8 @@ namespace PluggableVR
 			cs.Origin.ToWorldTransform(Origin);
 			cs.LocalPivot.ToLocalTransform(Pivot);
 			cs.LocalEye.ToLocalTransform(Eye);
-			cs.LocalLeftHand.ToLocalTransform(LeftHand.transform);
-			cs.LocalRightHand.ToLocalTransform(RightHand.transform);
+			cs.LocalLeftHand.ToLocalTransform(LeftHand.Node.transform);
+			cs.LocalRightHand.ToLocalTransform(RightHand.Node.transform);
 		}
 	}
 }
