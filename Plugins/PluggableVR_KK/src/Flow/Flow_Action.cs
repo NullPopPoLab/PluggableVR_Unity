@@ -12,10 +12,14 @@ namespace PluggableVR_KK
 	//! 手順遷移 インゲーム 
 	internal class Flow_Action : Flow_Common
 	{
+		private Canvas _minimap2d; 
+
 		protected override void OnStart()
 		{
 			Global.Logger.LogInfo(ToString() + " bgn");
 			base.OnStart();
+
+			_minimap2d = GameObject.Find("/ActionScene/UI/Minimap/MiniMapCircle/MiniMapCanvas2D").GetComponent<Canvas>();
 
 			// メインカメラの扱い 
 			VRCamera.SourceMode = VRCamera.ESourceMode.Blind;
@@ -28,15 +32,15 @@ namespace PluggableVR_KK
 			// メインカメラから移設するComponent 
 			var cam = player.Camera;
 			cam.Possess<FlareLayer>();
-			cam.Possess<UnityStandardAssets.ImageEffects.GlobalFog>();
-			cam.Possess<UnityStandardAssets.ImageEffects.BloomAndFlares>();
-			cam.Possess<UnityStandardAssets.ImageEffects.SunShafts>();
-			cam.Possess<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration>();
+//			cam.Possess<UnityStandardAssets.ImageEffects.GlobalFog>();
+//			cam.Possess<UnityStandardAssets.ImageEffects.BloomAndFlares>();
+//			cam.Possess<UnityStandardAssets.ImageEffects.SunShafts>();
+//			cam.Possess<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration>();
 
 			// メインカメラから遮断するComponent 
-			cam.Suppress<UnityStandardAssets.ImageEffects.DepthOfField>();
-			cam.Suppress<AmplifyColorEffect>();
-			cam.Suppress<AmplifyOcclusionEffect>();
+//			cam.Suppress<UnityStandardAssets.ImageEffects.DepthOfField>();
+//			cam.Suppress<AmplifyColorEffect>();
+//			cam.Suppress<AmplifyOcclusionEffect>();
 
 			// アバター表示Layerをカメラの表示対象内で選択 
 			mng.Avatar.SetLayer(4);
@@ -46,21 +50,47 @@ namespace PluggableVR_KK
 		{
 			Global.Logger.LogInfo(ToString() + " end");
 
-			// 移設Component除去 
-			var mng = VRManager.Instance;
-			mng.Camera.Dispose();
-
 			// メインカメラ切断 
+			var mng = VRManager.Instance;
 			var player = mng.Player;
 			player.SetCamera(null);
-
+			
 			base.OnTerminate();
 		}
 
 		protected override Flow OnUpdate()
 		{
 			base.OnUpdate();
-			return base.StepScene();
+
+			// 夜メニュー遷移検知 
+			if (Global.Scene.GetSceneInfo("Assets/Illusion/assetbundle/action/menu/Menu/NightMenu.unity").isLoaded)
+			{
+				// 戻ってきてまた使うので有効に戻しとく 
+				VRManager.Instance.Camera.Recall();
+				return new Flow_NightMenu(this);
+			}
+
+			// 会話遷移検知 
+			var mng = VRManager.Instance;
+			var camera = mng.Camera;
+			if (camera.Source.transform.parent.name == "Cameras")
+			{
+				// 戻ってきてまた使うので有効に戻しとく 
+				VRManager.Instance.Camera.Recall();
+				return new Flow_ADV(this, "Assets/Illusion/Game/Scene/Action.unity");
+			}
+
+			// 移動シーン検知 
+			if(_minimap2d.enabled){
+				// 戻ってきてまた使うので有効に戻しとく 
+				VRManager.Instance.Camera.Recall();
+				return new Flow_NightMenu(this);
+			}
+
+			var next = StepScene();
+			if (next == null) return null;
+			VRManager.Instance.Camera.Dispose();
+			return next;
 		}
 	}
 }

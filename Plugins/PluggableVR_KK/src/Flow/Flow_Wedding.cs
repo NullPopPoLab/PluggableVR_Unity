@@ -12,13 +12,10 @@ namespace PluggableVR_KK
 	//! 手順遷移 ウェディング 
 	internal class Flow_Wedding : Flow_Common
 	{
-		private bool _show;
 		protected override void OnStart()
 		{
 			Global.Logger.LogInfo(ToString() + " bgn");
 			base.OnStart();
-
-			_show = false;
 
 			// メインカメラの扱い 
 			VRCamera.SourceMode = VRCamera.ESourceMode.Disabled;
@@ -47,20 +44,8 @@ namespace PluggableVR_KK
 		{
 			Global.Logger.LogInfo(ToString() + " end");
 
-			// 移設Component除去 
-			var mng = VRManager.Instance;
-			if (_show)
-			{
-				// 終宴後また使うので有効に戻しとく 
-				mng.Camera.Recall();
-			}
-			else
-			{
-				// もう参照残ってないので捨て 
-				mng.Camera.Dispose();
-			}
-
 			// メインカメラ切断 
+			var mng = VRManager.Instance;
 			var player = mng.Player;
 			player.SetCamera(null);
 
@@ -74,11 +59,15 @@ namespace PluggableVR_KK
 			// 開宴検知 
 			if (Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scene/ADV.unity").isLoaded)
 			{
-				_show = true;
+				// 終宴後また使うので有効に戻しとく 
+				VRManager.Instance.Camera.Recall();
 				return new Flow_ADV(this, "Assets/Illusion/Game/Scripts/Scene/Wedding/Wedding.unity");
 			}
 
-			return StepScene();
+			var next = StepScene();
+			if (next == null) return null;
+			VRManager.Instance.Camera.Dispose();
+			return next;
 		}
 	}
 }

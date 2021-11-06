@@ -71,8 +71,8 @@ namespace PluggableVR_KK
 
 			// 脱出検知 
 			if (!Global.Scene.GetSceneInfo(_basescene).isLoaded) return new Flow_Delay(new Flow_Title());
-			// 終宴検知 
-			if (!Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scene/ADV.unity").isLoaded) return new Flow_Delay(_prev);
+			// 終了検知 
+			if (GameObject.Find("ADVScene")==null) return new Flow_Delay(_prev);
 
 			// カメラ位置変更検知 
 			if (_chaser.Update())

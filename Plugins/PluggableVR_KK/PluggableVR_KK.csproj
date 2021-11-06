@@ -65,6 +65,8 @@
     <Compile Include="src\Flow\Flow_FixEventSceneEx.cs" />
     <Compile Include="src\Flow\Flow_LiveStage.cs" />
     <Compile Include="src\Flow\Flow_Logo.cs" />
+    <Compile Include="src\Flow\Flow_Moving.cs" />
+    <Compile Include="src\Flow\Flow_NightMenu.cs" />
     <Compile Include="src\Flow\Flow_Startup.cs" />
     <Compile Include="src\Flow\Flow_Title.cs" />
     <Compile Include="src\Flow\Flow_Wedding.cs" />
