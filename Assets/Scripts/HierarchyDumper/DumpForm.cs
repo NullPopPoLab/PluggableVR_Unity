@@ -32,6 +32,12 @@ namespace HierarchyDumper
 		public static string From(UnityEngine.Object v)
 		{
 			if (v == null) return "(null)";
+			return "<" + v.GetInstanceID() + "> " + v.name;
+		}
+
+		public static string ClassInfo(UnityEngine.Object v)
+		{
+			if (v == null) return "(null)";
 			var t = v.GetType();
 			var n = t.Name;
 			if (!String.IsNullOrEmpty(t.Namespace)) n = t.Namespace + "." + n;

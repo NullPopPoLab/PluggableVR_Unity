@@ -15,6 +15,7 @@ namespace NullPopPoSpecial
 		public string ActiveScene { get; private set; }
 
 		private Dictionary<string, Scene> _scene = new Dictionary<string, Scene>();
+		public Dictionary<string, Scene>.KeyCollection AvailableScenes { get { return _scene.Keys; } }
 
 		~SceneObserverBase()
 		{

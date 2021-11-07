@@ -43,6 +43,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\Oculus\Composition\OVRCameraComposition.cs" />
+    <Compile Include="src\Oculus\Composition\OVRComposition.cs" />
+    <Compile Include="src\Oculus\Composition\OVRCompositionUtil.cs" />
+    <Compile Include="src\Oculus\Composition\OVRDirectComposition.cs" />
+    <Compile Include="src\Oculus\Composition\OVRExternalComposition.cs" />
+    <Compile Include="src\Oculus\Composition\OVRSandwichComposition.cs" />
+    <Compile Include="src\Oculus\OVRBoundary.cs" />
+    <Compile Include="src\Oculus\OVRCameraRig.cs" />
+    <Compile Include="src\Oculus\OVRCommon.cs" />
+    <Compile Include="src\Oculus\OVRDisplay.cs" />
+    <Compile Include="src\Oculus\OVRHaptics.cs" />
+    <Compile Include="src\Oculus\OVRHapticsClip.cs" />
+    <Compile Include="src\Oculus\OVRInput.cs" />
+    <Compile Include="src\Oculus\OVRManager.cs" />
+    <Compile Include="src\Oculus\OVRMixedReality.cs" />
+    <Compile Include="src\Oculus\OVRPlugin.cs" />
+    <Compile Include="src\Oculus\OVRProfile.cs" />
+    <Compile Include="src\Oculus\OVRTracker.cs" />
+    <Compile Include="src\Oculus\Util\OVRMixedRealityCaptureSettings.cs" />
+    <Compile Include="src\Oculus\Util\OVRNetwork.cs" />
+    <Compile Include="src\Oculus\Util\OVRSystemPerfMetrics.cs" />
     <Compile Include="src\PluggableVR\DemoAvatar.cs" />
     <Compile Include="src\PluggableVR\DemoControl.cs" />
     <Compile Include="src\PluggableVR\DemoPlayer.cs" />
@@ -54,6 +75,9 @@
     <Compile Include="src\PluggableVR\VRControl.cs" />
     <Compile Include="src\PluggableVR\VRManager.cs" />
     <Compile Include="src\PluggableVR\VRPlayer.cs" />
+    <Compile Include="src\ThirdParty\openvr_api.cs" />
+    <Compile Include="src\ThirdParty\SimpleJSON.cs" />
+    <Compile Include="src\ThirdParty\SimpleJSONUnity.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NullPopPoSpecial\NullPopPoSpecial.csproj">
