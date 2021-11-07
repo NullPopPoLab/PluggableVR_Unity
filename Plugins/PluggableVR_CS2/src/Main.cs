@@ -39,7 +39,7 @@ namespace PluggableVR_CS2
 			Global.Logger = Logger;
 
 			VRCamera.Revision = VRCamera.ERevision.Legacy;
-			VRCamera.SourceMode = VRCamera.ESourceMode.Disabled;
+			VRCamera.SourceMode = VRCamera.ESourceMode.Blind;
 
 			_vrmng = new VRManager();
 			_vrmng.Initialize(new Flow_Startup());

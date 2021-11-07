@@ -50,8 +50,8 @@ namespace PluggableVR_CS2
 			// 元のカメラから移設するComponent 
 			var cam = player.Camera;
 			cam.Possess<FlareLayer>();
-//			cam.Possess<AmplifyOcclusionEffect>();
-//			cam.Possess<AmplifyColorEffect>();
+			cam.Possess<AmplifyOcclusionEffect>();
+			cam.Possess<AmplifyColorEffect>();
 			cam.Possess<UnityStandardAssets.ImageEffects.BloomAndFlares>();
 			cam.Possess<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration>();
 			cam.Possess<UnityStandardAssets.ImageEffects.DepthOfField>();
