@@ -1,7 +1,7 @@
 ﻿/*!	@file
 	@brief HierarchyDumper: Animator 情報取得 
 	@author NullPopPoLab
-	@sa https://github.com/NullPopPoLab/Dumper_Unity
+	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
 using UnityEngine;
 
@@ -16,11 +16,11 @@ namespace HierarchyDumper
 
 		public string Dump(string indent = "")
 		{
-			if (_obj == null) return "!!! Type Mismatch !!!\n";
+			if (_obj == null) return DumpForm.TypeMismatch;
 
 			var s = "";
-			s += indent + "Avatar: "+((_obj.avatar==null)?"None":(_obj.avatar.name + "\n" + new Dumper_Avatar(_obj.avatar).Dump(indent + "  ")));
-			s += indent + "ApplyRootMotion: "+_obj.applyRootMotion+"\n";
+			s += indent + DumpForm.Deep(_obj.avatar, "Avatar", (o) => o.name, (o) => new Dumper_Avatar(o).Dump(indent + "  "));
+			s += indent + "ApplyRootMotion: " + _obj.applyRootMotion + "\n";
 
 			return s;
 		}

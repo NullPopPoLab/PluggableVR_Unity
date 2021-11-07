@@ -1,7 +1,7 @@
 ﻿/*!	@file
 	@brief HierarchyDumper: Selectable 情報取得 
 	@author NullPopPoLab
-	@sa https://github.com/NullPopPoLab/Dumper_Unity
+	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
 using UnityEngine.UI;
 
@@ -20,7 +20,7 @@ namespace HierarchyDumper
 
 			var s = "";
 			s += indent + "Interactable: " + _obj.interactable + "\n";
-			s += indent + "TargetGraphic: \n" + new Dumper_Graphic(_obj.targetGraphic).Dump(indent + "  ");
+			s += indent + DumpForm.Deep(_obj.targetGraphic, "TargetGraphic", (o) => o.name, (o) => new Dumper_Graphic(o).Dump(indent + "  "));
 
 			return s;
 		}

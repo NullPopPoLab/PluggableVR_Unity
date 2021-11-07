@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{70B214A8-BDA1-4482-8676-EBC3D60EA39D}</ProjectGuid>
+    <ProjectGuid>{A5D9604F-C921-4AC8-B017-31FF3D07391A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>HierarchyDumper</RootNamespace>
@@ -33,10 +33,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>..\External_CS2\0Harmony.dll</HintPath>
+      <HintPath>..\game\BepInEx\core\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="BepInEx">
-      <HintPath>..\External_CS2\BepInEx.dll</HintPath>
+      <HintPath>..\game\BepInEx\core\BepInEx.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -45,22 +45,25 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
-      <HintPath>..\External_CS2\UnityEngine.dll</HintPath>
+      <HintPath>..\game\KoikatsuSunshine_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AnimationModule">
-      <HintPath>..\External_CS2\UnityEngine.AnimationModule.dll</HintPath>
+      <HintPath>..\game\KoikatsuSunshine_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\External_CS2\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\game\KoikatsuSunshine_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.InputLegacyModule">
-      <HintPath>..\External_CS2\UnityEngine.InputLegacyModule.dll</HintPath>
+      <HintPath>..\game\KoikatsuSunshine_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>..\game\KoikatsuSunshine_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>..\External_CS2\UnityEngine.UI.dll</HintPath>
+      <HintPath>..\game\KoikatsuSunshine_Data\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UIModule">
-      <HintPath>..\External_CS2\UnityEngine.UIModule.dll</HintPath>
+      <HintPath>..\game\KoikatsuSunshine_Data\Managed\UnityEngine.UIModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -69,22 +72,28 @@
     <Compile Include="src\Dumper.cs" />
     <Compile Include="src\Dumper_Animator.cs" />
     <Compile Include="src\Dumper_Avatar.cs" />
+    <Compile Include="src\Dumper_BoxCollider.cs" />
     <Compile Include="src\Dumper_Button.cs" />
     <Compile Include="src\Dumper_Camera.cs" />
     <Compile Include="src\Dumper_Canvas.cs" />
     <Compile Include="src\Dumper_CanvasScaler.cs" />
+    <Compile Include="src\Dumper_CapsuleCollider.cs" />
+    <Compile Include="src\Dumper_Collider.cs" />
     <Compile Include="src\Dumper_Dropdown.cs" />
     <Compile Include="src\Dumper_GameObject.cs" />
     <Compile Include="src\Dumper_Graphic.cs" />
     <Compile Include="src\Dumper_InputField.cs" />
     <Compile Include="src\Dumper_Light.cs" />
     <Compile Include="src\Dumper_LineRenderer.cs" />
+    <Compile Include="src\Dumper_MeshCollider.cs" />
     <Compile Include="src\Dumper_MeshRenderer.cs" />
     <Compile Include="src\Dumper_RectTransform.cs" />
     <Compile Include="src\Dumper_Renderer.cs" />
+    <Compile Include="src\Dumper_Rigidbody.cs" />
     <Compile Include="src\Dumper_Selectable.cs" />
     <Compile Include="src\Dumper_SkinnedMeshRenderer.cs" />
     <Compile Include="src\Dumper_Slider.cs" />
+    <Compile Include="src\Dumper_SphereCollider.cs" />
     <Compile Include="src\Dumper_Text.cs" />
     <Compile Include="src\Dumper_Toggle.cs" />
     <Compile Include="src\Dumper_Transform.cs" />
@@ -98,4 +107,10 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if not exist $(SolutionDir)game\BepInEx\plugins\!myworks mkdir $(SolutionDir)game\BepInEx\plugins\!myworks
+copy /y $(ProjectName).dll $(SolutionDir)game\BepInEx\plugins\!myworks\
+copy /y $(ProjectName).pdb $(SolutionDir)game\BepInEx\plugins\!myworks\
+</PostBuildEvent>
+  </PropertyGroup>
 </Project>

@@ -39,15 +39,16 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
-      <HintPath>..\External_CS2\UnityEngine.dll</HintPath>
+      <HintPath>..\game\KoikatsuSunshine_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\External_CS2\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\game\KoikatsuSunshine_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\ChangingCensor.cs" />
+    <Compile Include="src\Chaser.cs" />
     <Compile Include="src\ComponentUt.cs" />
     <Compile Include="src\Cycle.cs" />
     <Compile Include="src\Flow.cs" />
@@ -56,6 +57,14 @@
     <Compile Include="src\Rot2D.cs" />
     <Compile Include="src\RotUt.cs" />
     <Compile Include="src\SafeMathf.cs" />
+    <Compile Include="src\SceneObserverBase.cs" />
+    <Compile Include="src\Serializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if not exist $(SolutionDir)game\BepInEx\plugins\!myworks mkdir $(SolutionDir)game\BepInEx\plugins\!myworks
+copy /y $(ProjectName).dll $(SolutionDir)game\BepInEx\plugins\!myworks\
+copy /y $(ProjectName).pdb $(SolutionDir)game\BepInEx\plugins\!myworks\
+</PostBuildEvent>
+  </PropertyGroup>
 </Project>
