@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31402.337
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluggableVR_BepInEx", "PluggableVR_BepInEx\PluggableVR_BepInEx.csproj", "{5ED194FF-D8A2-435B-B54A-011668B00F16}"
+	ProjectSection(ProjectDependencies) = postProject
+		{70B214A8-BDA1-4482-8676-EBC3D60EA39D} = {70B214A8-BDA1-4482-8676-EBC3D60EA39D}
+		{CBF208B1-6CFA-4871-B4F4-BA784CA7BFD8} = {CBF208B1-6CFA-4871-B4F4-BA784CA7BFD8}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HierarchyDumper", "HierarchyDumper\HierarchyDumper.csproj", "{70B214A8-BDA1-4482-8676-EBC3D60EA39D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NullPopPoSpecial", "NullPopPoSpecial\NullPopPoSpecial.csproj", "{CBF208B1-6CFA-4871-B4F4-BA784CA7BFD8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5ED194FF-D8A2-435B-B54A-011668B00F16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ED194FF-D8A2-435B-B54A-011668B00F16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ED194FF-D8A2-435B-B54A-011668B00F16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5ED194FF-D8A2-435B-B54A-011668B00F16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70B214A8-BDA1-4482-8676-EBC3D60EA39D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70B214A8-BDA1-4482-8676-EBC3D60EA39D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70B214A8-BDA1-4482-8676-EBC3D60EA39D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70B214A8-BDA1-4482-8676-EBC3D60EA39D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBF208B1-6CFA-4871-B4F4-BA784CA7BFD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBF208B1-6CFA-4871-B4F4-BA784CA7BFD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBF208B1-6CFA-4871-B4F4-BA784CA7BFD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBF208B1-6CFA-4871-B4F4-BA784CA7BFD8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C43D40A9-DC19-451D-B899-E31D1879E36B}
+	EndGlobalSection
+EndGlobal

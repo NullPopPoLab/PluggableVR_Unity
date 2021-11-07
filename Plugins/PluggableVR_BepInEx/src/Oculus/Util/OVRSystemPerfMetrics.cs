@@ -26,8 +26,6 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.Networking;
 
-using Debug = UnityEngine.Debug;
-
 public class OVRSystemPerfMetrics
 {
 	public const int TcpListeningPort = 32419;
