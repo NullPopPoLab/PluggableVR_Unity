@@ -114,6 +114,7 @@ public class VRPlug : MonoBehaviour
 		VRCamera.SourceMode = _cameraMode;
 
 		_vrmng.Initialize(new Flow_Startup());
+		OVRPlugin.SetTrackingOriginType(OVRPlugin.TrackingOrigin.EyeLevel);
 	}
 
 	//! 終了 
