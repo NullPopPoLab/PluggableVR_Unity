@@ -1,4 +1,4 @@
-cd %~dp0
+cd /d %~dp0
 if not exist Koikatu_Data\globalgamemanagers_vr goto Error
 if not exist Koikatu_Data\globalgamemanagers_novr copy Koikatu_Data\globalgamemanagers Koikatu_Data\globalgamemanagers_novr
 copy /y Koikatu_Data\globalgamemanagers_vr Koikatu_Data\globalgamemanagers
@@ -8,6 +8,6 @@ goto End
 @echo .
 @echo *** Error ***
 @echo It needs the VR-hacked globalgamemanagers
-@echo see PluggableVR_HowToUse.html
+@echo see PluggableVR_KK_HowToUse.html
 pause
 :End
