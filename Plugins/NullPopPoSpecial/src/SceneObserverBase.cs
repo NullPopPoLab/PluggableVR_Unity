@@ -17,6 +17,11 @@ namespace NullPopPoSpecial
 		private Dictionary<string, Scene> _scene = new Dictionary<string, Scene>();
 		public Dictionary<string, Scene>.KeyCollection AvailableScenes { get { return _scene.Keys; } }
 
+		public SceneObserverBase()
+		{
+			ActiveScene = "";
+		}
+
 		~SceneObserverBase()
 		{
 			Disable();
@@ -48,7 +53,7 @@ namespace NullPopPoSpecial
 
 		private void _onSceneLoaded(Scene scn, LoadSceneMode mode)
 		{
-			var p = scn.path;
+			var p = (scn.path == null) ? "" : scn.path;
 			_scene[p] = scn;
 
 			OnSceneLoaded(p, mode);
@@ -56,7 +61,7 @@ namespace NullPopPoSpecial
 
 		private void _onSceneUnloaded(Scene scn)
 		{
-			var p = scn.path;
+			var p = (scn.path == null) ? "" : scn.path;
 			if (p == ActiveScene)
 			{
 				OnSceneChanged(ActiveScene, "");
@@ -69,8 +74,11 @@ namespace NullPopPoSpecial
 
 		private void _onSceneChanged(Scene prev, Scene next)
 		{
-			ActiveScene = next.path;
-			OnSceneChanged(prev.path, next.path);
+			var p1 = (prev.path == null) ? "" : prev.path;
+			var p2 = (next.path == null) ? "" : next.path;
+
+			ActiveScene = p2;
+			OnSceneChanged(p1, p2);
 		}
 
 		protected virtual void OnSceneLoaded(string path, LoadSceneMode mode) { }
