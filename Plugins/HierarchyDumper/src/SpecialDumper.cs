@@ -31,6 +31,7 @@ namespace HierarchyDumper
 			Selector["UnityEngine.Button"] = (o, i) => new Dumper_Button(o).Dump(i);
 			Selector["UnityEngine.Camera"] = (o, i) => new Dumper_Camera(o).Dump(i);
 			Selector["UnityEngine.Canvas"] = (o, i) => new Dumper_Canvas(o).Dump(i);
+			Selector["UnityEngine.CanvasGroup"] = (o, i) => new Dumper_CanvasGroup(o).Dump(i);
 			Selector["UnityEngine.CanvasScaler"] = (o, i) => new Dumper_CanvasScaler(o).Dump(i);
 			Selector["UnityEngine.CapsuleCollider"] = (o, i) => new Dumper_CapsuleCollider(o).Dump(i);
 			Selector["UnityEngine.Dropdown"] = (o, i) => new Dumper_Dropdown(o).Dump(i);

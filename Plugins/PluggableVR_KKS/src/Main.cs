@@ -38,7 +38,9 @@ namespace PluggableVR_KKS
 			Global.Logger = Logger;
 
 			VRCamera.Revision = VRCamera.ERevision.Legacy;
-			VRCamera.SourceMode = VRCamera.ESourceMode.Disabled;
+			VRCamera.SourceMode = VRCamera.ESourceMode.Blind;
+
+			Dumper.Register();
 
 			_vrmng = new VRManager();
 			_vrmng.Initialize(new Flow_Startup());

@@ -78,6 +78,7 @@
     <Compile Include="src\Dumper_Button.cs" />
     <Compile Include="src\Dumper_Camera.cs" />
     <Compile Include="src\Dumper_Canvas.cs" />
+    <Compile Include="src\Dumper_CanvasGroup.cs" />
     <Compile Include="src\Dumper_CanvasScaler.cs" />
     <Compile Include="src\Dumper_CapsuleCollider.cs" />
     <Compile Include="src\Dumper_Collider.cs" />
