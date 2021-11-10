@@ -81,6 +81,8 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\Dumper\Dumper.cs" />
+    <Compile Include="src\Dumper\Dumper_ChaControl.cs" />
+    <Compile Include="src\Dumper\Dumper_ChaInfo.cs" />
     <Compile Include="src\Dumper\Dumper_DynamicBoneCollider.cs" />
     <Compile Include="src\Dumper\Dumper_FadeCanvas.cs" />
     <Compile Include="src\Dumper\Dumper_HomeMenu.cs" />
@@ -101,6 +103,8 @@
     <Compile Include="src\Global.cs" />
     <Compile Include="src\Main.cs" />
     <Compile Include="src\SceneObserver.cs" />
+    <Compile Include="src\Util\CharaFinder.cs" />
+    <Compile Include="src\Util\CharaObserver.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HierarchyDumper\HierarchyDumper.csproj">

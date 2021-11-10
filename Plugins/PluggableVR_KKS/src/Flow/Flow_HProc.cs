@@ -3,6 +3,7 @@
 	@author NullPopPoLab
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
+using System.Collections.Generic;
 using UnityEngine;
 using NullPopPoSpecial;
 using PluggableVR;
@@ -14,6 +15,8 @@ namespace PluggableVR_KKS
 	{
 		private Flow _prev;
 		private Chaser _chaser;
+		private CharaFinder _female = new CharaFinder(false);
+		private CharaFinder _male = new CharaFinder(true);
 
 		internal Flow_HProc(Flow prev)
 		{
@@ -78,7 +81,34 @@ namespace PluggableVR_KKS
 				player.Reloc(_chaser.Loc);
 			}
 
+			// 追加されたキャラに対する処置 
+			var idx = _male.Next;
+			_male.Find(_findMale);
+			_female.Find(_findFemale);
+
 			return null;
+		}
+
+		private void _findMale(CharaObserver obs)
+		{
+//			Global.Logger.LogDebug("find male: " + obs.Target.name);
+		}
+
+		private void _findFemale(CharaObserver obs)
+		{
+//			Global.Logger.LogDebug("find female: " + obs.Target.name);
+
+			var avatar = VRManager.Instance.Avatar as DemoAvatar;
+			var db = obs.Target.GetComponentsInChildren<DynamicBone>();
+
+			Global.Logger.LogDebug("" + db.Length + " DynamicBone found on " + obs.Target.name);
+
+			for (var i = 0; i < db.Length; ++i)
+			{
+				if (db[i].m_Colliders == null) continue;
+				db[i].m_Colliders.Add(avatar.LeftHand.Collider.GetComponent<DynamicBoneCollider>());
+				db[i].m_Colliders.Add(avatar.RightHand.Collider.GetComponent<DynamicBoneCollider>());
+			}
 		}
 	}
 }
