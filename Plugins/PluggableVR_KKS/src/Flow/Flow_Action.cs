@@ -58,6 +58,7 @@ namespace PluggableVR_KKS
 	{
 		internal CharaFinder Female = new CharaFinder(false);
 		internal CharaFinder Male = new CharaFinder(true);
+		internal bool DontFind = false;
 
 		private Camera _minimap;
 		private HomeMenu _homemenu;
@@ -85,6 +86,10 @@ namespace PluggableVR_KKS
 			// 夜メニュー遷移検知 
 			if (_homemenu.visible)
 			{
+				// キャラ探索リセット 
+				Female.Reset();
+				Male.Reset();
+				DontFind = false;
 				return new Flow_HomeMenu(this);
 			}
 

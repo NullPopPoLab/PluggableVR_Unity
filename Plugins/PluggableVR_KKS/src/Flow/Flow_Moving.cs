@@ -41,15 +41,22 @@ namespace PluggableVR_KKS
 			// 脱出検知 
 			if (!Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scene/Action.unity").isLoaded) return new Flow_Delay(new Flow_Title());
 			// 移動終了検知 
-			if (!_minimap.enabled) return _main;
+			if (!_minimap.enabled)
+			{
+				// この時点で追加のキャラ探索停止 
+				_main.DontFind = true;
+				return _main;
+			}
 
 			// メインカメラ位置更新 
 			var mng = VRManager.Instance;
 			mng.Camera.Feedback();
 
-			// 追加されたキャラに対する処置 
-			_main.Male.Find(_maleFound);
-			_main.Female.Find(_femaleFound);
+			if(!_main.DontFind){
+				// 追加されたキャラに対する処置 
+				_main.Male.Find(_maleFound);
+				_main.Female.Find(_femaleFound);
+			}
 
 			return null;
 		}

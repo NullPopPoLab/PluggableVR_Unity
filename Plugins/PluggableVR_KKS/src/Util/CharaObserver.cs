@@ -32,5 +32,18 @@ namespace PluggableVR_KKS
 				db[i].m_Colliders.Add(Global.DemoAvatarExtra.RightHandCollider);
 			}
 		}
+
+		internal void RemovePlayerColliders()
+		{
+			var db = Target.GetComponentsInChildren<DynamicBone>();
+
+			for (var i = 0; i < db.Length; ++i)
+			{
+				if (db[i].m_Colliders == null) continue;
+				db[i].m_Colliders.Remove(Global.DemoAvatarExtra.HeadCollider);
+				db[i].m_Colliders.Remove(Global.DemoAvatarExtra.LeftHandCollider);
+				db[i].m_Colliders.Remove(Global.DemoAvatarExtra.RightHandCollider);
+			}
+		}
 	}
 }

@@ -29,6 +29,11 @@ namespace PluggableVR_KKS
 			_prefix = "cha" + (male ? "M_" : "F_");
 		}
 
+		public void Reset(){
+			List.Clear();
+			Next = From;
+		}
+
 		public int Find(Action<CharaObserver> onfind=null)
 		{
 			var c = 0;

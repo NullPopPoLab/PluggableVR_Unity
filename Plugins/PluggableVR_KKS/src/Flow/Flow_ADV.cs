@@ -51,7 +51,7 @@ namespace PluggableVR_KKS
 				return new Flow_Delay(new Flow_Title());
 			}
 			// 終了検知 
-			if (GameObject.Find("ADVScene")==null) return new Flow_Delay(_prev);
+			if (GameObject.Find("ADVScene")==null) return _prev;
 
 			// カメラ位置変更検知 
 			if (_chaser.Update())
