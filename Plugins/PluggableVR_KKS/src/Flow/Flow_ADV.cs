@@ -15,11 +15,13 @@ namespace PluggableVR_KKS
 		private string _basescene;
 		private Flow _prev;
 		private Chaser _chaser;
+		private CharaFinder _female;
 
-		internal Flow_ADV(Flow prev, string basescene)
+		internal Flow_ADV(Flow prev, string basescene, int chafidx)
 		{
 			_basescene = basescene;
 			_prev=prev;
+			_female = new CharaFinder(false,chafidx);
 		}
 
 		protected override void OnStart()
@@ -59,7 +61,17 @@ namespace PluggableVR_KKS
 				player.Reloc(_chaser.Loc);
 			}
 
+			// 追加されたキャラに対する処置 
+			_female.Find(_femaleFound);
+
 			return null;
+		}
+
+		private void _femaleFound(CharaObserver obs)
+		{
+			Global.Logger.LogDebug("female found: " + obs.Target.name);
+
+			obs.AddPlayerColliders();
 		}
 	}
 }

@@ -40,6 +40,9 @@ namespace PluggableVR_KKS
 			dc0.m_Height = dc1.m_Height = dc2.m_Height = 2.0f;
 			dc0.m_Direction = dc1.m_Direction = dc2.m_Direction = DynamicBoneCollider.Direction.Y;
 			dc0.m_Bound = dc1.m_Bound = dc2.m_Bound = DynamicBoneCollider.Bound.Outside;
+			Global.DemoAvatarExtra.HeadCollider = dc0;
+			Global.DemoAvatarExtra.LeftHandCollider = dc1;
+			Global.DemoAvatarExtra.RightHandCollider = dc2;
 		}
 
 		protected override void OnTerminate()

@@ -3,20 +3,20 @@
 	@author NullPopPoLab
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
-using UnityEngine;
 using NullPopPoSpecial;
 using PluggableVR;
+using UnityEngine;
 
 namespace PluggableVR_KKS
 {
 	//! 手順遷移 移動シーン 
 	internal class Flow_Moving : Flow_Common
 	{
-		private Flow _prev;
+		private Flow_Action_Main _main;
 		private Camera _minimap;
 
-		public Flow_Moving(Flow prev){
-			_prev = prev;
+		public Flow_Moving(Flow_Action_Main main){
+			_main = main;
 		}
 
 		protected override void OnStart()
@@ -41,13 +41,29 @@ namespace PluggableVR_KKS
 			// 脱出検知 
 			if (!Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scene/Action.unity").isLoaded) return new Flow_Delay(new Flow_Title());
 			// 移動終了検知 
-			if (!_minimap.enabled) return new Flow_Delay(_prev);
+			if (!_minimap.enabled) return _main;
 
 			// メインカメラ位置更新 
 			var mng = VRManager.Instance;
 			mng.Camera.Feedback();
 
+			// 追加されたキャラに対する処置 
+			_main.Male.Find(_maleFound);
+			_main.Female.Find(_femaleFound);
+
 			return null;
+		}
+
+		private void _maleFound(CharaObserver obs)
+		{
+			Global.Logger.LogDebug("male found: " + obs.Target.name);
+		}
+
+		private void _femaleFound(CharaObserver obs)
+		{
+			Global.Logger.LogDebug("female found: " + obs.Target.name);
+
+			obs.AddPlayerColliders();
 		}
 	}
 }

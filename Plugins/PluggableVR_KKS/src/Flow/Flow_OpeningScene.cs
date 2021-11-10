@@ -77,7 +77,7 @@ namespace PluggableVR_KKS
 			var camera = mng.Camera;
 			if (GameObject.Find("/ADVScene") != null)
 			{
-				return new Flow_ADV(this, "Assets/Illusion/Game/Scene/OpeningScene.unity");
+				return new Flow_ADV(this, "Assets/Illusion/Game/Scene/OpeningScene.unity",1);
 			}
 
 			var next = StepScene();

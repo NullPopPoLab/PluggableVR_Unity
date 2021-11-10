@@ -11,6 +11,12 @@ using System.Collections.Generic;
 
 namespace PluggableVR_KKS
 {
+	internal struct DemoAvatarExtra{
+		internal DynamicBoneCollider HeadCollider;
+		internal DynamicBoneCollider LeftHandCollider;
+		internal DynamicBoneCollider RightHandCollider;
+	}
+
 	internal static class Global
 	{
 		internal static string ProcessName;
@@ -19,5 +25,7 @@ namespace PluggableVR_KKS
 		internal static SceneObserver Scene = new SceneObserver();
 
 		internal static Dictionary<string, Func<Flow>> Transit = new Dictionary<string, Func<Flow>>();
+
+		internal static DemoAvatarExtra DemoAvatarExtra;
 	}
 }

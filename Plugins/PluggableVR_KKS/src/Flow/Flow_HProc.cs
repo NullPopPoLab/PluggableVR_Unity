@@ -28,6 +28,10 @@ namespace PluggableVR_KKS
 			Global.Logger.LogInfo(ToString() + " bgn");
 			base.OnStart();
 
+			// UIのVR対応までひとまず Canvas をoverlayにしとく 
+			var ui = GameObject.Find("/Canvas").GetComponent<Canvas>();
+			ui.renderMode = RenderMode.ScreenSpaceOverlay;
+
 			// メインカメラ捕捉 
 			var mng = VRManager.Instance;
 			var player = mng.Player;
@@ -82,34 +86,22 @@ namespace PluggableVR_KKS
 			}
 
 			// 追加されたキャラに対する処置 
-			var idx = _male.Next;
-			_male.Find(_findMale);
-			_female.Find(_findFemale);
+			_male.Find(_maleFound);
+			_female.Find(_femaleFound);
 
 			return null;
 		}
 
-		private void _findMale(CharaObserver obs)
+		private void _maleFound(CharaObserver obs)
 		{
-//			Global.Logger.LogDebug("find male: " + obs.Target.name);
+//			Global.Logger.LogDebug("male found: " + obs.Target.name);
 		}
 
-		private void _findFemale(CharaObserver obs)
+		private void _femaleFound(CharaObserver obs)
 		{
-//			Global.Logger.LogDebug("find female: " + obs.Target.name);
+//			Global.Logger.LogDebug("female found: " + obs.Target.name);
 
-			var avatar = VRManager.Instance.Avatar as DemoAvatar;
-			var db = obs.Target.GetComponentsInChildren<DynamicBone>();
-
-			Global.Logger.LogDebug("" + db.Length + " DynamicBone found on " + obs.Target.name);
-
-			for (var i = 0; i < db.Length; ++i)
-			{
-				if (db[i].m_Colliders == null) continue;
-				db[i].m_Colliders.Add(avatar.Head.Collider.GetComponent<DynamicBoneCollider>());
-				db[i].m_Colliders.Add(avatar.LeftHand.Collider.GetComponent<DynamicBoneCollider>());
-				db[i].m_Colliders.Add(avatar.RightHand.Collider.GetComponent<DynamicBoneCollider>());
-			}
+			obs.AddPlayerColliders();
 		}
 	}
 }

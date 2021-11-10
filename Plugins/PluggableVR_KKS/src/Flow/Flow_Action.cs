@@ -56,6 +56,9 @@ namespace PluggableVR_KKS
 	//! 手順遷移 インゲーム 本体 
 	internal class Flow_Action_Main : Flow_Common
 	{
+		internal CharaFinder Female = new CharaFinder(false);
+		internal CharaFinder Male = new CharaFinder(true);
+
 		private Camera _minimap;
 		private HomeMenu _homemenu;
 
@@ -103,7 +106,7 @@ namespace PluggableVR_KKS
 			var camera = mng.Camera;
 			if (GameObject.Find("/ActionScene/ADVScene") != null)
 			{
-				return new Flow_ADV(this, "Assets/Illusion/Game/Scene/Action.unity");
+				return new Flow_ADV(this, "Assets/Illusion/Game/Scene/Action.unity", Female.Next);
 			}
 
 			// 移動シーン検知 
@@ -113,14 +116,29 @@ namespace PluggableVR_KKS
 			}
 
 			var next = StepScene();
-			if (next == null) return null;
+			if (next != null)
+			{
+				// メインカメラ切断 
+				mng.Camera.Dispose();
+				var player = mng.Player;
+				player.SetCamera(null);
 
-			// メインカメラ切断 
-			mng.Camera.Dispose();
-			var player = mng.Player;
-			player.SetCamera(null);
+				return next;
+			}
 
-			return next;
+			return null;
+		}
+
+		private void _findMale(CharaObserver obs)
+		{
+			Global.Logger.LogDebug("find male: " + obs.Target.name);
+		}
+
+		private void _findFemale(CharaObserver obs)
+		{
+			Global.Logger.LogDebug("find female: " + obs.Target.name);
+
+			obs.AddPlayerColliders();
 		}
 	}
 }
