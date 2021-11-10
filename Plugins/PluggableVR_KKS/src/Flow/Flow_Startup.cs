@@ -33,11 +33,13 @@ namespace PluggableVR_KKS
 			avatar.RightHand.Axes.Node.SetActive(false);
 
 			// DynamicBoneとの接触を試す 
+			var dc0 = avatar.Head.Collider.AddComponent<DynamicBoneCollider>();
 			var dc1 = avatar.LeftHand.Collider.AddComponent<DynamicBoneCollider>();
 			var dc2 = avatar.RightHand.Collider.AddComponent<DynamicBoneCollider>();
-			dc1.m_Radius = dc2.m_Radius = 0.5f;
-			dc1.m_Height = dc2.m_Height = 2.0f;
-			dc1.m_Bound = dc2.m_Bound = DynamicBoneCollider.Bound.Outside;
+			dc0.m_Radius = dc1.m_Radius = dc2.m_Radius = 0.5f;
+			dc0.m_Height = dc1.m_Height = dc2.m_Height = 2.0f;
+			dc0.m_Direction = dc1.m_Direction = dc2.m_Direction = DynamicBoneCollider.Direction.Y;
+			dc0.m_Bound = dc1.m_Bound = dc2.m_Bound = DynamicBoneCollider.Bound.Outside;
 		}
 
 		protected override void OnTerminate()

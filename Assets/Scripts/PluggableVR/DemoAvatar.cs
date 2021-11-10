@@ -12,15 +12,17 @@ namespace PluggableVR
 	//! デモ用VR操作先 
 	public class DemoAvatar : VRAvatar
 	{
-		public const float HeadToEye = 0.1f; //!< 目と頭の距離 
-		public const float EyeHeight = 1.5f; //!< 仮想的な目の高さ 
-		public const float HeadScale = 0.1f; //!< 頭の大きさ 
-		public const float NeckLength = 0.15f; //!< 首の長さ 
-		public const float NeckWidth = 0.05f; //!< 首の太さ 
-		public const float ShoulderLength = 0.3f; //!< 肩の長さ 
-		public const float ShoulderWidth = 0.05f; //!< 肩の太さ 
-		public const float AxisLength = 0.4f; //!< 回転軸表示の長さ 
-		public const float AxisWidth = 0.01f; //!< 回転軸表示の太さ 
+		public static float HeadToEye = 0.1f; //!< 目と頭の距離 
+		public static float EyeHeight = 1.5f; //!< 仮想的な目の高さ 
+		public static float HeadScale = 0.1f; //!< 頭の大きさ 
+		public static float NeckLength = 0.15f; //!< 首の長さ 
+		public static float NeckWidth = 0.05f; //!< 首の太さ 
+		public static float ShoulderLength = 0.3f; //!< 肩の長さ 
+		public static float ShoulderWidth = 0.05f; //!< 肩の太さ 
+		public static float AxisLength = 0.4f; //!< 回転軸表示の長さ 
+		public static float AxisWidth = 0.01f; //!< 回転軸表示の太さ 
+		public static bool UseStandardCollider = false; //!< 標準Collider生成 
+		public static bool ShowColliderShape = false; //!< Collider形状表示 
 
 		//! 肩の高さ 
 		public static float ShoulderHeight { get { return EyeHeight - NeckLength; } }
@@ -34,10 +36,12 @@ namespace PluggableVR
 		public class HeadView
 		{
 			public GameObject Node;
+			public GameObject View;
 			public AxesView Axes;
 			public GameObject Head;
 			public GameObject Neck;
 			public GameObject Shoulder;
+			public GameObject Collider;
 		}
 
 		public class HandView
@@ -75,30 +79,47 @@ namespace PluggableVR
 
 			// 表示部 
 			Head = new HeadView();
-			Head.Node = CreateChildObject("View", Eye, loc_head, true);
-			Head.Head = CreateChildPrimitive(PrimitiveType.Sphere, false, "Head", Head.Node.transform, Loc.Identity, false);
+			Head.Node = CreateChildObject("Head", Eye, loc_head, true);
+			Head.View = CreateChildObject("View", Head.Node.transform, Loc.Identity, false);
+			Head.Head = CreateChildPrimitive(PrimitiveType.Sphere, false, "Head", Head.View.transform, Loc.Identity, false);
 			Head.Head.transform.localScale = new Vector3(HeadScale, HeadScale, HeadScale) * scale;
-			Head.Axes = _addAxes(Head.Node.transform);
+			Head.Axes = _addAxes(Head.View.transform);
+			_shadowOff(Head.Head.GetComponent<Renderer>());
 
-			Head.Neck = CreateChildPrimitive(PrimitiveType.Cylinder, false, "Neck", Head.Node.transform, new Loc(new Vector3(0, -NeckLength * 0.5f, 0) * scale, Quaternion.identity), false);
+			Head.Neck = CreateChildPrimitive(PrimitiveType.Cylinder, false, "Neck", Head.View.transform, new Loc(new Vector3(0, -NeckLength * 0.5f, 0) * scale, Quaternion.identity), false);
 			Head.Neck.transform.localScale = new Vector3(NeckWidth, NeckLength * 0.5f, NeckWidth) * scale;
+			_shadowOff(Head.Neck.GetComponent<Renderer>());
 
-			Head.Shoulder = CreateChildPrimitive(PrimitiveType.Cylinder, false, "Shoulder", Head.Node.transform, new Loc(new Vector3(0, -NeckLength, 0) * scale, RotUt.RotZ(Mathf.Deg2Rad * 90)), false);
+			Head.Shoulder = CreateChildPrimitive(PrimitiveType.Cylinder, false, "Shoulder", Head.View.transform, new Loc(new Vector3(0, -NeckLength, 0) * scale, RotUt.RotZ(Mathf.Deg2Rad * 90)), false);
 			Head.Shoulder.transform.localScale = new Vector3(ShoulderWidth, ShoulderLength * 0.5f, ShoulderWidth) * scale;
+			_shadowOff(Head.Shoulder.GetComponent<Renderer>());
+
+			Head.Collider = ShowColliderShape ?
+				CreateChildPrimitive(PrimitiveType.Capsule, false, "Collider", Head.Node.transform, new Loc(new Vector3(0, 0f, 0) * scale, Quaternion.identity), false):
+				CreateChildObject("Collider", Head.Node.transform, new Loc(new Vector3(0, 0, 0) * scale, Quaternion.identity), false);
+			Head.Collider.transform.localScale = new Vector3(0.2f, 0.15f, 0.2f);
 
 			LeftHand = new HandView();
 			LeftHand.Node = CreateChildObject("LeftHand", Origin, Loc.Identity, false);
 			LeftHand.Axes = _addAxes(LeftHand.Node.transform);
-			LeftHand.Collider = CreateChildObject("Collider", LeftHand.Node.transform, new Loc(new Vector3(0.025f, 0, -0.04f) * scale, Quaternion.identity), false);
-			LeftHand.Collider.transform.localScale = new Vector3(0.1f, 0.02f, 0.08f);
-			_addCollider(LeftHand.Collider);
+			LeftHand.Collider = ShowColliderShape ?
+				CreateChildPrimitive(PrimitiveType.Capsule, false, "Collider", LeftHand.Node.transform, new Loc(new Vector3(0.025f, 0, -0.01f) * scale, Quaternion.identity), false):
+				CreateChildObject("Collider", LeftHand.Node.transform, new Loc(new Vector3(0.025f, 0, -0.01f) * scale, Quaternion.identity), false);
+			LeftHand.Collider.transform.localScale = new Vector3(0.15f, 0.03f, 0.15f);
 
 			RightHand = new HandView();
 			RightHand.Node = CreateChildObject("RightHand", Origin, Loc.Identity, false);
 			RightHand.Axes = _addAxes(RightHand.Node.transform);
-			RightHand.Collider = CreateChildObject("Collider", RightHand.Node.transform, new Loc(new Vector3(-0.025f, 0, -0.04f) * scale, Quaternion.identity), false);
-			RightHand.Collider.transform.localScale = new Vector3(0.1f, 0.02f, 0.08f);
-			_addCollider(RightHand.Collider);
+			RightHand.Collider = ShowColliderShape ?
+				CreateChildPrimitive(PrimitiveType.Capsule, false, "Collider", RightHand.Node.transform, new Loc(new Vector3(-0.025f, 0, -0.01f) * scale, Quaternion.identity), false):
+				CreateChildObject("Collider", RightHand.Node.transform, new Loc(new Vector3(-0.025f, 0, -0.01f) * scale, Quaternion.identity), false);
+			RightHand.Collider.transform.localScale = new Vector3(0.15f, 0.03f, 0.15f);
+
+			if(UseStandardCollider){
+				_addCollider(Head.Collider);
+				_addCollider(LeftHand.Collider);
+				_addCollider(RightHand.Collider);
+			}
 
 			Head.Axes.X.SetActive(false);
 		}
@@ -125,6 +146,11 @@ namespace PluggableVR
 			new _AxisParam("Z", new Vector3(0,0,AxisLength), new Color(0, 128, 255),(v,o)=>{ v.Z=o; }),
 		};
 
+		private void _shadowOff(Renderer t){
+			t.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+			t.receiveShadows = false;
+		}
+
 		private AxesView _addAxes(Transform parent)
 		{
 			var t = new AxesView();
@@ -144,6 +170,7 @@ namespace PluggableVR
 				lx.startColor = lx.endColor = prm.Col;
 				lx.numCapVertices = 5;
 				lx.widthMultiplier = AxisWidth;
+				_shadowOff(lx);
 				prm.Recept(t, ax);
 			}
 			return t;
@@ -154,7 +181,7 @@ namespace PluggableVR
 			var c = target.AddComponent<CapsuleCollider>();
 			c.radius = 0.5f;
 			c.height = 2.0f;
-			c.direction = 0;
+			c.direction = 1;
 
 			var r = target.AddComponent<Rigidbody>();
 			r.useGravity = false;

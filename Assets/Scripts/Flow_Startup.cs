@@ -15,6 +15,9 @@ public class Flow_Startup : Flow
 		base.OnStart();
 
 		// 初期設定 
+		DemoAvatar.UseStandardCollider = true;
+		DemoAvatar.ShowColliderShape = true;
+
 		var scale = 1.0f;
 		var avatar = new DemoAvatar(Loc.Identity, scale);
 		var player = new DemoPlayer(avatar, scale);

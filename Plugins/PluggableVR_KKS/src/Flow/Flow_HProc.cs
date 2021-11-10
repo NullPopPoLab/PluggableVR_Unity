@@ -106,6 +106,7 @@ namespace PluggableVR_KKS
 			for (var i = 0; i < db.Length; ++i)
 			{
 				if (db[i].m_Colliders == null) continue;
+				db[i].m_Colliders.Add(avatar.Head.Collider.GetComponent<DynamicBoneCollider>());
 				db[i].m_Colliders.Add(avatar.LeftHand.Collider.GetComponent<DynamicBoneCollider>());
 				db[i].m_Colliders.Add(avatar.RightHand.Collider.GetComponent<DynamicBoneCollider>());
 			}
