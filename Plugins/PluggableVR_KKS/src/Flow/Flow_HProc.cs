@@ -15,12 +15,14 @@ namespace PluggableVR_KKS
 	{
 		private Flow _prev;
 		private Chaser _chaser;
-		private CharaFinder _female = new CharaFinder(false);
-		private CharaFinder _male = new CharaFinder(true);
+		private CharaFinder _female;
+		private CharaFinder _male;
 
-		internal Flow_HProc(Flow prev)
+		internal Flow_HProc(Flow prev, int chafidx, int chamidx)
 		{
 			_prev=prev;
+			_female = new CharaFinder(false,chafidx);
+			_male = new CharaFinder(true,chamidx);
 		}
 
 		protected override void OnStart()
@@ -66,6 +68,11 @@ namespace PluggableVR_KKS
 			var mng = VRManager.Instance;
 			var player = mng.Player;
 			player.SetCamera(null);
+
+			for (var i = 0; i < _female.List.Count; ++i)
+			{
+				_female.List[i].RemovePlayerColliders();
+			}
 
 			base.OnTerminate();
 		}

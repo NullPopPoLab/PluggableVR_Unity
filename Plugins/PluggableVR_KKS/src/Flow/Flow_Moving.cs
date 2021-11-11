@@ -70,7 +70,8 @@ namespace PluggableVR_KKS
 		{
 			Global.Logger.LogDebug("female found: " + obs.Target.name);
 
-			obs.AddPlayerColliders();
+			// 移動中は無効らしい 
+			//obs.AddPlayerColliders();
 		}
 	}
 }

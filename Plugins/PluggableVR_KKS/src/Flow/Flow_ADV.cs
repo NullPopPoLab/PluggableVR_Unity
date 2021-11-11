@@ -39,6 +39,10 @@ namespace PluggableVR_KKS
 		{
 			Global.Logger.LogInfo(ToString() + " end");
 			base.OnTerminate();
+
+			for(var i=0;i<_female.List.Count;++i){
+				_female.List[i].RemovePlayerColliders();
+			}
 		}
 
 		protected override Flow OnUpdate()

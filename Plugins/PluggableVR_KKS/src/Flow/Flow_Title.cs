@@ -30,7 +30,7 @@ namespace PluggableVR_KKS
 
 			// えっち遷移検知 
 			if (Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scene/H.unity").isLoaded)
-				return new Flow_H(this);
+				return new Flow_H(this,1,1);
 			// キャラメイク遷移検知 
 			if (Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scripts/Scene/Custom/CustomScene.unity").isLoaded)
 				return new Flow_CustomScene(this);

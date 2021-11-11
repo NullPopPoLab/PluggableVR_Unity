@@ -87,6 +87,7 @@
     <Compile Include="src\Dumper\Dumper.cs" />
     <Compile Include="src\Dumper\Dumper_ChaControl.cs" />
     <Compile Include="src\Dumper\Dumper_ChaInfo.cs" />
+    <Compile Include="src\Dumper\Dumper_DynamicBone.cs" />
     <Compile Include="src\Dumper\Dumper_DynamicBoneCollider.cs" />
     <Compile Include="src\Dumper\Dumper_FadeCanvas.cs" />
     <Compile Include="src\Dumper\Dumper_HomeMenu.cs" />

@@ -103,7 +103,7 @@ namespace PluggableVR_KKS
 			// えっち遷移検知 
 			if (Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scene/H.unity").isLoaded)
 			{
-				return new Flow_H(this);
+				return new Flow_H(this,Female.Next,Male.Next);
 			}
 
 			// 会話遷移検知 
@@ -115,7 +115,7 @@ namespace PluggableVR_KKS
 			}
 
 			// 移動シーン検知 
-			if (_minimap != null && _minimap.enabled)
+			if (_minimap != null && _minimap.enabled && Male.List.Count > 0)
 			{
 				return new Flow_Moving(this);
 			}
@@ -131,19 +131,27 @@ namespace PluggableVR_KKS
 				return next;
 			}
 
+			if (!DontFind)
+			{
+				// 追加されたキャラに対する処置 
+				Male.Find(_maleFound);
+				Female.Find(_femaleFound);
+			}
+
 			return null;
 		}
 
-		private void _findMale(CharaObserver obs)
+		private void _maleFound(CharaObserver obs)
 		{
-			Global.Logger.LogDebug("find male: " + obs.Target.name);
+			Global.Logger.LogDebug("male found: " + obs.Target.name);
 		}
 
-		private void _findFemale(CharaObserver obs)
+		private void _femaleFound(CharaObserver obs)
 		{
-			Global.Logger.LogDebug("find female: " + obs.Target.name);
+			Global.Logger.LogDebug("female found: " + obs.Target.name);
 
-			obs.AddPlayerColliders();
+			// 移動中は無効らしい 
+			//obs.AddPlayerColliders();
 		}
 	}
 }

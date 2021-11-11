@@ -14,15 +14,19 @@ namespace PluggableVR_KKS
 	//! キャラ監視 
 	internal class CharaObserver
 	{
-		internal GameObject Target{get;private set;}
+		internal GameObject Target { get; private set; }
 
-		internal CharaObserver(GameObject target){
-			Target=target;
+		internal CharaObserver(GameObject target)
+		{
+			Target = target;
 		}
 
-		internal void AddPlayerColliders(){
-
+		internal void AddPlayerColliders()
+		{
+			if (Target == null) return;
 			var db = Target.GetComponentsInChildren<DynamicBone>();
+
+//			Global.Logger.LogDebug(""+ db.Length+" DynamicBones found");
 
 			for (var i = 0; i < db.Length; ++i)
 			{
@@ -35,6 +39,7 @@ namespace PluggableVR_KKS
 
 		internal void RemovePlayerColliders()
 		{
+			if (Target == null) return;
 			var db = Target.GetComponentsInChildren<DynamicBone>();
 
 			for (var i = 0; i < db.Length; ++i)

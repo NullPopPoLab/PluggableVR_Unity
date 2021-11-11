@@ -13,10 +13,14 @@ namespace PluggableVR_KKS
 	internal class Flow_H : Flow_Common
 	{
 		private Flow _prev;
+		private int _chafidx;
+		private int _chamidx;
 
-		internal Flow_H(Flow prev)
+		internal Flow_H(Flow prev, int chafidx, int chamidx)
 		{
 			_prev=prev;
+			_chafidx = chafidx;
+			_chamidx = chamidx;
 		}
 
 		protected override void OnStart()
@@ -38,7 +42,7 @@ namespace PluggableVR_KKS
 			// ロード完了検知 
 			if (Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scene/HProc.unity").isLoaded)
 			{
-				return new Flow_HProc(_prev);
+				return new Flow_HProc(_prev,_chafidx,_chamidx);
 			}
 
 			return null;
