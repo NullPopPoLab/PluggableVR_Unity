@@ -82,7 +82,7 @@ namespace PluggableVR_KKS
 			base.OnUpdate();
 
 			// 終了検知 
-			if (!Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scene/HProc.unity").isLoaded) return new Flow_Delay(_prev);
+			if (!Global.Scene.GetSceneInfo("Assets/Illusion/Game/Scene/HProc.unity").isLoaded) return new Flow_HEnd(_prev);
 
 			// カメラ位置変更検知 
 			if (_chaser.Update())

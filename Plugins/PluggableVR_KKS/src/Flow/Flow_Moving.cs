@@ -14,6 +14,8 @@ namespace PluggableVR_KKS
 	{
 		private Flow_Action_Main _main;
 		private Camera _minimap;
+		private ActionGame.Chara.Player _player;
+		private Chaser _chaser;
 
 		public Flow_Moving(Flow_Action_Main main){
 			_main = main;
@@ -23,6 +25,9 @@ namespace PluggableVR_KKS
 		{
 			Global.Logger.LogInfo(ToString() + " bgn");
 			base.OnStart();
+
+			_player = GameObject.Find("/ActionScene/Player").GetComponent<ActionGame.Chara.Player>();
+			_chaser = new Chaser(_player.transform);
 
 			var mm2 = GameObject.Find("/ActionScene/UI/Minimap/MinimapCamera");
 			_minimap = (mm2 == null) ? null : mm2.GetComponent<Camera>();
@@ -56,6 +61,14 @@ namespace PluggableVR_KKS
 				// 追加されたキャラに対する処置 
 				_main.Male.Find(_maleFound);
 				_main.Female.Find(_femaleFound);
+			}
+
+			// プレイヤー位置変更検知 
+			if (_chaser.Update())
+			{
+				// 目の位置正しくとれるのか怪しいので頭関節位置から適当にずらしたところで設定 
+				var player = mng.Player;
+				player.Reloc(Loc.FromWorldTransform(_player.Head) * new Loc(new Vector3(0, 0.1f, 0.1f), Quaternion.identity));
 			}
 
 			return null;
