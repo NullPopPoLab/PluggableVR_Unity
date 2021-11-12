@@ -1,4 +1,5 @@
-﻿/*!	@file
+﻿#if false
+/*!	@file
 	@brief PluggableVR: 手順遷移 タイトルシーン 
 	@author NullPopPoLab
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
@@ -39,3 +40,4 @@ namespace PluggableVR_KKS
 		}
 	}
 }
+#endif

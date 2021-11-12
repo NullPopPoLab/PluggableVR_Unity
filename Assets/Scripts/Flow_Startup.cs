@@ -8,7 +8,7 @@ using NullPopPoSpecial;
 using PluggableVR;
 
 //! 手順遷移 開始時 
-public class Flow_Startup : Flow
+public class Flow_Startup : FlowBase
 {
 	protected override void OnStart()
 	{
@@ -27,7 +27,7 @@ public class Flow_Startup : Flow
 		GameObject.Find("/Main Camera").GetComponent<AudioListener>().enabled = false;
 	}
 
-	protected override Flow OnUpdate()
+	protected override FlowBase OnUpdate()
 	{
 		// メインカメラ認識待ち 
 		var mc = Camera.main;

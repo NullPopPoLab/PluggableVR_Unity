@@ -210,6 +210,9 @@ namespace PluggableVR
 				t.Src.enabled = t.Dst.enabled;
 				Component.DestroyImmediate(t.Dst);
 			}
+
+			if (Target == null) return;
+			if (Source == null) return;
 			Source.clearFlags = Target.clearFlags;
 			Source.cullingMask = Target.cullingMask;
 			Source.stereoTargetEye = _backupStereoTargetEyeMask;

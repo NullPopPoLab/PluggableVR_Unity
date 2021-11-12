@@ -8,7 +8,7 @@ using UnityEngine;
 namespace NullPopPoSpecial
 {
 	//! 手順遷移 
-	public class Flow
+	public class FlowBase
 	{
 		public bool IsBusy { get; private set; }
 
@@ -29,7 +29,7 @@ namespace NullPopPoSpecial
 		}
 
 		//! 更新 
-		public Flow Update()
+		public FlowBase Update()
 		{
 			if (!IsBusy) return null;
 			var next = OnUpdate();
@@ -47,8 +47,8 @@ namespace NullPopPoSpecial
 		protected virtual void OnTerminate() { }
 
 		//! 更新動作 
-		/*!	@return 次の遷移 (null=継続)
+		/*!	@return 次の手順 (null=継続)
 		*/
-		protected virtual Flow OnUpdate() { return null; }
+		protected virtual FlowBase OnUpdate() { return null; }
 	}
 }
