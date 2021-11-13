@@ -7,7 +7,7 @@
 namespace NullPopPoSpecial
 {
 	//! 特定シーンが存在している間の動作 
-	public class SceneScopeBase
+	public class SceneScope
 	{
 		public string Path { get; private set; }
 		public bool IsBusy { get; private set; }

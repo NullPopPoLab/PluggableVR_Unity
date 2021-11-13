@@ -6,7 +6,7 @@
 using HierarchyDumper;
 using ActionGame;
 
-namespace PluggableVR_KKS
+namespace PluggableVR_CS2
 {
 	//! ChaInfo 情報取得 
 	public struct Dumper_ChaInfo

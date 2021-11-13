@@ -27,6 +27,18 @@ namespace PluggableVR_CS2
 			// 手の軸表示を消す 
 			avatar.LeftHand.Axes.Node.SetActive(false);
 			avatar.RightHand.Axes.Node.SetActive(false);
+
+			// DynamicBoneとの接触 
+			var dc0 = avatar.Head.Collider.AddComponent<DynamicBoneCollider>();
+			var dc1 = avatar.LeftHand.Collider.AddComponent<DynamicBoneCollider>();
+			var dc2 = avatar.RightHand.Collider.AddComponent<DynamicBoneCollider>();
+			dc0.m_Radius = dc1.m_Radius = dc2.m_Radius = 0.5f;
+			dc0.m_Height = dc1.m_Height = dc2.m_Height = 2.0f;
+			dc0.m_Direction = dc1.m_Direction = dc2.m_Direction = DynamicBoneCollider.Direction.Y;
+			dc0.m_Bound = dc1.m_Bound = dc2.m_Bound = DynamicBoneCollider.Bound.Outside;
+			Global.DemoAvatarExtra.HeadCollider = dc0;
+			Global.DemoAvatarExtra.LeftHandCollider = dc1;
+			Global.DemoAvatarExtra.RightHandCollider = dc2;
 		}
 
 		protected override void OnTerminate()

@@ -31,7 +31,7 @@ namespace PluggableVR_KKS
 
 		internal static void Enable()
 		{
-			SceneInfo.Enable(new SceneLauncher());
+			SceneInfo.Enable(new Scenewalk());
 
 			_vrmng = new VRManager();
 			_vrmng.Initialize();

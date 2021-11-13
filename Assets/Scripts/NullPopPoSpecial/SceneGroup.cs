@@ -1,5 +1,5 @@
 ﻿/*!	@file
-	@brief NullPopPoSpecial: シーンセレクタ 
+	@brief NullPopPoSpecial: シーングループ 
 	@author NullPopPoLab
 	@sa https://github.com/NullPopPoLab/NullPopPoSpecial
 */
@@ -8,16 +8,23 @@ using System.Collections.Generic;
 
 namespace NullPopPoSpecial
 {
-	//! シーンセレクタ基底 
-	public class SceneSelector
+	//! シーングループ基底 
+	public class SceneGroup
 	{
-		~SceneSelector(){
+		public int Count { get { return OnCount(); } }
+
+		~SceneGroup(){
 			Terminate();
 		}
 
 		public void Reset(){
 			Terminate();
 			OnReset();
+		}
+
+		public void Cleanup()
+		{
+			OnCleanup();
 		}
 
 		public void Terminate(){
@@ -28,17 +35,36 @@ namespace NullPopPoSpecial
 			OnUpdate();
 		}
 
+		protected virtual int OnCount() { return 0; }
+		protected virtual void OnCleanup() { }
 		protected virtual void OnReset() { }
 		protected virtual void OnTerminate() { }
 		protected virtual void OnUpdate() { }
 	}
 
-	//! 連番指定のシーンセレクタ 
-	public class SceneList: SceneSelector
+	//! 連番指定のシーングループ 
+	public class SceneList: SceneGroup
 	{
-		private List<SceneScopeBase> _grp = new List<SceneScopeBase>();
+		private List<SceneScope> _grp = new List<SceneScope>();
+		private List<SceneScope> _swap = new List<SceneScope>();
 
+		protected override int OnCount() { return _grp.Count; }
 		protected override void OnReset() { _grp.Clear(); }
+
+		protected override void OnCleanup()
+		{
+			var keep = _swap;
+			for (var i = 0; i < _grp.Count; ++i)
+			{
+				var scn = _grp[i];
+				if (scn == null) continue;
+				if (!scn.IsBusy) continue;
+				keep.Add(scn);
+			}
+			_grp.Clear();
+			_swap = _grp;
+			_grp = keep;
+		}
 
 		protected override void OnTerminate() {
 
@@ -60,18 +86,18 @@ namespace NullPopPoSpecial
 			}
 		}
 
-		public SceneScopeBase this[int idx]
+		public SceneScope this[int idx]
 		{
 			get { return Get(idx); }
 			set	{ Set(idx, value); }
 		}
 
-		public SceneScopeBase Get(int idx)
+		public SceneScope Get(int idx)
 		{
 			return (idx < _grp.Count) ? _grp[idx] : null;
 		}
 
-		public void Set(int idx, SceneScopeBase scn)
+		public void Set(int idx, SceneScope scn)
 		{
 			if (idx < _grp.Count)
 			{
@@ -92,27 +118,39 @@ namespace NullPopPoSpecial
 			_grp[idx] = null;
 		}
 
-		public void Add(SceneScopeBase scn)
+		public void Add(SceneScope scn)
 		{
 			_grp.Add(scn);
 		}
 	}
 
-	//! 列挙指定のシーンセレクタ 
+	//! 列挙指定のシーングループ 
 	public class SceneEnum<T>: SceneList where T: struct
 	{
-		public SceneScopeBase this[T idx]
+		protected override void OnCleanup()
+		{
+			var l = Count;
+			for (var i = 0; i < l; ++i)
+			{
+				var scn = base.Get(i);
+				if (scn == null) continue;
+				if (scn.IsBusy) continue;
+				base.Set(i, null);
+			}
+		}
+
+		public SceneScope this[T idx]
 		{
 			get { return Get(idx); }
 			set { Set(idx, value); }
 		}
 
-		public SceneScopeBase Get(T idx)
+		public SceneScope Get(T idx)
 		{
 			return base.Get((int)(object)idx);
 		}
 
-		public void Set(T idx, SceneScopeBase scn)
+		public void Set(T idx, SceneScope scn)
 		{
 			base.Set((int)(object)idx, scn);
 		}
@@ -123,12 +161,29 @@ namespace NullPopPoSpecial
 		}
 	}
 
-	//! 辞書指定のシーンセレクタ 
-	public class SceneDic<Ti>: SceneSelector
+	//! 辞書指定のシーングループ 
+	public class SceneDic<Ti>: SceneGroup
 	{
-		private Dictionary<Ti, SceneScopeBase> _grp = new Dictionary<Ti, SceneScopeBase>();
+		private Dictionary<Ti, SceneScope> _grp = new Dictionary<Ti, SceneScope>();
+		private Dictionary<Ti, SceneScope> _swap = new Dictionary<Ti, SceneScope>();
 
+		protected override int OnCount() { return _grp.Count; }
 		protected override void OnReset() { _grp.Clear(); }
+
+		protected override void OnCleanup()
+		{
+			var keep = _swap;
+			foreach (var p in _grp)
+			{
+				var scn = p.Value;
+				if (scn == null) continue;
+				if (!scn.IsBusy) continue;
+				keep[p.Key] = scn;
+			}
+			_grp.Clear();
+			_swap = _grp;
+			_grp = keep;
+		}
 
 		protected override void OnTerminate()
 		{
@@ -150,18 +205,18 @@ namespace NullPopPoSpecial
 			}
 		}
 
-		public SceneScopeBase this[Ti idx]
+		public SceneScope this[Ti idx]
 		{
 			get { return Get(idx); }
 			set { Set(idx, value); }
 		}
 
-		public SceneScopeBase Get(Ti idx)
+		public SceneScope Get(Ti idx)
 		{
 			return _grp.ContainsKey(idx) ? _grp[idx] : null;
 		}
 
-		public void Set(Ti idx, SceneScopeBase scn)
+		public void Set(Ti idx, SceneScope scn)
 		{
 			Remove(idx);
 			_grp[idx] = scn;

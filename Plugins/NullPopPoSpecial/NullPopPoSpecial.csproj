@@ -55,7 +55,8 @@
     <Compile Include="src\Cycle.cs" />
     <Compile Include="src\FlowBase.cs" />
     <Compile Include="src\FlowStep.cs" />
-    <Compile Include="src\HierarchyScope.cs" />
+    <Compile Include="src\GameObjectGroup.cs" />
+    <Compile Include="src\GameObjectScope.cs" />
     <Compile Include="src\Loc.cs" />
     <Compile Include="src\Relative.cs" />
     <Compile Include="src\Rot2D.cs" />
@@ -63,7 +64,7 @@
     <Compile Include="src\SafeMathf.cs" />
     <Compile Include="src\SceneInfo.cs" />
     <Compile Include="src\SceneScope.cs" />
-    <Compile Include="src\SceneSelector.cs" />
+    <Compile Include="src\SceneGroup.cs" />
     <Compile Include="src\Serializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

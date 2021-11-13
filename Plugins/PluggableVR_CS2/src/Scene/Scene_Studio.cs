@@ -13,6 +13,7 @@ namespace PluggableVR_CS2
 	//! Studio シーン付随動作 
 	internal class Scene_Studio : SceneScope
 	{
+		private WorldScope _world = new WorldScope();
 		protected override void OnStart()
 		{
 			Global.Logger.LogDebug(ToString() + " bgn");
@@ -26,17 +27,17 @@ namespace PluggableVR_CS2
 			// 元のカメラから移設するComponent 
 			var cam = player.Camera;
 			cam.Possess<FlareLayer>();
-			cam.Possess<AmplifyOcclusionEffect>();
-			cam.Possess<AmplifyColorEffect>();
-			cam.Possess<UnityStandardAssets.ImageEffects.BloomAndFlares>();
-			cam.Possess<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration>();
-//			cam.Possess<Studio.CameraControl>();
+//			cam.Possess<UnityStandardAssets.ImageEffects.BloomAndFlares>();
+//			cam.Possess<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration>();
 
 			// 元のカメラから遮断するComponent 
 			cam.Suppress<UnityStandardAssets.ImageEffects.DepthOfField>();
 
 			// アバター表示Layerをカメラの表示対象内で選択 
 			mng.Avatar.SetLayer(4);
+
+			// ワールド状態捕捉 
+			_world.Start("/CommonSpace");
 		}
 
 		protected override void OnTerminate()
@@ -47,6 +48,13 @@ namespace PluggableVR_CS2
 			var mng = VRManager.Instance;
 			var player = mng.Player;
 			player.SetCamera(null);
+		}
+
+		protected override void OnUpdate()
+		{
+			base.OnUpdate();
+
+			_world.Update();
 		}
 	}
 }

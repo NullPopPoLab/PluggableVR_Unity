@@ -9,7 +9,7 @@ using UnityEngine;
 namespace NullPopPoSpecial
 {
 	//! 特定GameObjectが存在している間の動作 
-	public class HierarchyScope
+	public class GameObjectScope
 	{
 		public GameObject Target { get; private set; }
 		public Transform Transform { get { return (Target == null) ? null : Target.transform; } }
@@ -90,6 +90,20 @@ namespace NullPopPoSpecial
 			if (!IsBusy) return;
 			IsBusy = false;
 			OnTerminate();
+		}
+
+		public void Replace(GameObject target)
+		{
+			if (Target == null)
+			{
+				Start(target);
+				return;
+			}
+			if (target != null)
+			{
+				if (target.GetInstanceID() == Target.GetInstanceID()) return;
+			}
+			Start(target);
 		}
 
 		public void Update()

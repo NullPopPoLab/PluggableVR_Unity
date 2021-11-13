@@ -34,6 +34,8 @@ namespace PluggableVR_CS2
 			VRCamera.Revision = VRCamera.ERevision.Legacy;
 			VRCamera.SourceMode = VRCamera.ESourceMode.Blind;
 
+			Dumper.Register();
+
 			Harmony.CreateAndPatchAll(typeof(Main));
 		}
 

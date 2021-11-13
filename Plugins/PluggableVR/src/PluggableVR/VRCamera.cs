@@ -56,6 +56,10 @@ namespace PluggableVR
 		}
 		private VRCameraController _controller;
 
+		public VRCameraController.EPostproc Postproc{
+			get{ return (_controller == null) ? VRCameraController.EPostproc.None : _controller.Postproc; }
+		}
+
 		public void DontControl(){ Controller = null; }
 		public void BeActive() { Controller = new VRCameraActive(); }
 		public void BePassive() { Controller = new VRCameraPassive(); }

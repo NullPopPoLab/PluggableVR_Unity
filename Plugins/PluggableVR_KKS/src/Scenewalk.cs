@@ -10,20 +10,11 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
-namespace PluggableVR_CS2
+namespace PluggableVR_KKS
 {
-	internal class SceneLauncher: SceneReportBase
+	internal class Scenewalk: SceneReportBase
 	{
-		private static SceneDic<string> _launcher = new SceneDic<string>();
-
-		internal SceneLauncher(){
-			_launcher["Init"] = new Scene_Init();
-			_launcher["Studio"] = new Scene_Studio();
-		}
-
-		internal void Update(){
-			_launcher.Update();
-		}
+		private static SceneDic<string> _scene = new SceneDic<string>();
 
 		public override void OnSceneLoaded(string path, LoadSceneMode mode)
 		{
@@ -31,10 +22,10 @@ namespace PluggableVR_CS2
 
 			Global.Logger.LogDebug("Scene Loaded: " + path);
 			var scn = SceneInfo.Find(path);
-//			HierarchyDumper.Dumper.Dump2File("Hier_" + Global.ProcessName, "Load-" + scn.name);
+			HierarchyDumper.Dumper.Dump2File("Hier_" + Global.ProcessName, "Load-" + scn.name);
 
-			var proc = _launcher[(scn.name == null) ? "" : scn.name];
-			if (proc != null) proc.Start(path);
+			var proc = _scene[scn.name];
+			if (proc != null) proc.Start();
 		}
 
 		public override void OnSceneUnloaded(string path)
@@ -43,9 +34,9 @@ namespace PluggableVR_CS2
 
 			Global.Logger.LogDebug("Scene Unloaded: " + path);
 			var scn = SceneInfo.Find(path);
-//			HierarchyDumper.Dumper.Dump2File("Hier_" + Global.ProcessName, "Unload-" + scn.name);
+			HierarchyDumper.Dumper.Dump2File("Hier_" + Global.ProcessName, "Unload-" + scn.name);
 
-			var proc = _launcher[(scn.name == null) ? "" : scn.name];
+			var proc = _scene[scn.name];
 			if (proc != null) proc.Terminate();
 		}
 
@@ -56,11 +47,11 @@ namespace PluggableVR_CS2
 			Global.Logger.LogDebug("Scene Changed: " + prev + " => " + next);
 			var scn1 = SceneInfo.Find(prev);
 			var scn2 = SceneInfo.Find(next);
-//			HierarchyDumper.Dumper.Dump2File("Hier_" + Global.ProcessName, "Changed-" + scn1.name + "-" + scn2.name);
+			HierarchyDumper.Dumper.Dump2File("Hier_" + Global.ProcessName, "Changed-" + scn1.name + "-" + scn2.name);
 
-			var proc1 = _launcher[(scn1.name == null) ? "" : scn1.name];
+			var proc1 = _scene[scn1.name];
 			if (proc1 != null) proc1.Active = false;
-			var proc2 = _launcher[(scn2.name == null) ? "" : scn2.name];
+			var proc2 = _scene[scn2.name];
 			if (proc2 != null) proc2.Active = true;
 		}
 	}

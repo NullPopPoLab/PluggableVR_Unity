@@ -11,19 +11,27 @@ using System.Collections.Generic;
 
 namespace PluggableVR_CS2
 {
+	internal struct DemoAvatarExtra{
+		internal DynamicBoneCollider HeadCollider;
+		internal DynamicBoneCollider LeftHandCollider;
+		internal DynamicBoneCollider RightHandCollider;
+	}
+
 	internal static class Global
 	{
 		internal static string ProcessName;
 		internal static BepInEx.Logging.ManualLogSource Logger;
 
 		private static VRManager _vrmng;
-		private static SceneLauncher _scenes;
+		private static Scenewalk _scenes;
 
 		private static RelativeBool _push_rbtn2 = new RelativeBool();
 
+		internal static DemoAvatarExtra DemoAvatarExtra;
+
 		internal static void Enable()
 		{
-			_scenes = new SceneLauncher();
+			_scenes = new Scenewalk();
 			SceneInfo.Enable(_scenes);
 
 			_vrmng = new VRManager();
