@@ -23,7 +23,7 @@ namespace PluggableVR_KKS
 		internal static BepInEx.Logging.ManualLogSource Logger;
 
 		private static VRManager _vrmng;
-		private static Dictionary<string, Func<SceneScopeBase>> _launcher = new Dictionary<string, Func<SceneScopeBase>>();
+		private static Dictionary<string, Func<SceneScope>> _launcher = new Dictionary<string, Func<SceneScope>>();
 
 		private static RelativeBool _push_rbtn2 = new RelativeBool();
 

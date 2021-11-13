@@ -9,12 +9,16 @@ using UnityEngine;
 namespace NullPopPoSpecial
 {
 	//! 特定GameObjectが存在している間の動作 
-	public class HierarchyScopeBase
+	public class HierarchyScope
 	{
 		public GameObject Target { get; private set; }
 		public Transform Transform { get { return (Target == null) ? null : Target.transform; } }
 		public RectTransform RectTransform { get { return Transform as RectTransform; } }
 		public bool IsBusy { get; private set; }
+
+		public Loc LocalLoc { get { return Loc.FromLocalTransform(Transform); } }
+		public Loc WorldLoc { get { return Loc.FromWorldTransform(Transform); } }
+
 
 		private ChangingCensor<string> _name;
 		public string Name { get { return _name.Current; } }

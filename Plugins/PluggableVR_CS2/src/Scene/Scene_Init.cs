@@ -11,7 +11,7 @@ using PluggableVR;
 namespace PluggableVR_CS2
 {
 	//! Init シーン付随動作 
-	internal class Scene_Init : SceneScopeBase
+	internal class Scene_Init : SceneScope
 	{
 		protected override void OnStart()
 		{

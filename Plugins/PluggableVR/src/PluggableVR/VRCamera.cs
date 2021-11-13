@@ -45,6 +45,21 @@ namespace PluggableVR
 		}
 		private List<Possessing> _possessing = new List<Possessing>();
 
+		//! カメラ操作部基底 
+		public VRCameraController Controller{
+			get{ return _controller; }
+			set{
+				if (_controller != null) _controller.Terminate();
+				_controller = value;
+				if (value != null && Source != null) value.Start(Source.gameObject);
+			}
+		}
+		private VRCameraController _controller;
+
+		public void DontControl(){ Controller = null; }
+		public void BeActive() { Controller = new VRCameraActive(); }
+		public void BePassive() { Controller = new VRCameraPassive(); }
+
 		public bool Active
 		{
 			get { return Object.activeSelf; }
@@ -134,6 +149,12 @@ namespace PluggableVR
 		//! 移設された Component 返却 
 		public void Recall()
 		{
+			if (Source == null)
+			{
+				Dispose();
+				return;
+			}
+
 			var l = _possessing.Count;
 			for (var i = 0; i < l; ++i)
 			{
@@ -142,7 +163,6 @@ namespace PluggableVR
 				Component.DestroyImmediate(t.Dst);
 			}
 
-			if (Source == null) return;
 			Source.clearFlags = Target.clearFlags;
 			Source.cullingMask = Target.cullingMask;
 			Source.stereoTargetEye = _backupStereoTargetEyeMask;
@@ -166,6 +186,15 @@ namespace PluggableVR
 			if (Source == null) return;
 			Source.transform.position = Target.transform.position;
 			Source.transform.rotation = Target.transform.rotation;
+		}
+
+		public void Update()
+		{
+			if (_controller != null)
+			{
+				_controller.Update();
+				if (_controller.Postproc == VRCameraController.EPostproc.Feedback) Feedback();
+			}
 		}
 	}
 }

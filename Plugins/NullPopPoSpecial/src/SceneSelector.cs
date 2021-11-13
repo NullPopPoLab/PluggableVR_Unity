@@ -36,7 +36,7 @@ namespace NullPopPoSpecial
 	//! 連番指定のシーンセレクタ 
 	public class SceneList: SceneSelector
 	{
-		private List<SceneScopeBase> _grp = new List<SceneScopeBase>();
+		private List<SceneScope> _grp = new List<SceneScope>();
 
 		protected override void OnReset() { _grp.Clear(); }
 
@@ -60,18 +60,18 @@ namespace NullPopPoSpecial
 			}
 		}
 
-		public SceneScopeBase this[int idx]
+		public SceneScope this[int idx]
 		{
 			get { return Get(idx); }
 			set	{ Set(idx, value); }
 		}
 
-		public SceneScopeBase Get(int idx)
+		public SceneScope Get(int idx)
 		{
 			return (idx < _grp.Count) ? _grp[idx] : null;
 		}
 
-		public void Set(int idx, SceneScopeBase scn)
+		public void Set(int idx, SceneScope scn)
 		{
 			if (idx < _grp.Count)
 			{
@@ -92,7 +92,7 @@ namespace NullPopPoSpecial
 			_grp[idx] = null;
 		}
 
-		public void Add(SceneScopeBase scn)
+		public void Add(SceneScope scn)
 		{
 			_grp.Add(scn);
 		}
@@ -101,18 +101,18 @@ namespace NullPopPoSpecial
 	//! 列挙指定のシーンセレクタ 
 	public class SceneEnum<T>: SceneList where T: struct
 	{
-		public SceneScopeBase this[T idx]
+		public SceneScope this[T idx]
 		{
 			get { return Get(idx); }
 			set { Set(idx, value); }
 		}
 
-		public SceneScopeBase Get(T idx)
+		public SceneScope Get(T idx)
 		{
 			return base.Get((int)(object)idx);
 		}
 
-		public void Set(T idx, SceneScopeBase scn)
+		public void Set(T idx, SceneScope scn)
 		{
 			base.Set((int)(object)idx, scn);
 		}
@@ -126,7 +126,7 @@ namespace NullPopPoSpecial
 	//! 辞書指定のシーンセレクタ 
 	public class SceneDic<Ti>: SceneSelector
 	{
-		private Dictionary<Ti, SceneScopeBase> _grp = new Dictionary<Ti, SceneScopeBase>();
+		private Dictionary<Ti, SceneScope> _grp = new Dictionary<Ti, SceneScope>();
 
 		protected override void OnReset() { _grp.Clear(); }
 
@@ -150,18 +150,18 @@ namespace NullPopPoSpecial
 			}
 		}
 
-		public SceneScopeBase this[Ti idx]
+		public SceneScope this[Ti idx]
 		{
 			get { return Get(idx); }
 			set { Set(idx, value); }
 		}
 
-		public SceneScopeBase Get(Ti idx)
+		public SceneScope Get(Ti idx)
 		{
 			return _grp.ContainsKey(idx) ? _grp[idx] : null;
 		}
 
-		public void Set(Ti idx, SceneScopeBase scn)
+		public void Set(Ti idx, SceneScope scn)
 		{
 			Remove(idx);
 			_grp[idx] = scn;

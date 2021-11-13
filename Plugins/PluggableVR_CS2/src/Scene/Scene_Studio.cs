@@ -11,10 +11,8 @@ using PluggableVR;
 namespace PluggableVR_CS2
 {
 	//! Studio シーン付随動作 
-	internal class Scene_Studio : SceneScopeBase
+	internal class Scene_Studio : SceneScope
 	{
-		private Chaser _chaser;
-
 		protected override void OnStart()
 		{
 			Global.Logger.LogDebug(ToString() + " bgn");
@@ -23,7 +21,7 @@ namespace PluggableVR_CS2
 			var mng = VRManager.Instance;
 			var player = mng.Player;
 			player.SetCamera(Camera.main);
-			_chaser = new Chaser(player.Camera.Source.transform);
+			player.Camera.BePassive();
 
 			// 元のカメラから移設するComponent 
 			var cam = player.Camera;
@@ -49,19 +47,6 @@ namespace PluggableVR_CS2
 			var mng = VRManager.Instance;
 			var player = mng.Player;
 			player.SetCamera(null);
-		}
-
-		protected override void OnUpdate()
-		{
-			base.OnUpdate();
-
-			// カメラ位置変更検知 
-			if (_chaser.Update())
-			{
-				var mng = VRManager.Instance;
-				var player = mng.Player;
-				player.Reloc(_chaser.Loc);
-			}
 		}
 	}
 }

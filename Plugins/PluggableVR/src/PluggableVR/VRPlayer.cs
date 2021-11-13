@@ -19,7 +19,6 @@ namespace PluggableVR
 		public VRPlayer()
 		{
 		}
-		public void Update() { OnUpdate(); }
 		public void Repos(Vector3 pos) { OnRepos(pos); }
 		public void Rerot(Quaternion rot) { OnRerot(rot); }
 		public void Reloc(Loc loc) { OnReloc(loc); }
@@ -28,6 +27,16 @@ namespace PluggableVR
 			Camera.Reset(cam);
 			if (cam == null) return;
 			Reloc(Loc.FromWorldTransform(cam.transform)); 
+		}
+
+		public void Update()
+		{
+			if (Camera != null) {
+				Camera.Update();
+				if (Camera.Controller.Postproc == VRCameraController.EPostproc.Reloc) 
+					Reloc(Loc.FromWorldTransform(Camera.Source.transform));
+			}
+			OnUpdate();
 		}
 
 		protected virtual void OnUpdate() { }
