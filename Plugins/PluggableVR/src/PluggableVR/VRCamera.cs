@@ -26,44 +26,8 @@ namespace PluggableVR
 		}
 		public static ESourceMode SourceMode;
 
-		public interface ICapturer
-		{
-			Behaviour TargetCore { get; set; }
-			Behaviour SourceCore { get; set; }
-			void Capture();
-		}
-		public struct Capturer<T> : ICapturer where T : Behaviour
-		{
-			public GameObject Owner { get; private set; }
-			public Behaviour TargetCore { get; set; }
-			public Behaviour SourceCore { get; set; }
-
-			public T Target { get { return TargetCore as T; } set { Target = value; } }
-			public T Source { get { return SourceCore as T; } set { Source = value; } }
-
-			public Capturer(GameObject owner)
-			{
-				Owner = owner;
-				TargetCore = null;
-				SourceCore = null;
-			}
-
-			public void Capture()
-			{
-				if (Source == null || !Source.enabled)
-				{
-					if (Target == null) return;
-					Target.enabled = false;
-					return;
-				}
-				if (Target == null) Target = Owner.AddComponent<T>();
-				Serializer.Copy(Source, Target);
-			}
-		}
-
 		public Camera Target { get; private set; }
 		public Camera Source { get; private set; }
-		public IList<ICapturer> CapturerSet;
 
 		public Transform Transform { get { return Target.transform; } }
 		public GameObject Object { get { return Target.gameObject; } }
@@ -140,39 +104,6 @@ namespace PluggableVR
 			if (lsn != null) lsn.enabled = false;
 		}
 
-		//! Component 状態捕捉対象に加える 
-		public Capturer<T> AddCapturer<T>(T src, T dst, bool soon) where T : Behaviour
-		{
-			if (CapturerSet == null) CapturerSet = new List<ICapturer>();
-
-			var c = new Capturer<T>(Target.gameObject);
-			c.Source = src;
-			c.Target = dst;
-			CapturerSet.Add(c);
-
-			if (soon) c.Capture();
-			return c;
-		}
-
-		public Capturer<T> AddCapturer<T>(T src, bool divert, bool soon) where T : Behaviour
-		{
-			var dst = divert ? Target.gameObject.GetComponent<T>() : null;
-			return AddCapturer(src, dst, soon);
-		}
-
-		//! 元カメラの Component 状態反映
-		public void Capture()
-		{
-			if (CapturerSet == null) return;
-			var l = CapturerSet.Count;
-			for (var i = 0; i < l; ++i)
-			{
-				var c = CapturerSet[i];
-				if (c == null) continue;
-				c.Capture();
-			}
-		}
-
 		//! 元カメラの Component 封印 
 		public void Suppress<T>() where T : Behaviour
 		{
@@ -211,7 +142,6 @@ namespace PluggableVR
 				Component.DestroyImmediate(t.Dst);
 			}
 
-			if (Target == null) return;
 			if (Source == null) return;
 			Source.clearFlags = Target.clearFlags;
 			Source.cullingMask = Target.cullingMask;
@@ -233,7 +163,6 @@ namespace PluggableVR
 		//! VRカメラの位置を元カメラに反映 
 		public void Feedback()
 		{
-			if (Target == null) return;
 			if (Source == null) return;
 			Source.transform.position = Target.transform.position;
 			Source.transform.rotation = Target.transform.rotation;
