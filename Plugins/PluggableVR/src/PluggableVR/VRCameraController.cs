@@ -20,6 +20,7 @@ namespace PluggableVR
 		}
 		public EPostproc Postproc { get; protected set; }
 
+		public Vector3 FeedbackOffset;
 		public Loc CameraPlace { get; protected set; }
 
 		protected override void OnTerminate()

@@ -29,7 +29,9 @@ namespace PluggableVR_KKS
 					Global.Logger.LogDebug(ToString() + " bgn");
 
 					var mng = VRManager.Instance;
-					mng.Camera.BeActive();
+					var cc = new VRCameraActive();
+					cc.FeedbackOffset = new Vector3(0, 0, -1.0f);
+					mng.Camera.Controller = cc;
 				}
 				else
 				{
@@ -67,7 +69,7 @@ namespace PluggableVR_KKS
 				// 目の位置正しくとれるのか怪しいので頭関節位置から適当にずらしたところで設定 
 				var mng = VRManager.Instance;
 				var player = mng.Player;
-				player.Reloc(Loc.FromWorldTransform(Target.Head) * new Loc(new Vector3(0, 0.1f, 0.1f), Quaternion.identity));
+				player.Reloc(Loc.FromWorldTransform(Target.Head) * new Loc(new Vector3(0, 0.1f, 0.2f), Quaternion.identity));
 			}
 		}
 	}

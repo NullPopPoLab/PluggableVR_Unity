@@ -193,9 +193,9 @@ namespace PluggableVR
 		public void Feedback()
 		{
 			if (!Source.IsAvailable) return;
-			var dst = Source.Transform;
-			dst.position = Target.transform.position;
-			dst.rotation = Target.transform.rotation;
+			var loc = Loc.FromWorldTransform(Target.transform);
+			if (_controller != null) loc *= new Loc(_controller.FeedbackOffset, Quaternion.identity);
+			loc.ToWorldTransform(Source.Transform);
 		}
 
 		public void Update()

@@ -7,17 +7,21 @@
 
 <h1>PluggableVR for KoikatsuSunshine</h1>
 
-コイカツサンシャインをVRで動作させるためのプラグインです。<br>
-<a target="_blank" href="https://www.patreon.com/posts/hf-patch-for-kk-46339224">HF Patch 3.12</a>導入済の環境で動作確認しています。<br>
+コイカツサンシャイン ゲーム本体とCharaStudioをVRで動作させるためのプラグインです。<br>
+<a target="_blank" href="https://www.patreon.com/posts/hf-patch-for-kk-46339224">HF Patch 1.2</a>導入済の環境で動作確認しています。<br>
+HF Patchが古いとBepInExのバージョンチェックで弾かれるようですが、多少古い程度ならソースから自前ビルドすればいけるはず。<br>
 
 <h2>内容</h2>
 
 <dl>
 <dt>BepInEx</dt>
+<dt>CharaStudio_Data</dt>
 <dt>KoikatsuSunshine_Data</dt>
 <dd>ゲームフォルダに追加するファイル群</dd>
+<dt>CharaStudio_novr.bat</dt>
 <dt>KoikatsuSunshine_novr.bat</dt>
 <dd>通常版起動バッチファイル</dd>
+<dt>CharaStudio_vr.bat</dt>
 <dt>KoikatsuSunshine_vr.bat</dt>
 <dd>VR版起動バッチファイル</dd>
 <dt>PluggableVR_KKS_HowToUse.html</dt>
@@ -32,9 +36,11 @@
 <h2>導入手順</h2>
 
 <ol>
-<li>付属の BepInEx KoikatsuSunshine_Data KoikatsuSunshine_novr.bat KoikatsuSunshine_vr.bat をゲームフォルダに上書き(というか追加だけのはず)します。</li>
+<li>付属の BepInEx *_Data *.bat をゲームフォルダに上書きします。<br>
+新規導入の場合は追加だけのはずですが、上書きの際は他所のプラグインと機能かぶってるかもしれないので要注意ということで。<br>
+</li>
 
-<li>KoikatsuSunshine_Data/globalgamemanagers のVR版を作成します
+<li>CharaStudio_Data,KoikatsuSunshine_Data/globalgamemanagers のVR版を作成します
 <ol>
 <li>起動時にも自動対応されますが、一応ここで globalgamemanagers のコピーを globalgamemanagers_novr にバックアップしておくと比較的安全です。</li>
 <li><a target="_blank" href="https://github.com/Ooetksh/KoikatuVR">ここ参考</a>(手抜き)に、 globalgamemanagers を書き換えます。ただし、
@@ -55,9 +61,9 @@
 <h2>起動方法</h2>
 
 <ul>
-<li>KoikatsuSunshine_vr.bat で起動するとVR onで動作</li>
-<li>KoikatsuSunshine_novr.bat で起動するとVR offで動作</li>
-<li>通常通り KoikatsuSunshine.exe で起動すると前回の選択で</li>
+<li>CharaStudio_vr.bat KoikatsuSunshine_vr.bat で起動するとVR onで動作</li>
+<li>CharaStudio_novr.bat KoikatsuSunshine_novr.bat で起動するとVR offで動作</li>
+<li>通常通り CharaStudio.exe KoikatsuSunshine.exe で起動すると前回の選択で</li>
 </ul>
 
 <h2>操作方法</h2>
@@ -68,23 +74,36 @@
 <li>カメラをルームスケールで移動させます</li>
 </ul>
 <li>主スティック (右利き設定では左スティック)でカメラ位置マークを前後左右または上下左右に移動させます<br>(主スティックを押し込むことで移動方法を切り替えます)</li>
-<li>副スティック (右利き設定では右スティック)でカメラ位置マークを左右に回転させます</li>
+<li>副スティック (右利き設定では右スティック)左右でカメラ位置マークを左右に回転させます</li>
+<li>副スティック上下でカメラ位置マークから前後に移動させます</li>
 <li>両方のスティックから指を離すことで、カメラを位置マーク地点に移します</li>
-<li>あと、当面の調査用として、Yボタン押しながらBボタン押すと現在のHierarchy状態ごっそりファイルに書き出します</li>
+<li>あと、当面の調査用として、Yボタン押しながらBボタン押すと現在のHierarchy状態ごっそりファイルに書き出します。(将来的に廃止予定)</li>
+<li>バージョン0.0.3からはキーボードの Alt+P でもHierarchy状態書き出し機能が使えます。<br>
+こちらはプラグインが HierarchyDumper.dll に独立しており、VRとは無関係に動作します。(公式VR版でも共通で使えます)</li>
 </ul>
 
 UI操作は通常通りPC画面のマウス操作で。<br>
+ただしRaycastまともに動作しないので、3D的な操作は無理。<br>
 
-<h2>既知の問題点</h2>
+<h2>既知の問題点とか今後の予定とか</h2>
 
-<ul>
-<li>UI未対応</li>
-<li>背景の向きが反映されてない</li>
-<li>足元位置未対応のため、スティック回転の軸が怪しげ</li>
-<li>エディタしか入れない模様</li>
-</ul>
+<a target="_blank" href="https://github.com/users/NullPopPoLab/projects/1">GitHubの看板</a> 参照。<br>
+
+<h2>ソースコード入手</h2>
+
+<a target="_blank" href="https://github.com/NullPopPoLab/PluggableVR_Unity/tree/Plugin_KKS">GitHubのリポジトリ</a> 参照。<br>
 
 <h2>更新履歴</h2>
+
+<h3>0.1</h3>
+<ul>
+<li>KKS,CS2版統合</li>
+<li>設計みなおしで安定化</li>
+<li>基本的な遷移は一通り繋いだ(はず)</li>
+<li>各シーン内のカメラ切り替えに対応</li>
+<li>頭,手の位置にDynamicBoneの当たり判定入れてみた</li>
+<li>HierarchyDumperのファイル出力で先頭にBOM入れとく</li>
+</ul>
 
 <h3>0.0.2</h3>
 プレイヤー操作によるカメラ移動に対応<br>
