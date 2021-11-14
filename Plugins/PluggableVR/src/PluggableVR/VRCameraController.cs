@@ -20,6 +20,8 @@ namespace PluggableVR
 		}
 		public EPostproc Postproc { get; protected set; }
 
+		public Loc CameraPlace { get; protected set; }
+
 		protected override void OnTerminate()
 		{
 			Postproc = EPostproc.None;
@@ -58,6 +60,7 @@ namespace PluggableVR
 		{
 			base.OnUpdate();
 			Postproc = _chaser.Update() ? EPostproc.Reloc : EPostproc.None;
+			CameraPlace = _chaser.Loc;
 		}
 	}
 }

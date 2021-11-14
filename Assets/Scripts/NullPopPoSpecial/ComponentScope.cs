@@ -1,5 +1,5 @@
 ﻿/*!	@file
-	@brief NullPopPoSpecial: 特定GameObjectが存在している間の動作 
+	@brief NullPopPoSpecial: 特定Componentが存在している間の動作 
 	@author NullPopPoLab
 	@sa https://github.com/NullPopPoLab/NullPopPoSpecial
 */
@@ -8,16 +8,16 @@ using UnityEngine;
 
 namespace NullPopPoSpecial
 {
-	//! 特定GameObjectが存在している間の動作 
-	public class GameObjectScope
+	//! 特定Componentが存在している間の動作 
+	public class ComponentScope<T> where T : Behaviour
 	{
-		public GameObject Target { get; private set; }
+		public T Target { get; private set; }
+		public GameObject GameObject { get { return (Target == null) ? null : Target.gameObject; } }
 		public Transform Transform { get { return (Target == null) ? null : Target.transform; } }
 		public RectTransform RectTransform { get { return Transform as RectTransform; } }
 
 		public bool IsAvailable { get { return Target != null; } }
-		public bool IsActiveSelf { get { return (Target == null) ? false : Target.activeSelf; } }
-		public bool IsActiveInHierarchy { get { return (Target == null) ? false : Target.activeInHierarchy; } }
+		public bool IsEnabled { get { return (Target == null) ? false : Target.enabled; } }
 		public bool IsBusy { get; private set; }
 
 		public Loc LocalLoc { get { return Loc.FromLocalTransform(Transform); } }
@@ -66,7 +66,7 @@ namespace NullPopPoSpecial
 			Start();
 		}
 
-		public void Start(GameObject target)
+		public void Start(T target)
 		{
 			Terminate();
 			Target = target;
@@ -81,7 +81,8 @@ namespace NullPopPoSpecial
 			if (Target == null)
 			{
 				if (String.IsNullOrEmpty(_path.Current)) return;
-				Target = GameObject.Find(_path.Current);
+				var obj = GameObject.Find(_path.Current);
+				Target = (obj == null) ? null : obj.GetComponent<T>();
 				if (Target == null) return;
 			}
 			IsBusy = true;
@@ -97,7 +98,7 @@ namespace NullPopPoSpecial
 			Target = null;
 		}
 
-		public void Replace(GameObject target)
+		public void Replace(T target)
 		{
 			if (Target == null)
 			{

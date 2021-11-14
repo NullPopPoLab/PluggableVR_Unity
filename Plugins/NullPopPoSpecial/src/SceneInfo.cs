@@ -87,5 +87,10 @@ namespace NullPopPoSpecial
 			if (String.IsNullOrEmpty(path)) return default(Scene);
 			return _scene.ContainsKey(path) ? _scene[path] : default(Scene);
 		}
+
+		public static bool IsAvailable(string path)
+		{
+			return Find(path).isLoaded;
+		}
 	}
 }

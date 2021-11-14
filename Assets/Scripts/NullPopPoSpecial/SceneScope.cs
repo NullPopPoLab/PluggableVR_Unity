@@ -10,6 +10,7 @@ namespace NullPopPoSpecial
 	public class SceneScope
 	{
 		public string Path { get; private set; }
+		public bool IsAvailable { get { return SceneInfo.Find(Path).isLoaded; } }
 		public bool IsBusy { get; private set; }
 
 		private bool _active;

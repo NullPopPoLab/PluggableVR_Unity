@@ -14,6 +14,7 @@ namespace PluggableVR_CS2
 	internal class Scene_Studio : SceneScope
 	{
 		private WorldScope _world = new WorldScope();
+
 		protected override void OnStart()
 		{
 			Global.Logger.LogDebug(ToString() + " bgn");

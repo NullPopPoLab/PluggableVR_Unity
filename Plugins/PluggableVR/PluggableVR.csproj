@@ -97,6 +97,7 @@
     <Compile Include="src\PluggableVR\VRAvatar.cs" />
     <Compile Include="src\PluggableVR\VRCamera.cs" />
     <Compile Include="src\PluggableVR\VRCameraController.cs" />
+    <Compile Include="src\PluggableVR\VRCameraSource.cs" />
     <Compile Include="src\PluggableVR\VRControl.cs" />
     <Compile Include="src\PluggableVR\VRManager.cs" />
     <Compile Include="src\PluggableVR\VRPlayer.cs" />

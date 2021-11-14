@@ -34,7 +34,7 @@ namespace PluggableVR
 			if (Camera != null) {
 				Camera.Update();
 				if (Camera.Postproc == VRCameraController.EPostproc.Reloc)
-					Reloc(Loc.FromWorldTransform(Camera.Source.transform));
+					Reloc(Camera.Controller.CameraPlace);
 			}
 			OnUpdate();
 		}

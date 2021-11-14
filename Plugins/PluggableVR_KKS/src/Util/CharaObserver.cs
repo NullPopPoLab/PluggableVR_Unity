@@ -1,5 +1,5 @@
 ﻿/*!	@file
-	@brief HierarchyDumper: キャラ監視 
+	@brief PluggableVR: キャラ監視 
 	@author NullPopPoLab
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
@@ -12,42 +12,65 @@ using PluggableVR;
 namespace PluggableVR_KKS
 {
 	//! キャラ監視 
-	internal class CharaObserver
+	internal class CharaObserver : ComponentScope<ChaControl>
 	{
-		internal GameObject Target { get; private set; }
+		private GameObjectList _acce = new GameObjectList();
+		private GameObjectList _cloth = new GameObjectList();
+		private GameObjectList _hair = new GameObjectList();
 
-		internal CharaObserver(GameObject target)
+		protected override void OnStart()
 		{
-			Target = target;
+			Global.Logger.LogDebug(Target.fileParam.fullname + " found");
+			base.OnStart();
 		}
 
-		internal void AddPlayerColliders()
+		protected override void OnTerminate()
 		{
-			if (Target == null) return;
-			var db = Target.GetComponentsInChildren<DynamicBone>();
+			Global.Logger.LogDebug(Target.fileParam.fullname + " gone");
+			base.OnTerminate();
+		}
 
-//			Global.Logger.LogDebug(""+ db.Length+" DynamicBones found");
+		protected override void OnUpdate()
+		{
+			base.OnUpdate();
 
-			for (var i = 0; i < db.Length; ++i)
+			if (Target.sex != 0)
 			{
-				if (db[i].m_Colliders == null) continue;
-				db[i].m_Colliders.Add(Global.DemoAvatarExtra.HeadCollider);
-				db[i].m_Colliders.Add(Global.DemoAvatarExtra.LeftHandCollider);
-				db[i].m_Colliders.Add(Global.DemoAvatarExtra.RightHandCollider);
+				_updateAcce();
+				_updateCloth();
+				_updateHair();
 			}
 		}
 
-		internal void RemovePlayerColliders()
+		private void _updateAcce()
 		{
-			if (Target == null) return;
-			var db = Target.GetComponentsInChildren<DynamicBone>();
-
-			for (var i = 0; i < db.Length; ++i)
+			for (var i = 0; i < Target.objAccessory.Length; ++i)
 			{
-				if (db[i].m_Colliders == null) continue;
-				db[i].m_Colliders.Remove(Global.DemoAvatarExtra.HeadCollider);
-				db[i].m_Colliders.Remove(Global.DemoAvatarExtra.LeftHandCollider);
-				db[i].m_Colliders.Remove(Global.DemoAvatarExtra.RightHandCollider);
+				var o = Target.objAccessory[i];
+				var t = _acce[i];
+				if (t == null && o != null) _acce[i] = t = new AcceObserver();
+				if (t != null) t.Replace(o);
+			}
+		}
+		private void _updateCloth()
+		{
+			for (var i = 0; i < Target.objClothes.Length; ++i)
+			{
+				var o = Target.objClothes[i];
+				var t = _cloth[i];
+				if (t == null && o != null) _cloth[i] = t = new ClothObserver();
+				if (t != null) t.Replace(o);
+			}
+		}
+
+		private void _updateHair()
+		{
+			for (var i = 0; i < Target.objHair.Length; ++i)
+			{
+				var o = Target.objHair[i];
+				var t = _hair[i];
+				if (t == null && o != null) _hair[i] = t = new HairObserver();
+				if (t != null) t.Replace(o);
 			}
 		}
 	}

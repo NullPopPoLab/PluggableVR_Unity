@@ -27,7 +27,7 @@ namespace PluggableVR
 		public static ESourceMode SourceMode;
 
 		public Camera Target { get; private set; }
-		public Camera Source { get; private set; }
+		public VRCameraSource Source { get; private set; }
 
 		public Transform Transform { get { return Target.transform; } }
 		public GameObject Object { get { return Target.gameObject; } }
@@ -51,7 +51,7 @@ namespace PluggableVR
 			set{
 				if (_controller != null) _controller.Terminate();
 				_controller = value;
-				if (value != null && Source != null) value.Start(Source.gameObject);
+				if (value != null && Source.IsAvailable) value.Start(Source.GameObject);
 			}
 		}
 		private VRCameraController _controller;
@@ -74,6 +74,8 @@ namespace PluggableVR
 
 		public VRCamera(Transform rig)
 		{
+			Source = new VRCameraSource();
+
 			var obj = CreateChildObject("VRCamera", rig, Loc.Identity, false);
 			switch (Revision)
 			{
@@ -95,27 +97,27 @@ namespace PluggableVR
 		//! 再設定 
 		public void Reset(Camera src)
 		{
-			_possessing.Clear();
-			Source = src;
+			Dispose();
+			Source.Start(src);
 			if (src == null) return;
 
-			Target.clearFlags = Source.clearFlags;
-			Target.cullingMask = Source.cullingMask;
-			Target.farClipPlane = Source.farClipPlane;
-			Target.depth = Source.depth;
+			Target.clearFlags = src.clearFlags;
+			Target.cullingMask = src.cullingMask;
+			Target.farClipPlane = src.farClipPlane;
+			Target.depth = src.depth;
 
 			// 元のメインカメラに対する措置 
-			_backupStereoTargetEyeMask = Source.stereoTargetEye;
-			Source.stereoTargetEye = StereoTargetEyeMask.None;
+			_backupStereoTargetEyeMask = src.stereoTargetEye;
+			src.stereoTargetEye = StereoTargetEyeMask.None;
 			switch (SourceMode)
 			{
 				case ESourceMode.Disabled:
-					Source.enabled = false;
+					src.enabled = false;
 					break;
 
 				case ESourceMode.Blind:
-					Source.clearFlags = CameraClearFlags.Nothing;
-					Source.cullingMask = 0;
+					src.clearFlags = CameraClearFlags.Nothing;
+					src.cullingMask = 0;
 					break;
 			}
 
@@ -126,9 +128,9 @@ namespace PluggableVR
 		//! 元カメラの Component 封印 
 		public void Suppress<T>() where T : Behaviour
 		{
-			if (Source == null) return;
+			if (!Source.IsAvailable) return;
 
-			var cs = Source.GetComponents<T>();
+			var cs = Source.GameObject.GetComponents<T>();
 			for (var i = 0; i < cs.Length; ++i)
 			{
 				cs[i].enabled = false;
@@ -138,9 +140,9 @@ namespace PluggableVR
 		//! 元カメラの Component 移設 
 		public void Possess<T>() where T : Behaviour
 		{
-			if (Source == null) return;
+			if (!Source.IsAvailable) return;
 
-			var cs = Source.GetComponents<T>();
+			var cs = Source.GameObject.GetComponents<T>();
 			for (var i = 0; i < cs.Length; ++i)
 			{
 				var src = cs[i];
@@ -153,7 +155,7 @@ namespace PluggableVR
 		//! 移設された Component 返却 
 		public void Recall()
 		{
-			if (Source == null)
+			if (!Source.IsAvailable)
 			{
 				Dispose();
 				return;
@@ -166,11 +168,13 @@ namespace PluggableVR
 				t.Src.enabled = t.Dst.enabled;
 				Component.DestroyImmediate(t.Dst);
 			}
+			_possessing.Clear();
 
-			Source.clearFlags = Target.clearFlags;
-			Source.cullingMask = Target.cullingMask;
-			Source.stereoTargetEye = _backupStereoTargetEyeMask;
-			Source.enabled = Target.enabled;
+			var cam = Source.Target;
+			cam.clearFlags = Target.clearFlags;
+			cam.cullingMask = Target.cullingMask;
+			cam.stereoTargetEye = _backupStereoTargetEyeMask;
+			cam.enabled = Target.enabled;
 		}
 
 		//! 移設された Component 除去 
@@ -182,18 +186,22 @@ namespace PluggableVR
 				var t = _possessing[i];
 				Component.DestroyImmediate(t.Dst);
 			}
+			_possessing.Clear();
 		}
 
 		//! VRカメラの位置を元カメラに反映 
 		public void Feedback()
 		{
-			if (Source == null) return;
-			Source.transform.position = Target.transform.position;
-			Source.transform.rotation = Target.transform.rotation;
+			if (!Source.IsAvailable) return;
+			var dst = Source.Transform;
+			dst.position = Target.transform.position;
+			dst.rotation = Target.transform.rotation;
 		}
 
 		public void Update()
 		{
+			Source.Update();
+
 			if (_controller != null)
 			{
 				_controller.Update();

@@ -14,6 +14,10 @@ namespace NullPopPoSpecial
 		public GameObject Target { get; private set; }
 		public Transform Transform { get { return (Target == null) ? null : Target.transform; } }
 		public RectTransform RectTransform { get { return Transform as RectTransform; } }
+
+		public bool IsAvailable { get { return Target != null; } }
+		public bool IsActiveSelf { get { return (Target == null) ? false : Target.activeSelf; } }
+		public bool IsActiveInHierarchy { get { return (Target == null) ? false : Target.activeInHierarchy; } }
 		public bool IsBusy { get; private set; }
 
 		public Loc LocalLoc { get { return Loc.FromLocalTransform(Transform); } }
@@ -90,6 +94,7 @@ namespace NullPopPoSpecial
 			if (!IsBusy) return;
 			IsBusy = false;
 			OnTerminate();
+			Target = null;
 		}
 
 		public void Replace(GameObject target)

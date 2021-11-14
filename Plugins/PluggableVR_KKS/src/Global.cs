@@ -23,7 +23,7 @@ namespace PluggableVR_KKS
 		internal static BepInEx.Logging.ManualLogSource Logger;
 
 		private static VRManager _vrmng;
-		private static Dictionary<string, Func<SceneScope>> _launcher = new Dictionary<string, Func<SceneScope>>();
+		private static Scenewalk _scenes;
 
 		private static RelativeBool _push_rbtn2 = new RelativeBool();
 
@@ -31,7 +31,8 @@ namespace PluggableVR_KKS
 
 		internal static void Enable()
 		{
-			SceneInfo.Enable(new Scenewalk());
+			_scenes = new Scenewalk();
+			SceneInfo.Enable(_scenes);
 
 			_vrmng = new VRManager();
 			_vrmng.Initialize();
@@ -39,8 +40,8 @@ namespace PluggableVR_KKS
 
 		internal static void Disable()
 		{
+			_scenes = null;
 			SceneInfo.Disable();
-			_launcher.Clear();
 		}
 
 		internal static void FixedUpdate()
@@ -50,6 +51,7 @@ namespace PluggableVR_KKS
 
 		internal static void Update()
 		{
+			_scenes.Update();
 			_vrmng.Update();
 
 			var inp = VRManager.Input;
