@@ -106,6 +106,7 @@ public class VRPlug : MonoBehaviour
 #endif
 
 	private VRManager _vrmng = new VRManager();
+	private FlowStep _flow = new FlowStep();
 
 	//! 初期設定 
 	protected void Awake()
@@ -113,7 +114,10 @@ public class VRPlug : MonoBehaviour
 		VRCamera.Revision = VRCamera.ERevision.Legacy;
 		VRCamera.SourceMode = _cameraMode;
 
-		_vrmng.Initialize(new Flow_Startup());
+		_vrmng.Initialize();
+		OVRPlugin.SetTrackingOriginType(OVRPlugin.TrackingOrigin.EyeLevel);
+
+		_flow.Start(new Flow_Startup());
 	}
 
 	//! 終了 
@@ -148,6 +152,7 @@ public class VRPlug : MonoBehaviour
 
 		_vrmng.Update();
 		if(_cameraFeedback)_vrmng.Camera.Feedback();
+		_flow.Update();
 
 #if UNITY_EDITOR
 		var inp = VRManager.Input;

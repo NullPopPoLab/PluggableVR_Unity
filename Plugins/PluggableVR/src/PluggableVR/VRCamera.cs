@@ -26,44 +26,8 @@ namespace PluggableVR
 		}
 		public static ESourceMode SourceMode;
 
-		public interface ICapturer
-		{
-			Behaviour TargetCore { get; set; }
-			Behaviour SourceCore { get; set; }
-			void Capture();
-		}
-		public struct Capturer<T> : ICapturer where T : Behaviour
-		{
-			public GameObject Owner { get; private set; }
-			public Behaviour TargetCore { get; set; }
-			public Behaviour SourceCore { get; set; }
-
-			public T Target { get { return TargetCore as T; } set { Target = value; } }
-			public T Source { get { return SourceCore as T; } set { Source = value; } }
-
-			public Capturer(GameObject owner)
-			{
-				Owner = owner;
-				TargetCore = null;
-				SourceCore = null;
-			}
-
-			public void Capture()
-			{
-				if (Source == null || !Source.enabled)
-				{
-					if (Target == null) return;
-					Target.enabled = false;
-					return;
-				}
-				if (Target == null) Target = Owner.AddComponent<T>();
-				Serializer.Copy(Source, Target);
-			}
-		}
-
 		public Camera Target { get; private set; }
-		public Camera Source { get; private set; }
-		public IList<ICapturer> CapturerSet;
+		public VRCameraSource Source { get; private set; }
 
 		public Transform Transform { get { return Target.transform; } }
 		public GameObject Object { get { return Target.gameObject; } }
@@ -81,6 +45,25 @@ namespace PluggableVR
 		}
 		private List<Possessing> _possessing = new List<Possessing>();
 
+		//! カメラ操作部基底 
+		public VRCameraController Controller{
+			get{ return _controller; }
+			set{
+				if (_controller != null) _controller.Terminate();
+				_controller = value;
+				if (value != null && Source.IsAvailable) value.Start(Source.GameObject);
+			}
+		}
+		private VRCameraController _controller;
+
+		public VRCameraController.EPostproc Postproc{
+			get{ return (_controller == null) ? VRCameraController.EPostproc.None : _controller.Postproc; }
+		}
+
+		public void DontControl(){ Controller = null; }
+		public void BeActive() { Controller = new VRCameraActive(); }
+		public void BePassive() { Controller = new VRCameraPassive(); }
+
 		public bool Active
 		{
 			get { return Object.activeSelf; }
@@ -91,6 +74,8 @@ namespace PluggableVR
 
 		public VRCamera(Transform rig)
 		{
+			Source = new VRCameraSource();
+
 			var obj = CreateChildObject("VRCamera", rig, Loc.Identity, false);
 			switch (Revision)
 			{
@@ -112,27 +97,27 @@ namespace PluggableVR
 		//! 再設定 
 		public void Reset(Camera src)
 		{
-			_possessing.Clear();
-			Source = src;
+			Dispose();
+			Source.Start(src);
 			if (src == null) return;
 
-			Target.clearFlags = Source.clearFlags;
-			Target.cullingMask = Source.cullingMask;
-			Target.farClipPlane = Source.farClipPlane;
-			Target.depth = Source.depth;
+			Target.clearFlags = src.clearFlags;
+			Target.cullingMask = src.cullingMask;
+			Target.farClipPlane = src.farClipPlane;
+			Target.depth = src.depth;
 
 			// 元のメインカメラに対する措置 
-			_backupStereoTargetEyeMask = Source.stereoTargetEye;
-			Source.stereoTargetEye = StereoTargetEyeMask.None;
+			_backupStereoTargetEyeMask = src.stereoTargetEye;
+			src.stereoTargetEye = StereoTargetEyeMask.None;
 			switch (SourceMode)
 			{
 				case ESourceMode.Disabled:
-					Source.enabled = false;
+					src.enabled = false;
 					break;
 
 				case ESourceMode.Blind:
-					Source.clearFlags = CameraClearFlags.Nothing;
-					Source.cullingMask = 0;
+					src.clearFlags = CameraClearFlags.Nothing;
+					src.cullingMask = 0;
 					break;
 			}
 
@@ -140,45 +125,12 @@ namespace PluggableVR
 			if (lsn != null) lsn.enabled = false;
 		}
 
-		//! Component 状態捕捉対象に加える 
-		public Capturer<T> AddCapturer<T>(T src, T dst, bool soon) where T : Behaviour
-		{
-			if (CapturerSet == null) CapturerSet = new List<ICapturer>();
-
-			var c = new Capturer<T>(Target.gameObject);
-			c.Source = src;
-			c.Target = dst;
-			CapturerSet.Add(c);
-
-			if (soon) c.Capture();
-			return c;
-		}
-
-		public Capturer<T> AddCapturer<T>(T src, bool divert, bool soon) where T : Behaviour
-		{
-			var dst = divert ? Target.gameObject.GetComponent<T>() : null;
-			return AddCapturer(src, dst, soon);
-		}
-
-		//! 元カメラの Component 状態反映
-		public void Capture()
-		{
-			if (CapturerSet == null) return;
-			var l = CapturerSet.Count;
-			for (var i = 0; i < l; ++i)
-			{
-				var c = CapturerSet[i];
-				if (c == null) continue;
-				c.Capture();
-			}
-		}
-
 		//! 元カメラの Component 封印 
 		public void Suppress<T>() where T : Behaviour
 		{
-			if (Source == null) return;
+			if (!Source.IsAvailable) return;
 
-			var cs = Source.GetComponents<T>();
+			var cs = Source.GameObject.GetComponents<T>();
 			for (var i = 0; i < cs.Length; ++i)
 			{
 				cs[i].enabled = false;
@@ -188,9 +140,9 @@ namespace PluggableVR
 		//! 元カメラの Component 移設 
 		public void Possess<T>() where T : Behaviour
 		{
-			if (Source == null) return;
+			if (!Source.IsAvailable) return;
 
-			var cs = Source.GetComponents<T>();
+			var cs = Source.GameObject.GetComponents<T>();
 			for (var i = 0; i < cs.Length; ++i)
 			{
 				var src = cs[i];
@@ -203,6 +155,12 @@ namespace PluggableVR
 		//! 移設された Component 返却 
 		public void Recall()
 		{
+			if (!Source.IsAvailable)
+			{
+				Dispose();
+				return;
+			}
+
 			var l = _possessing.Count;
 			for (var i = 0; i < l; ++i)
 			{
@@ -210,10 +168,13 @@ namespace PluggableVR
 				t.Src.enabled = t.Dst.enabled;
 				Component.DestroyImmediate(t.Dst);
 			}
-			Source.clearFlags = Target.clearFlags;
-			Source.cullingMask = Target.cullingMask;
-			Source.stereoTargetEye = _backupStereoTargetEyeMask;
-			Source.enabled = Target.enabled;
+			_possessing.Clear();
+
+			var cam = Source.Target;
+			cam.clearFlags = Target.clearFlags;
+			cam.cullingMask = Target.cullingMask;
+			cam.stereoTargetEye = _backupStereoTargetEyeMask;
+			cam.enabled = Target.enabled;
 		}
 
 		//! 移設された Component 除去 
@@ -225,15 +186,27 @@ namespace PluggableVR
 				var t = _possessing[i];
 				Component.DestroyImmediate(t.Dst);
 			}
+			_possessing.Clear();
 		}
 
 		//! VRカメラの位置を元カメラに反映 
 		public void Feedback()
 		{
-			if (Target == null) return;
-			if (Source == null) return;
-			Source.transform.position = Target.transform.position;
-			Source.transform.rotation = Target.transform.rotation;
+			if (!Source.IsAvailable) return;
+			var loc = Loc.FromWorldTransform(Target.transform);
+			if (_controller != null) loc *= new Loc(_controller.FeedbackOffset, Quaternion.identity);
+			loc.ToWorldTransform(Source.Transform);
+		}
+
+		public void Update()
+		{
+			Source.Update();
+
+			if (_controller != null)
+			{
+				_controller.Update();
+				if (_controller.Postproc == VRCameraController.EPostproc.Feedback) Feedback();
+			}
 		}
 	}
 }

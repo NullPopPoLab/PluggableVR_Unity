@@ -24,8 +24,6 @@ namespace PluggableVR
 		//! VRカメラ 
 		public VRCamera Camera { get { return Player.Camera; } }
 
-		//! 現在の手順遷移 
-		private Flow _curFlow;
 
 		public VRManager()
 		{
@@ -33,7 +31,7 @@ namespace PluggableVR
 		}
 
 		//! 初期設定 
-		public void Initialize(Flow flow)
+		public void Initialize()
 		{
 			if (IsReady) return;
 			IsReady = true;
@@ -42,8 +40,6 @@ namespace PluggableVR
 
 			OVRPlugin.rotation = true;
 			OVRPlugin.useIPDInPositionTracking = true;
-
-			Start(flow);
 		}
 
 		//! 機能終了 
@@ -51,16 +47,6 @@ namespace PluggableVR
 		{
 			if (!IsReady) return;
 			IsReady = false;
-		}
-
-		//! 遷移開始 
-		public void Start(Flow flow)
-		{
-			if (!IsReady) return;
-			if (_curFlow != null) return;
-			if (flow == null) return;
-			_curFlow = flow;
-			flow.Start();
 		}
 
 		//! プレイヤー設定 
@@ -103,11 +89,6 @@ namespace PluggableVR
 			if (!IsReady) return;
 			Input.Update();
 			if (Player != null) Player.Update();
-
-			if (_curFlow != null)
-			{
-				_curFlow = _curFlow.Update();
-			}
 		}
 
 		//! アニメーション処理後の更新 

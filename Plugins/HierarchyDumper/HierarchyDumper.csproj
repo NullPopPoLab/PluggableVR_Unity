@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,29 +30,15 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>..\game\BepInEx\core\0Harmony.dll</HintPath>
-    </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>..\game\Koikatu_Data\Managed\Assembly-CSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="BepInEx">
-      <HintPath>..\game\BepInEx\core\BepInEx.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="UnityEngine">
-      <HintPath>..\game\Koikatu_Data\Managed\UnityEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>..\game\Koikatu_Data\Managed\UnityEngine.UI.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -63,6 +50,7 @@
     <Compile Include="src\Dumper_Button.cs" />
     <Compile Include="src\Dumper_Camera.cs" />
     <Compile Include="src\Dumper_Canvas.cs" />
+    <Compile Include="src\Dumper_CanvasGroup.cs" />
     <Compile Include="src\Dumper_CanvasScaler.cs" />
     <Compile Include="src\Dumper_CapsuleCollider.cs" />
     <Compile Include="src\Dumper_Collider.cs" />
@@ -96,8 +84,8 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if not exist $(SolutionDir)game\BepInEx\plugins\!myworks mkdir $(SolutionDir)game\BepInEx\plugins\!myworks
-copy /y HierarchyDumper.dll $(SolutionDir)game\BepInEx\plugins\!myworks\
-copy /y HierarchyDumper.pdb $(SolutionDir)game\BepInEx\plugins\!myworks\
+copy /y $(ProjectName).dll $(SolutionDir)game\BepInEx\plugins\!myworks\
+copy /y $(ProjectName).pdb $(SolutionDir)game\BepInEx\plugins\!myworks\
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

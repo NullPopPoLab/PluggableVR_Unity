@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // アセンブリに関する一般情報は以下の属性セットをとおして制御されます。
 // 制御されます。アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更してください。
-[assembly: AssemblyTitle("NullPopPoSpecial")]
+[assembly: AssemblyTitle("PluggableVR")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("NullPopPoSpecial")]
+[assembly: AssemblyProduct("PluggableVR")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // このプロジェクトが COM に公開される場合、次の GUID が typelib の ID になります
-[assembly: Guid("cbf208b1-6cfa-4871-b4f4-ba784ca7bfd8")]
+[assembly: Guid("ff677508-a0db-4479-8448-e0948badc008")]
 
 // アセンブリのバージョン情報は、以下の 4 つの値で構成されています:
 //
