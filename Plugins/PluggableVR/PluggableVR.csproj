@@ -21,6 +21,7 @@
     <DefineConstants>TRACE;DEBUG;UNITY_5_6_OR_NEWER; UNITY_STANDALONE_WIN</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,7 @@
     <DefineConstants>TRACE;UNITY_5_6_OR_NEWER; UNITY_STANDALONE_WIN</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -72,12 +74,13 @@
     <Compile Include="src\PluggableVR\PlugCommon.cs" />
     <Compile Include="src\PluggableVR\VRAvatar.cs" />
     <Compile Include="src\PluggableVR\VRCamera.cs" />
+    <Compile Include="src\PluggableVR\VRCameraController.cs" />
+    <Compile Include="src\PluggableVR\VRCameraSource.cs" />
     <Compile Include="src\PluggableVR\VRControl.cs" />
     <Compile Include="src\PluggableVR\VRManager.cs" />
     <Compile Include="src\PluggableVR\VRPlayer.cs" />
     <Compile Include="src\ThirdParty\openvr_api.cs" />
     <Compile Include="src\ThirdParty\SimpleJSON.cs" />
-    <Compile Include="src\ThirdParty\SimpleJSONUnity.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NullPopPoSpecial\NullPopPoSpecial.csproj">
@@ -88,8 +91,8 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if not exist $(SolutionDir)game\BepInEx\plugins\!myworks mkdir $(SolutionDir)game\BepInEx\plugins\!myworks
-copy /y PluggableVR.dll $(SolutionDir)game\BepInEx\plugins\!myworks\
-copy /y PluggableVR.pdb $(SolutionDir)game\BepInEx\plugins\!myworks\
+copy /y $(ProjectName).dll $(SolutionDir)game\BepInEx\plugins\!myworks\
+copy /y $(ProjectName).pdb $(SolutionDir)game\BepInEx\plugins\!myworks\
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

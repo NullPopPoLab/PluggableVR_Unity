@@ -5,6 +5,7 @@
 */
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 namespace HierarchyDumper
 {
@@ -53,6 +54,38 @@ namespace HierarchyDumper
 			s += ((idx == null) ? v.ToString() : idx(v)) + "\n";
 
 			if (sub != null) s += sub(v);
+			return s;
+		}
+
+		public static string Enumrate<T>(IList<T> t, string capt, Func<int, string> idx = null, Func<T, string> sub = null)
+		{
+			var s = capt + ": ";
+
+			if (t == null) return s + "(null)\n";
+			s += "\n";
+
+			for (var i = 0; i < t.Count; ++i)
+			{
+				s += ((idx == null) ? i.ToString() : idx(i)) + ": ";
+				s += ((sub == null) ? t[i].ToString() : sub(t[i]));
+			}
+
+			return s;
+		}
+
+		public static string Enumrate<Ti, Tc>(IDictionary<Ti, Tc> t, string capt, Func<Ti, string> idx = null, Func<Tc, string> sub = null)
+		{
+			var s = capt + ": ";
+
+			if (t == null) return s + "(null)\n";
+			s += "\n";
+
+			foreach (var p in t)
+			{
+				s += ((idx == null) ? p.Key.ToString() : idx(p.Key)) + ": ";
+				s += ((sub == null) ? p.Value.ToString() : sub(p.Value));
+			}
+
 			return s;
 		}
 	}

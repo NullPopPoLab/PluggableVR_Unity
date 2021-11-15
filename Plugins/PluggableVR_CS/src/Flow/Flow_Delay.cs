@@ -10,18 +10,18 @@ using PluggableVR;
 namespace PluggableVR_CS
 {
 	//! 手順遷移 フレーム経過待ち 
-	public class Flow_Delay : Flow
+	public class Flow_Delay : FlowBase
 	{
-		private Flow _next;
+		private FlowBase _next;
 		private int _wait;
 
-		public Flow_Delay(Flow next, int wait = 0)
+		public Flow_Delay(FlowBase next, int wait = 0)
 		{
 			_next = next;
 			_wait = wait;
 		}
 
-		protected override Flow OnUpdate()
+		protected override FlowBase OnUpdate()
 		{
 			base.OnUpdate();
 			if (--_wait >= 0) return null;

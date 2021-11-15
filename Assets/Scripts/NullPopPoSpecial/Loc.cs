@@ -39,12 +39,14 @@ namespace NullPopPoSpecial
 		//! Unity World Transform からの取り込み 
 		public static Loc FromWorldTransform(Transform src)
 		{
+			if (src == null) return Identity;
 			return new Loc(src.position, src.rotation);
 		}
 
 		//! Unity Local Transform からの取り込み 
 		public static Loc FromLocalTransform(Transform src)
 		{
+			if (src == null) return Identity;
 			return new Loc(src.localPosition, src.localRotation);
 		}
 

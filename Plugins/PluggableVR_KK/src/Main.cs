@@ -20,14 +20,10 @@ namespace PluggableVR_KK
     public class Main : BaseUnityPlugin
     {
 		public const string GUID = "com.nullpoppo.PluggableVR.KK";
-		public const string VERSION = "0.0.5.0";
+		public const string VERSION = "0.0.5.1";
 
 		public static Main Instance;
 		public static bool Enabled { get; private set; }
-
-		private VRManager _vrmng;
-
-		private RelativeBool _push_rbtn2 = new RelativeBool();
 
         protected void Awake()
         {
@@ -40,55 +36,41 @@ namespace PluggableVR_KK
 			Global.Logger = Logger;
 
 			VRCamera.Revision = VRCamera.ERevision.Legacy;
-			VRCamera.SourceMode = VRCamera.ESourceMode.Disabled;
+			VRCamera.SourceMode = VRCamera.ESourceMode.Blind;
 
 			Dumper.Register();
 
-			_vrmng = new VRManager();
-			_vrmng.Initialize(new Flow_Startup());
             Harmony.CreateAndPatchAll(typeof(Main));
         }
 
         protected void OnEnable()
         {
 			if (!Enabled) return;
-
-			Global.Scene.Enable();
+			Global.Enable();
         }
 
         protected void OnDisable()
         {
 			if (!Enabled) return;
-
-			Global.Scene.Disable();
+			Global.Disable();
         }
 
 		protected void FixedUpdate()
 		{
 			if (!Enabled) return;
-
-			_vrmng.FixedUpdate();
+			Global.FixedUpdate();
 		}
 
 		protected void Update()
 		{
 			if (!Enabled) return;
-
-			_vrmng.Update();
-
-			var inp = VRManager.Input;
-			_push_rbtn2.Update(inp.HandRight.IsButton2Pressed());
-			if (inp.HandLeft.IsButton2Pressed() && _push_rbtn2.Delta > 0)
-			{
-				HierarchyDumper.Dumper.Dump2File("Hier_" + Paths.ProcessName);
-			}
+			Global.Update();
 		}
 
 		protected void LateUpdate()
 		{
 			if (!Enabled) return;
-
-			_vrmng.LateUpdate();
+			Global.LateUpdate();
 		}
     }
 }

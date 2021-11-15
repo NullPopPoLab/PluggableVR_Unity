@@ -8,13 +8,16 @@ using NullPopPoSpecial;
 using PluggableVR;
 
 //! 手順遷移 開始時 
-public class Flow_Startup : Flow
+public class Flow_Startup : FlowBase
 {
 	protected override void OnStart()
 	{
 		base.OnStart();
 
 		// 初期設定 
+		DemoAvatar.UseStandardCollider = true;
+		DemoAvatar.ShowColliderShape = true;
+
 		var scale = 1.0f;
 		var avatar = new DemoAvatar(Loc.Identity, scale);
 		var player = new DemoPlayer(avatar, scale);
@@ -24,7 +27,7 @@ public class Flow_Startup : Flow
 		GameObject.Find("/Main Camera").GetComponent<AudioListener>().enabled = false;
 	}
 
-	protected override Flow OnUpdate()
+	protected override FlowBase OnUpdate()
 	{
 		// メインカメラ認識待ち 
 		var mc = Camera.main;

@@ -55,27 +55,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Dumper\Dumper.cs" />
+    <Compile Include="src\Dumper\Dumper_ChaControl.cs" />
+    <Compile Include="src\Dumper\Dumper_ChaInfo.cs" />
+    <Compile Include="src\Dumper\Dumper_Chara_Base.cs" />
+    <Compile Include="src\Dumper\Dumper_Chara_Player.cs" />
+    <Compile Include="src\Dumper\Dumper_DynamicBone.cs" />
     <Compile Include="src\Dumper\Dumper_DynamicBoneCollider.cs" />
-    <Compile Include="src\Flow\Flow_Abandoned.cs" />
-    <Compile Include="src\Flow\Flow_Action.cs" />
-    <Compile Include="src\Flow\Flow_ADV.cs" />
-    <Compile Include="src\Flow\Flow_Common.cs" />
-    <Compile Include="src\Flow\Flow_CustomScene.cs" />
-    <Compile Include="src\Flow\Flow_Delay.cs" />
-    <Compile Include="src\Flow\Flow_FixEventSceneEx.cs" />
-    <Compile Include="src\Flow\Flow_H.cs" />
-    <Compile Include="src\Flow\Flow_HProc.cs" />
-    <Compile Include="src\Flow\Flow_LiveStage.cs" />
-    <Compile Include="src\Flow\Flow_Logo.cs" />
-    <Compile Include="src\Flow\Flow_Moving.cs" />
-    <Compile Include="src\Flow\Flow_NightMenu.cs" />
-    <Compile Include="src\Flow\Flow_Startup.cs" />
-    <Compile Include="src\Flow\Flow_Title.cs" />
-    <Compile Include="src\Flow\Flow_Wedding.cs" />
     <Compile Include="src\Global.cs" />
     <Compile Include="src\Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\SceneObserver.cs" />
+    <Compile Include="src\Scenewalk.cs" />
+    <Compile Include="src\Scene\Scene_Action.cs" />
+    <Compile Include="src\Scene\Scene_CustomScene.cs" />
+    <Compile Include="src\Scene\Scene_H.cs" />
+    <Compile Include="src\Scene\Scene_HProc.cs" />
+    <Compile Include="src\Scene\Scene_Init.cs" />
+    <Compile Include="src\Scene\Scene_Title.cs" />
+    <Compile Include="src\Util\AcceObserver.cs" />
+    <Compile Include="src\Util\CharaObserver.cs" />
+    <Compile Include="src\Util\ClothObserver.cs" />
+    <Compile Include="src\Util\HairObserver.cs" />
+    <Compile Include="src\Util\PartObserver.cs" />
+    <Compile Include="src\Util\WorldScope.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HierarchyDumper\HierarchyDumper.csproj">

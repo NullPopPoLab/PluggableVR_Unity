@@ -38,7 +38,7 @@ namespace PluggableVR
 
 			// 初期状態では頭を非表示とする 
 			// 俯瞰操作の間だけ表示 
-			Avatar.Head.Node.gameObject.SetActive(false);
+			Avatar.Head.View.gameObject.SetActive(false);
 
 			// xは常に非表示 
 			// y,zは _elevating で切り替える 
@@ -63,7 +63,7 @@ namespace PluggableVR
 				if (stk1 || stk2)
 				{
 					_sticking = true;
-					Avatar.Head.Node.gameObject.SetActive(true);
+					Avatar.Head.View.gameObject.SetActive(true);
 					_showElevating();
 				}
 			}
@@ -174,7 +174,7 @@ namespace PluggableVR
 			_sticking = false;
 			Avatar.UpdateControl(_ctrl);
 			ResetRig();
-			Avatar.Head.Node.gameObject.SetActive(false);
+			Avatar.Head.View.gameObject.SetActive(false);
 		}
 
 		//! 位置だけ変更 
