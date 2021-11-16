@@ -1,5 +1,5 @@
 ﻿/*!	@file
-	@brief PluggableVR: CustomScene シーン付随動作 
+	@brief PluggableVR: ADV シーン付随動作 
 	@author NullPopPoLab
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
@@ -10,11 +10,10 @@ using PluggableVR;
 
 namespace PluggableVR_KK
 {
-	//! CustomScene シーン付随動作 
-	internal class Scene_CustomScene : SceneScope
+	//! ADV シーン付随動作 
+	internal class Scene_ADV : SceneScope
 	{
-		private CharaObserver _charaF = new CharaObserver();
-		private CharaObserver _charaM = new CharaObserver();
+		private WorldScope _world = new WorldScope();
 		private Camera _prevcam;
 
 		protected override void OnStart()
@@ -29,27 +28,21 @@ namespace PluggableVR_KK
 
 			// メインカメラ捕捉 
 			var player = mng.Player;
-			player.SetCamera(GameObject.Find("/CustomScene/CamBase/Camera").GetComponent<Camera>());
-			player.Camera.BeActive();
+			player.SetCamera(Camera.main);
+			player.Camera.BePassive();
 
-			// 元のカメラから移設するComponent 
+			// メインカメラから移設するComponent 
 			var cam = player.Camera;
 			cam.Possess<FlareLayer>();
-			cam.Possess<ChaCustom.CustomRender>();
-			cam.Possess<GameScreenShot>();
-//			cam.Possess<UnityEngine.EventSystems.PhysicsRaycaster>();
+//			cam.Possess<AmplifyColorEffect>();
+//			cam.Possess<UnityStandardAssets.ImageEffects.GlobalFog>();
 //			cam.Possess<UnityStandardAssets.ImageEffects.BloomAndFlares>();
 //			cam.Possess<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration>();
 
-			// 元のカメラから遮断するComponent 
-			cam.Suppress<UnityStandardAssets.ImageEffects.DepthOfField>();
-
 			// アバター表示Layerをカメラの表示対象内で選択 
-			mng.Avatar.SetLayer(10);
+			mng.Avatar.SetLayer(4);
 
-			// キャラ状態捕捉 
-			_charaF.Start("/chaF_001");
-			_charaM.Start("/chaM_001");
+			_world.Start("/ADVScene/BasePosition/Characters");
 		}
 
 		protected override void OnTerminate()
@@ -70,8 +63,7 @@ namespace PluggableVR_KK
 		{
 			base.OnUpdate();
 
-			_charaF.Update();
-			_charaM.Update();
+			_world.Update();
 		}
 	}
 }

@@ -13,14 +13,11 @@ namespace PluggableVR_KK
 	//! Action シーン付随動作 
 	internal class Scene_Action : SceneScope
 	{
-#if false
 		private Scope_NowLoading _loading = new Scope_NowLoading();
 		private Scope_ADVScene _adv = new Scope_ADVScene();
-		private Scope_HomeMenu _home = new Scope_HomeMenu();
-		private Scope_ClassRoomList _class = new Scope_ClassRoomList();
-		private Scope_Player _player = new Scope_Player();
 		private WorldScope _world = new WorldScope();
-//		private ComponentScope<Camera> _minimap = new ComponentScope<Camera>();
+		private Scope_Player _player = new Scope_Player();
+		private GameObjectScope _minimap = new GameObjectScope();
 
 		protected override void OnStart()
 		{
@@ -50,13 +47,10 @@ namespace PluggableVR_KK
 			mng.Avatar.SetLayer(10);
 
 			// サブスコープ群 
-			_loading.Start("/Manager(Clone)/SceneCanvas");
+			_loading.Start("/scenemanager/Canvas");
 			_adv.Start("/ActionScene/ADVScene");
-			_home.Start("/ActionScene/UI/HomeMenu");
-			_class.Start("/EntryLive(Clone)/ClassroomCanvas");
 			_player.Start("/ActionScene/Player");
-//			_minimap.Start("/ActionScene/UI/Minimap/MinimapCamera");
-
+			_minimap.Start("MiniMapCircle/MiniMapCanvas2D/Image");
 			_world.Start("/ActionScene");
 		}
 
@@ -76,22 +70,21 @@ namespace PluggableVR_KK
 
 			// サブシーン動作中は他を処理しない 
 			var f = _loading.IsVisible || _adv.IsVisible||
-				SceneInfo.IsAvailable("Assets/Illusion/Game/Scene/EstheticScene.unity") ||
+				SceneInfo.IsAvailable("Assets/Illusion/assetbundle/action/menu/Menu/NightMenu.unity") ||
 				SceneInfo.IsAvailable("Assets/Illusion/Game/Scene/H.unity") ||
 				SceneInfo.IsAvailable("Assets/Illusion/Game/Scripts/Scene/Custom/CustomScene.unity");
 
-			// メニュー類 
-			_home.Interrupt = f; _home.Update();
-			_class.Interrupt = f; _class.Update();
-			f |= _home.IsVisible || _class.IsVisible;
-
 			// キャラ入退場検知 
 			if (!f || _adv.IsVisible) _world.Update();
+
+			// minimap出てるときのみ移動可能とする 
+			f |= !_minimap.IsActiveInHierarchy;
 
 			// プレイヤー移動 
 			_player.Interrupt = f;
 			_player.Update();
 
+#if false
 			// 元カメラ復活問題検出 
 			var mng = VRManager.Instance;
 			var cam = mng.Camera.Source.Target;
@@ -105,7 +98,7 @@ namespace PluggableVR_KK
 				Global.Logger.LogWarning("Source camera clearFlags: " + cam.clearFlags);
 				cam.clearFlags = CameraClearFlags.Nothing;
 			}
-		}
 #endif
+		}
 	}
 }

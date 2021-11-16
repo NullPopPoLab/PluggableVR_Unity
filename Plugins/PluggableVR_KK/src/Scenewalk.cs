@@ -18,12 +18,17 @@ namespace PluggableVR_KK
 		private static SceneDic<string> _scene = new SceneDic<string>();
 
 		internal Scenewalk(){
+			_scene["Assets/Illusion/assetbundle/action/menu/Menu/NightMenu.unity"] = new Scene_NightMenu();
 			_scene["Assets/Illusion/Game/Scene/Action.unity"] = new Scene_Action();
+			_scene["Assets/Illusion/Game/Scene/ADV.unity"] = new Scene_ADV();
+			_scene["Assets/Illusion/Game/Scene/FixEventSceneEx.unity"] = new Scene_FixEventSceneEx();
 			_scene["Assets/Illusion/Game/Scene/H.unity"] = new Scene_H();
 			_scene["Assets/Illusion/Game/Scene/HProc.unity"] = new Scene_HProc();
 			_scene["Assets/Illusion/Game/Scene/Init.unity"] = new Scene_Init();
 			_scene["Assets/Illusion/Game/Scene/Title.unity"] = new Scene_Title();
 			_scene["Assets/Illusion/Game/Scripts/Scene/Custom/CustomScene.unity"] = new Scene_CustomScene();
+			_scene["Assets/Illusion/Game/Scripts/Scene/Wedding/Wedding.unity"] = new Scene_Wedding();
+			_scene["Assets/LiveStage/LiveStage.unity"] = new Scene_LiveStage();
 		}
 
 		internal void Update(){

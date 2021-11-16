@@ -1,5 +1,5 @@
 ﻿/*!	@file
-	@brief PluggableVR: CustomScene シーン付随動作 
+	@brief PluggableVR: Wedding シーン付随動作 
 	@author NullPopPoLab
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
@@ -10,26 +10,20 @@ using PluggableVR;
 
 namespace PluggableVR_KK
 {
-	//! CustomScene シーン付随動作 
-	internal class Scene_CustomScene : SceneScope
+	//! Wedding シーン付随動作 
+	internal class Scene_Wedding : SceneScope
 	{
-		private CharaObserver _charaF = new CharaObserver();
-		private CharaObserver _charaM = new CharaObserver();
-		private Camera _prevcam;
+		private WorldScope _world = new WorldScope();
 
 		protected override void OnStart()
 		{
 			Global.Logger.LogDebug(ToString() + " bgn");
 			base.OnStart();
 
-			// 元カメラ退避 
-			var mng = VRManager.Instance;
-			_prevcam = (mng.Camera == null) ? null : mng.Camera.Source.Target;
-			if (_prevcam != null) mng.Camera.Recall();
-
 			// メインカメラ捕捉 
+			var mng = VRManager.Instance;
 			var player = mng.Player;
-			player.SetCamera(GameObject.Find("/CustomScene/CamBase/Camera").GetComponent<Camera>());
+			player.SetCamera(Camera.main);
 			player.Camera.BeActive();
 
 			// 元のカメラから移設するComponent 
@@ -47,31 +41,20 @@ namespace PluggableVR_KK
 			// アバター表示Layerをカメラの表示対象内で選択 
 			mng.Avatar.SetLayer(10);
 
-			// キャラ状態捕捉 
-			_charaF.Start("/chaF_001");
-			_charaM.Start("/chaM_001");
+			_world.Start("/Wedding");
 		}
 
 		protected override void OnTerminate()
 		{
 			Global.Logger.LogDebug(ToString() + " end");
 			base.OnTerminate();
-
-			// 移設Component除去 
-			var mng = VRManager.Instance;
-			mng.Camera.Dispose();
-
-			// 元カメラに戻す 
-			var player = mng.Player;
-			player.SetCamera(_prevcam);
 		}
 
 		protected override void OnUpdate()
 		{
 			base.OnUpdate();
 
-			_charaF.Update();
-			_charaM.Update();
+			_world.Update();
 		}
 	}
 }
