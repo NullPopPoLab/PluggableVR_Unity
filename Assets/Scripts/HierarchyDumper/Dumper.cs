@@ -60,6 +60,7 @@ namespace HierarchyDumper
 			var fs = new FileStream(path, FileMode.Create);
 			fs.Close();
 			fs = new FileStream(path, FileMode.Truncate);
+			fs.Write(new byte[]{0xef,0xbb,0xbf},0,3);
 			Dump((obj, anc) => {
 				var txt = new Dumper_GameObject(obj).Dump();
 				var bin = new UTF8Encoding(true).GetBytes(txt);

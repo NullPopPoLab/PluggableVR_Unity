@@ -12,6 +12,9 @@ using NullPopPoSpecial;
 //! VRプラグ 
 public class VRPlug : MonoBehaviour
 {
+	[SerializeField, Tooltip("メインカメラの扱い(初期設定)")] VRCamera.ESourceMode _cameraMode;
+	[SerializeField, Tooltip("Camera ModeがdisableのときVRカメラ位置をメインカメラに書き戻す")] bool _cameraFeedback;
+
 #if UNITY_EDITOR
 	[SerializeField,Tooltip("Hierarchy状態をファイルに書き出す")] private bool _dumpHierarchy;
 
@@ -103,11 +106,18 @@ public class VRPlug : MonoBehaviour
 #endif
 
 	private VRManager _vrmng = new VRManager();
+	private FlowStep _flow = new FlowStep();
 
 	//! 初期設定 
 	protected void Awake()
 	{
-		_vrmng.Initialize(new Flow_Startup());
+		VRCamera.Revision = VRCamera.ERevision.Legacy;
+		VRCamera.SourceMode = _cameraMode;
+
+		_vrmng.Initialize();
+		OVRPlugin.SetTrackingOriginType(OVRPlugin.TrackingOrigin.EyeLevel);
+
+		_flow.Start(new Flow_Startup());
 	}
 
 	//! 終了 
@@ -141,6 +151,8 @@ public class VRPlug : MonoBehaviour
 #endif
 
 		_vrmng.Update();
+		if(_cameraFeedback)_vrmng.Camera.Feedback();
+		_flow.Update();
 
 #if UNITY_EDITOR
 		var inp = VRManager.Input;

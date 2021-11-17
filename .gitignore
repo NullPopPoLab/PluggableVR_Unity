@@ -9,10 +9,10 @@
 /.vs
 /.vsconfig
 /Plugins/.vs
+/Plugins/game
 /Plugins/HierarchyDumper/bin
 /Plugins/HierarchyDumper/obj
 /Plugins/NullPopPoSpecial/bin
 /Plugins/NullPopPoSpecial/obj
-/Plugins/External*/*.dll
-/Plugins/PluggableVR_BepInEx/obj
-/Plugins/PluggableVR_BepInEx/bin
+/Plugins/PluggableVR*/obj
+/Plugins/PluggableVR*/bin

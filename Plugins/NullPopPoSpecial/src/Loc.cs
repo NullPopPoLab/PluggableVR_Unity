@@ -1,7 +1,7 @@
 ﻿/*!	@file
 	@brief NullPopPoSpecial: 位置情報単位構造 
 	@author NullPopPoLab
-	@sa https://github.com/NullPopPoLab/NullPopPoSpecial_Unity
+	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
 using System;
 using UnityEngine;
@@ -39,12 +39,14 @@ namespace NullPopPoSpecial
 		//! Unity World Transform からの取り込み 
 		public static Loc FromWorldTransform(Transform src)
 		{
+			if (src == null) return Identity;
 			return new Loc(src.position, src.rotation);
 		}
 
 		//! Unity Local Transform からの取り込み 
 		public static Loc FromLocalTransform(Transform src)
 		{
+			if (src == null) return Identity;
 			return new Loc(src.localPosition, src.localRotation);
 		}
 

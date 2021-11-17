@@ -8,14 +8,17 @@ using NullPopPoSpecial;
 using PluggableVR;
 
 //! 手順遷移 開始時 
-public class Flow_Startup : Flow
+public class Flow_Startup : FlowBase
 {
 	protected override void OnStart()
 	{
 		base.OnStart();
 
 		// 初期設定 
-		var scale = 8.0f;
+		DemoAvatar.UseStandardCollider = true;
+		DemoAvatar.ShowColliderShape = true;
+
+		var scale = 1.0f;
 		var avatar = new DemoAvatar(Loc.Identity, scale);
 		var player = new DemoPlayer(avatar, scale);
 		VRManager.Instance.SetPlayer(player);
@@ -24,7 +27,7 @@ public class Flow_Startup : Flow
 		GameObject.Find("/Main Camera").GetComponent<AudioListener>().enabled = false;
 	}
 
-	protected override Flow OnUpdate()
+	protected override FlowBase OnUpdate()
 	{
 		// メインカメラ認識待ち 
 		var mc = Camera.main;
@@ -39,6 +42,7 @@ public class Flow_Startup : Flow
 		// 移設先で生成されたコンポーネントが Awake() を呼ばないように一旦Active外しとく 
 		player.Camera.Active = false;
 		player.Camera.Possess<FlareLayer>();
+		player.Camera.Possess<Light>();
 		player.Camera.Active = true;
 
 		// アバター表示Layerをカメラの表示対象内で選択 
