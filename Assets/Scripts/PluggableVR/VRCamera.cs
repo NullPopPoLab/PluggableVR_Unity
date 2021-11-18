@@ -105,6 +105,7 @@ namespace PluggableVR
 			Target.cullingMask = src.cullingMask;
 			Target.farClipPlane = src.farClipPlane;
 			Target.depth = src.depth;
+			Target.useOcclusionCulling = src.useOcclusionCulling;
 
 			// 元のメインカメラに対する措置 
 			_backupStereoTargetEyeMask = src.stereoTargetEye;

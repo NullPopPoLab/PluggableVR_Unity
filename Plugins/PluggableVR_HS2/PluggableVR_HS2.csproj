@@ -88,12 +88,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Dumper\Dumper.cs" />
+    <Compile Include="src\Dumper\Dumper_ChaControl.cs" />
+    <Compile Include="src\Dumper\Dumper_ChaInfo.cs" />
     <Compile Include="src\Dumper\Dumper_DynamicBone.cs" />
     <Compile Include="src\Dumper\Dumper_DynamicBoneCollider.cs" />
+    <Compile Include="src\Flow\Flow_Delay.cs" />
     <Compile Include="src\Global.cs" />
     <Compile Include="src\Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\Scenewalk.cs" />
+    <Compile Include="src\Scene\Scene_ADV.cs" />
+    <Compile Include="src\Scene\Scene_CharaCustom.cs" />
+    <Compile Include="src\Scene\Scene_Home.cs" />
+    <Compile Include="src\Scene\Scene_HScene.cs" />
+    <Compile Include="src\Scene\Scene_Init.cs" />
+    <Compile Include="src\Scene\Scene_LobbyScene.cs" />
+    <Compile Include="src\Scene\Scene_Title.cs" />
+    <Compile Include="src\Util\AcceObserver.cs" />
+    <Compile Include="src\Util\CharaObserver.cs" />
+    <Compile Include="src\Util\ClothObserver.cs" />
+    <Compile Include="src\Util\HairObserver.cs" />
+    <Compile Include="src\Util\PartObserver.cs" />
+    <Compile Include="src\Util\WorldScope.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HierarchyDumper\HierarchyDumper.csproj">
