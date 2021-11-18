@@ -4,14 +4,26 @@
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
 using UnityEngine;
+using PluggableVR;
+using NullPopPoSpecial;
 
 #pragma warning disable 0414 // 未使用メンバ警告抑制 
 
 //! VRプラグ 
 public class VRPlug : MonoBehaviour
 {
+	[SerializeField, Tooltip("メインカメラの扱い(初期設定)")] VRCamera.ESourceMode _cameraMode;
+	[SerializeField, Tooltip("Camera ModeがdisableのときVRカメラ位置をメインカメラに書き戻す")] bool _cameraFeedback;
+
 #if UNITY_EDITOR
-	[SerializeField] private Vector3 _eyePos;
+	[SerializeField,Tooltip("Hierarchy状態をファイルに書き出す")] private bool _dumpHierarchy;
+
+	[SerializeField,Space(10)] private Transform _teleportTarget;
+	[SerializeField,Tooltip("Teleport Target 位置に移動")] private bool _repos;
+	[SerializeField,Tooltip("Teleport Target 向きを合わせる")] private bool _rerot;
+	[SerializeField,Tooltip("Teleport Target 位置に移動して向きを合わせる")] private bool _reloc;
+
+	[SerializeField,Space(10)] private Vector3 _eyePos;
 	[SerializeField, Range(-1, 1)] private float _eyeRotXx;
 	[SerializeField, Range(-1, 1)] private float _eyeRotXy;
 	[SerializeField, Range(-1, 1)] private float _eyeRotXz;
@@ -22,7 +34,7 @@ public class VRPlug : MonoBehaviour
 	[SerializeField, Range(-1, 1)] private float _eyeRotZy;
 	[SerializeField, Range(-1, 1)] private float _eyeRotZz;
 
-	[SerializeField] private Vector3 _leftPos;
+	[SerializeField,Space(10)] private Vector3 _leftPos;
 	[SerializeField, Range(-1, 1)] private float _leftRotXx;
 	[SerializeField, Range(-1, 1)] private float _leftRotXy;
 	[SerializeField, Range(-1, 1)] private float _leftRotXz;
@@ -46,7 +58,7 @@ public class VRPlug : MonoBehaviour
 	[SerializeField] private bool _leftButton2Touch;
 	[SerializeField] private bool _leftButton2Pressed;
 
-	[SerializeField] private Vector3 _rightPos;
+	[SerializeField,Space(10)] private Vector3 _rightPos;
 	[SerializeField, Range(-1, 1)] private float _rightRotXx;
 	[SerializeField, Range(-1, 1)] private float _rightRotXy;
 	[SerializeField, Range(-1, 1)] private float _rightRotXz;
@@ -70,7 +82,7 @@ public class VRPlug : MonoBehaviour
 	[SerializeField] private bool _rightButton2Touch;
 	[SerializeField] private bool _rightButton2Pressed;
 
-	[SerializeField] private bool _primaryStickTouch;
+	[SerializeField,Space(10)] private bool _primaryStickTouch;
 	[SerializeField] private bool _primaryStickPressed;
 	[SerializeField,Range(-1,1)] private float _primaryStickTiltingX;
 	[SerializeField,Range(-1,1)] private float _primaryStickTiltingY;
@@ -81,7 +93,7 @@ public class VRPlug : MonoBehaviour
 	[SerializeField] private bool _primaryHandPressed;
 	[SerializeField,Range(0,1)] private float _primaryHandPressing;
 
-	[SerializeField] private bool _secondaryStickTouch;
+	[SerializeField,Space(10)] private bool _secondaryStickTouch;
 	[SerializeField] private bool _secondaryStickPressed;
 	[SerializeField,Range(-1,1)] private float _secondaryStickTiltingX;
 	[SerializeField,Range(-1,1)] private float _secondaryStickTiltingY;
@@ -93,59 +105,92 @@ public class VRPlug : MonoBehaviour
 	[SerializeField,Range(0,1)] private float _secondaryHandPressing;
 #endif
 
-	private PluggableVR.VRManager _vrmng=new PluggableVR.VRManager();
+	private VRManager _vrmng = new VRManager();
+	private FlowStep _flow = new FlowStep();
 
-	protected void Awake(){
+	//! 初期設定 
+	protected void Awake()
+	{
+		VRCamera.Revision = VRCamera.ERevision.Legacy;
+		VRCamera.SourceMode = _cameraMode;
 
 		_vrmng.Initialize();
+		OVRPlugin.SetTrackingOriginType(OVRPlugin.TrackingOrigin.EyeLevel);
+
+		_flow.Start(new Flow_Startup());
 	}
 
-	protected void FixedUpdate(){
+	//! 終了 
+	protected void OnDestroy()
+	{
+		_vrmng.Shutdown();
+	}
 
+	//! 物理フレーム毎の更新 
+	protected void FixedUpdate()
+	{
 		_vrmng.FixedUpdate();
 	}
 
-	protected void Update(){
+	//! 描画フレーム毎の更新 
+	protected void Update()
+	{
+#if UNITY_EDITOR
+		if(_repos){
+			_repos=false;
+			_vrmng.Repos(_teleportTarget.position);
+		}
+		if(_rerot){
+			_rerot=false;
+			_vrmng.Rerot(_teleportTarget.rotation);
+		}
+		if(_reloc){
+			_reloc=false;
+			_vrmng.Reloc(Loc.FromWorldTransform(_teleportTarget));
+		}
+#endif
 
 		_vrmng.Update();
+		if(_cameraFeedback)_vrmng.Camera.Feedback();
+		_flow.Update();
 
 #if UNITY_EDITOR
-		var inp = PluggableVR.VRManager.Input;
+		var inp = VRManager.Input;
 		var eye = inp.Head.GetEyeTracking();
 		_eyePos = eye.Pos;
-		_eyeRotXx = PluggableVR.RotUt.Xx(eye.Rot);
-		_eyeRotXy = PluggableVR.RotUt.Xy(eye.Rot);
-		_eyeRotXz = PluggableVR.RotUt.Xz(eye.Rot);
-		_eyeRotYx = PluggableVR.RotUt.Yx(eye.Rot);
-		_eyeRotYy = PluggableVR.RotUt.Yy(eye.Rot);
-		_eyeRotYz = PluggableVR.RotUt.Yz(eye.Rot);
-		_eyeRotZx = PluggableVR.RotUt.Zx(eye.Rot);
-		_eyeRotZy = PluggableVR.RotUt.Zy(eye.Rot);
-		_eyeRotZz = PluggableVR.RotUt.Zz(eye.Rot);
+		_eyeRotXx = RotUt.Xx(eye.Rot);
+		_eyeRotXy = RotUt.Xy(eye.Rot);
+		_eyeRotXz = RotUt.Xz(eye.Rot);
+		_eyeRotYx = RotUt.Yx(eye.Rot);
+		_eyeRotYy = RotUt.Yy(eye.Rot);
+		_eyeRotYz = RotUt.Yz(eye.Rot);
+		_eyeRotZx = RotUt.Zx(eye.Rot);
+		_eyeRotZy = RotUt.Zy(eye.Rot);
+		_eyeRotZz = RotUt.Zz(eye.Rot);
 
 		var lh = inp.HandLeft.GetHandTracking();
 		_leftPos = lh.Pos;
-		_leftRotXx = PluggableVR.RotUt.Xx(lh.Rot);
-		_leftRotXy = PluggableVR.RotUt.Xy(lh.Rot);
-		_leftRotXz = PluggableVR.RotUt.Xz(lh.Rot);
-		_leftRotYx = PluggableVR.RotUt.Yx(lh.Rot);
-		_leftRotYy = PluggableVR.RotUt.Yy(lh.Rot);
-		_leftRotYz = PluggableVR.RotUt.Yz(lh.Rot);
-		_leftRotZx = PluggableVR.RotUt.Zx(lh.Rot);
-		_leftRotZy = PluggableVR.RotUt.Zy(lh.Rot);
-		_leftRotZz = PluggableVR.RotUt.Zz(lh.Rot);
+		_leftRotXx = RotUt.Xx(lh.Rot);
+		_leftRotXy = RotUt.Xy(lh.Rot);
+		_leftRotXz = RotUt.Xz(lh.Rot);
+		_leftRotYx = RotUt.Yx(lh.Rot);
+		_leftRotYy = RotUt.Yy(lh.Rot);
+		_leftRotYz = RotUt.Yz(lh.Rot);
+		_leftRotZx = RotUt.Zx(lh.Rot);
+		_leftRotZy = RotUt.Zy(lh.Rot);
+		_leftRotZz = RotUt.Zz(lh.Rot);
 
 		var rh = inp.HandRight.GetHandTracking();
 		_rightPos = rh.Pos;
-		_rightRotXx = PluggableVR.RotUt.Xx(rh.Rot);
-		_rightRotXy = PluggableVR.RotUt.Xy(rh.Rot);
-		_rightRotXz = PluggableVR.RotUt.Xz(rh.Rot);
-		_rightRotYx = PluggableVR.RotUt.Yx(rh.Rot);
-		_rightRotYy = PluggableVR.RotUt.Yy(rh.Rot);
-		_rightRotYz = PluggableVR.RotUt.Yz(rh.Rot);
-		_rightRotZx = PluggableVR.RotUt.Zx(rh.Rot);
-		_rightRotZy = PluggableVR.RotUt.Zy(rh.Rot);
-		_rightRotZz = PluggableVR.RotUt.Zz(rh.Rot);
+		_rightRotXx = RotUt.Xx(rh.Rot);
+		_rightRotXy = RotUt.Xy(rh.Rot);
+		_rightRotXz = RotUt.Xz(rh.Rot);
+		_rightRotYx = RotUt.Yx(rh.Rot);
+		_rightRotYy = RotUt.Yy(rh.Rot);
+		_rightRotYz = RotUt.Yz(rh.Rot);
+		_rightRotZx = RotUt.Zx(rh.Rot);
+		_rightRotZy = RotUt.Zy(rh.Rot);
+		_rightRotZz = RotUt.Zz(rh.Rot);
 
 		var ls=inp.HandLeft.GetStickTilting();
 		_leftStickTiltingX=ls.x;
@@ -157,7 +202,7 @@ public class VRPlug : MonoBehaviour
 		_leftIndexPressing=inp.HandLeft.GetIndexPressing();
 		_leftHandPressed=inp.HandLeft.IsHandPressed();
 		_leftHandPressing=inp.HandLeft.GetHandPressing();
-		_leftButton1Touch=inp.HandLeft.IsButton2Touching();
+		_leftButton1Touch=inp.HandLeft.IsButton1Touching();
 		_leftButton1Pressed=inp.HandLeft.IsButton1Pressed();
 		_leftButton2Touch=inp.HandLeft.IsButton2Touching();
 		_leftButton2Pressed=inp.HandLeft.IsButton2Pressed();
@@ -172,7 +217,7 @@ public class VRPlug : MonoBehaviour
 		_rightIndexPressing=inp.HandRight.GetIndexPressing();
 		_rightHandPressed=inp.HandRight.IsHandPressed();
 		_rightHandPressing=inp.HandRight.GetHandPressing();
-		_rightButton1Touch=inp.HandRight.IsButton2Touching();
+		_rightButton1Touch=inp.HandRight.IsButton1Touching();
 		_rightButton1Pressed=inp.HandRight.IsButton1Pressed();
 		_rightButton2Touch=inp.HandRight.IsButton2Touching();
 		_rightButton2Pressed=inp.HandRight.IsButton2Pressed();
@@ -198,11 +243,19 @@ public class VRPlug : MonoBehaviour
 		_secondaryIndexPressing=inp.HandSecondary.GetIndexPressing();
 		_secondaryHandPressed=inp.HandSecondary.IsHandPressed();
 		_secondaryHandPressing=inp.HandSecondary.GetHandPressing();
+
+		// Hierarchy書き出し 
+		if (_dumpHierarchy)
+		{
+			_dumpHierarchy = false;
+			HierarchyDumper.Dumper.Dump2File("Hierarchy");
+		}
 #endif
 	}
 
-	protected void LateUpdate(){
-
+	//! アニメーション処理後の更新 
+	protected void LateUpdate()
+	{
 		_vrmng.LateUpdate();
 	}
 }

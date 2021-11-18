@@ -1,0 +1,4 @@
+to link game DLLs, make a junction named 'game' to your game folder.
+
+cmd e.g.:
+> mklink /J game D:\game\Koikatu
