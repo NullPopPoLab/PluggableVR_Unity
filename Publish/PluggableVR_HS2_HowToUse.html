@@ -7,18 +7,22 @@
 
 <h1>PluggableVR for HoneySelect2</h1>
 
-ハニーセレクト2 をVRで動作させるためのプラグインです。<br>
-<a target="_blank" href="https://www.patreon.com/posts/hf-patch-for-kk-46339224">HF Patch 1.8</a>導入済の環境で動作確認しています。<br>
+ハニーセレクト2 ゲーム本体とStudioNEOV2をVRで動作させるためのプラグインです。<br>
+<a target="_blank" href="https://www.patreon.com/posts/hf-patch-for-hs2-47656602">HF Patch 1.8</a>導入済の環境で動作確認しています。<br>
+HF Patchが古いとBepInExのバージョンチェックで弾かれるようですが、多少古い程度ならソースから自前ビルドすればいけるはず。<br>
 
 <h2>内容</h2>
 
 <dl>
 <dt>BepInEx</dt>
 <dt>HoneySelect2_Data</dt>
+<dt>StudioNEOV2_Data</dt>
 <dd>ゲームフォルダに追加するファイル群</dd>
 <dt>HoneySelect2_novr.bat</dt>
+<dt>StudioNEOV2_novr.bat</dt>
 <dd>通常版起動バッチファイル</dd>
 <dt>HoneySelect2_vr.bat</dt>
+<dt>StudioNEOV2_vr.bat</dt>
 <dd>VR版起動バッチファイル</dd>
 <dt>PluggableVR_HS2_HowToUse.html</dt>
 <dd>使い方説明</dd>
@@ -32,11 +36,11 @@
 <h2>導入手順</h2>
 
 <ol>
-<li>付属の BepInEx HoneySelect2_Data HoneySelect2_novr.bat HoneySelect2_vr.bat をゲームフォルダに上書きします。<br>
+<li>付属の BepInEx *_Data *.bat をゲームフォルダに上書きします。<br>
 新規導入の場合は追加だけのはずですが、上書きの際は他所のプラグインと機能かぶってるかもしれないので要注意ということで。<br>
 </li>
 
-<li>HoneySelect2_Data/globalgamemanagers のVR版を作成します
+<li>HoneySelect2_Data,StudioNEOV2_Data/globalgamemanagers のVR版を作成します
 <ol>
 <li>起動時にも自動対応されますが、一応ここで globalgamemanagers のコピーを globalgamemanagers_novr にバックアップしておくと比較的安全です。</li>
 <li><a target="_blank" href="https://github.com/Ooetksh/KoikatuVR">ここ参考</a>(手抜き)に、 globalgamemanagers を書き換えます。ただし、
@@ -57,9 +61,9 @@
 <h2>起動方法</h2>
 
 <ul>
-<li>HoneySelect2_vr.bat で起動するとVR onで動作</li>
-<li>HoneySelect2_novr.bat で起動するとVR offで動作</li>
-<li>通常通り HoneySelect2.exe で起動すると前回の選択で</li>
+<li>HoneySelect2_vr.bat StudioNEOV2_vr.bat で起動するとVR onで動作</li>
+<li>HoneySelect2_novr.bat StudioNEOV2_novr.bat で起動するとVR offで動作</li>
+<li>通常通り HoneySelect2.exe StudioNEOV2.exe で起動すると前回の選択で</li>
 </ul>
 
 <h2>操作方法</h2>
@@ -75,10 +79,11 @@
 <li>両方のスティックから指を離すことで、カメラを位置マーク地点に移します</li>
 <li>あと、当面の調査用として、Yボタン押しながらBボタン押すと現在のHierarchy状態ごっそりファイルに書き出します。(将来的に廃止予定)</li>
 <li>バージョン0.0.3からはキーボードの Alt+P でもHierarchy状態書き出し機能が使えます。<br>
-こちらはプラグインが HierarchyDumper.dll に独立しており、VRとは無関係に動作します。(StudioNEOV2や公式VR版でも共通で使えます)</li>
+こちらはプラグインが HierarchyDumper.dll に独立しており、VRとは無関係に動作します。(公式VR版でも共通で使えます)</li>
 </ul>
 
 UI操作は通常通りPC画面のマウス操作で。<br>
+ただしRaycastまともに動作しないので、3D的な操作は無理。<br>
 
 <h2>既知の問題点とか今後の予定とか</h2>
 
@@ -90,6 +95,13 @@ UI操作は通常通りPC画面のマウス操作で。<br>
 
 <h2>更新履歴</h2>
 
+<h3>0.1</h3>
+<ul>
+<li>HS2版,SN2版統合</li>
+<li>設計みなおしで安定化</li>
+<li>シーン内のカメラ切り替えに対応</li>
+<li>頭,手の位置にDynamicBoneの当たり判定入れてみた</li>
+</ul>
 <h3>0.0.4</h3>
 <ul>
 <li>一部シーンでカメラ操作利かない問題解決</li>

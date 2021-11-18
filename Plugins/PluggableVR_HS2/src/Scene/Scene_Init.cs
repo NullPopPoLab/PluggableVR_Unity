@@ -32,8 +32,8 @@ namespace PluggableVR_HS2
 			var dc0 = avatar.Head.Collider.AddComponent<DynamicBoneCollider>();
 			var dc1 = avatar.LeftHand.Collider.AddComponent<DynamicBoneCollider>();
 			var dc2 = avatar.RightHand.Collider.AddComponent<DynamicBoneCollider>();
-			dc0.m_Radius = dc1.m_Radius = dc2.m_Radius = 0.5f;
-			dc0.m_Height = dc1.m_Height = dc2.m_Height = 2.0f;
+			dc0.m_Radius = dc1.m_Radius = dc2.m_Radius = 0.5f * scale;
+			dc0.m_Height = dc1.m_Height = dc2.m_Height = 2.0f * scale;
 			dc0.m_Direction = dc1.m_Direction = dc2.m_Direction = DynamicBoneCollider.Direction.Y;
 			dc0.m_Bound = dc1.m_Bound = dc2.m_Bound = DynamicBoneCollider.Bound.Outside;
 			Global.DemoAvatarExtra.HeadCollider = dc0;

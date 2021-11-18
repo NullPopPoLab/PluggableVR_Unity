@@ -18,7 +18,7 @@ namespace PluggableVR_SN2
     public class Main : BaseUnityPlugin
     {
 		public const string GUID = "com.nullpoppo.PluggableVR.SN2";
-		public const string VERSION = "0.0.4.1";
+		public const string VERSION = "0.1.0.0";
 
 		public static Main Instance;
 		public static bool Enabled { get; private set; }

@@ -16,6 +16,8 @@ namespace PluggableVR_HS2
 			SpecialDumper.Register("ChaControl",(o,i)=>new Dumper_ChaControl(o).Dump(i));
 			SpecialDumper.Register("DynamicBone",(o,i)=>new Dumper_DynamicBone(o).Dump(i));
 			SpecialDumper.Register("DynamicBoneCollider",(o,i)=>new Dumper_DynamicBoneCollider(o).Dump(i));
+			SpecialDumper.Register("Obi.ObiFluidRenderer",(o,i)=>new Dumper_ObiFluidRenderer(o).Dump(i));
+			SpecialDumper.Register("UnityEngine.Rendering.PostProcessing.PostProcessLayer",(o,i)=>new Dumper_PostProcessLayer(o).Dump(i));
 		}
 	}
 }

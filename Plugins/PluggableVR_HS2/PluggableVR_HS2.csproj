@@ -92,6 +92,8 @@
     <Compile Include="src\Dumper\Dumper_ChaInfo.cs" />
     <Compile Include="src\Dumper\Dumper_DynamicBone.cs" />
     <Compile Include="src\Dumper\Dumper_DynamicBoneCollider.cs" />
+    <Compile Include="src\Dumper\Dumper_ObiFluidRenderer.cs" />
+    <Compile Include="src\Dumper\Dumper_PostProcessLayer.cs" />
     <Compile Include="src\Flow\Flow_Delay.cs" />
     <Compile Include="src\Global.cs" />
     <Compile Include="src\Main.cs" />

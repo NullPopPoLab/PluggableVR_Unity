@@ -3,8 +3,8 @@
 	@author NullPopPoLab
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
-using System;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 using NullPopPoSpecial;
 using PluggableVR;
 
@@ -25,7 +25,7 @@ namespace PluggableVR_HS2
 
 			// 元のカメラから移行するComponent 
 			var cam = player.Camera;
-			cam.Possess<UnityEngine.Rendering.PostProcessing.PostProcessLayer>();
+			cam.Possess<PostProcessLayer>();
 			cam.Possess<GameScreenShot>();
 			cam.Possess<UnityStandardAssets.ImageEffects.GlobalFog>();
 			cam.Possess<UnityStandardAssets.ImageEffects.SunShafts>();
