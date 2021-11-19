@@ -56,11 +56,20 @@
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\game\EmotionCreators_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\game\EmotionCreators_Data\Managed\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\game\EmotionCreators_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.VRModule">
       <HintPath>..\game\EmotionCreators_Data\Managed\UnityEngine.VRModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\Canvas\Scope_Canvas.cs" />
     <Compile Include="src\Dumper\Dumper.cs" />
     <Compile Include="src\Dumper\Dumper_DynamicBone.cs" />
     <Compile Include="src\Dumper\Dumper_DynamicBoneCollider.cs" />
@@ -68,6 +77,20 @@
     <Compile Include="src\Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\Scenewalk.cs" />
+    <Compile Include="src\Scene\Scene_CustomScene.cs" />
+    <Compile Include="src\Scene\Scene_HEditScene.cs" />
+    <Compile Include="src\Scene\Scene_HPlayScene.cs" />
+    <Compile Include="src\Scene\Scene_Init.cs" />
+    <Compile Include="src\Scene\Scene_MapCreate.cs" />
+    <Compile Include="src\Scene\Scene_PoseCreate.cs" />
+    <Compile Include="src\Scene\Scene_Title.cs" />
+    <Compile Include="src\Scene\Scene_Tutorial.cs" />
+    <Compile Include="src\Util\AcceObserver.cs" />
+    <Compile Include="src\Util\CharaObserver.cs" />
+    <Compile Include="src\Util\ClothObserver.cs" />
+    <Compile Include="src\Util\HairObserver.cs" />
+    <Compile Include="src\Util\PartObserver.cs" />
+    <Compile Include="src\Util\WorldScope.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HierarchyDumper\HierarchyDumper.csproj">
@@ -84,4 +107,10 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if not exist $(SolutionDir)game\BepInEx\plugins\!myworks mkdir $(SolutionDir)game\BepInEx\plugins\!myworks
+copy /y $(ProjectName).dll $(SolutionDir)game\BepInEx\plugins\!myworks\
+copy /y $(ProjectName).pdb $(SolutionDir)game\BepInEx\plugins\!myworks\
+</PostBuildEvent>
+  </PropertyGroup>
 </Project>
