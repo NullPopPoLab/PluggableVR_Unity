@@ -7,8 +7,9 @@
 
 <h1>PluggableVR for EmotionCreators</h1>
 
-エモーデョンクリエイターズをVRで動作させるためのプラグインです。<br>
-<a target="_blank" href="https://www.patreon.com/posts/hf-patch-for-kk-46339224">HF Patch 3.12</a>導入済の環境で動作確認しています。<br>
+エモーションクリエイターズをVRで動作させるためのプラグインです。<br>
+<a target="_blank" href="https://www.patreon.com/posts/hf-patch-for-ec-46938502">HF Patch 1.5</a>導入済の環境で動作確認しています。<br>
+HF Patchが古いとBepInExのバージョンチェックで弾かれるようですが、多少古い程度ならソースから自前ビルドすればいけるはず。<br>
 
 <h2>内容</h2>
 
@@ -32,7 +33,9 @@
 <h2>導入手順</h2>
 
 <ol>
-<li>付属の BepInEx EmotionCreators_Data EmotionCreators_novr.bat EmotionCreators_vr.bat をゲームフォルダに上書き(というか追加だけのはず)します。</li>
+<li>付属の BepInEx *_Data *.bat をゲームフォルダに上書きします。<br>
+新規導入の場合は追加だけのはずですが、上書きの際は他所のプラグインと機能かぶってるかもしれないので要注意ということで。<br>
+</li>
 
 <li>EmotionCreators_Data/globalgamemanagers のVR版を作成します
 <ol>
@@ -68,21 +71,33 @@
 <li>カメラをルームスケールで移動させます</li>
 </ul>
 <li>主スティック (右利き設定では左スティック)でカメラ位置マークを前後左右または上下左右に移動させます<br>(主スティックを押し込むことで移動方法を切り替えます)</li>
-<li>副スティック (右利き設定では右スティック)でカメラ位置マークを左右に回転させます</li>
+<li>副スティック (右利き設定では右スティック)左右でカメラ位置マークを左右に回転させます</li>
+<li>副スティック上下でカメラ位置マークから前後に移動させます</li>
 <li>両方のスティックから指を離すことで、カメラを位置マーク地点に移します</li>
-<li>あと、当面の調査用として、Yボタン押しながらBボタン押すと現在のHierarchy状態ごっそりファイルに書き出します</li>
+<li>あと、当面の調査用として、Yボタン押しながらBボタン押すと現在のHierarchy状態ごっそりファイルに書き出します。(将来的に廃止予定)</li>
+<li>バージョン0.0.3からはキーボードの Alt+P でもHierarchy状態書き出し機能が使えます。<br>
+こちらはプラグインが HierarchyDumper.dll に独立しており、VRとは無関係に動作します。(公式VR版でも共通で使えます)</li>
 </ul>
 
 UI操作は通常通りPC画面のマウス操作で。<br>
+ただしRaycastまともに動作しないので、3D的な操作は無理。<br>
 
-<h2>既知の問題点</h2>
+<h2>既知の問題点とか今後の予定とか</h2>
 
+<a target="_blank" href="https://github.com/users/NullPopPoLab/projects/1">GitHubの看板</a> 参照。<br>
+
+<h2>ソースコード入手</h2>
+
+<a target="_blank" href="https://github.com/NullPopPoLab/PluggableVR_Unity/tree/Plugin_EC">GitHubのリポジトリ</a> 参照。<br>
+<h2>更新履歴</h2>
+
+<h3>0.1</h3>
 <ul>
-<li>UI未対応</li>
-<li>エディット画面以外入れない</li>
+<li>基本的な遷移は一通り繋いだ(はず)</li>
+<li>頭,手の位置にDynamicBoneの当たり判定入れてみた</li>
 </ul>
 
-<h2>更新履歴</h2>
+
 
 <h3>0.0.1</h3>
 とりあえず3DシーンをVRで観られるようにしただけ。<br>
