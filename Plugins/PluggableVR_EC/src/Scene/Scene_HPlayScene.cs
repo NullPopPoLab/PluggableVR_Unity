@@ -16,11 +16,12 @@ namespace PluggableVR_EC
 		private WorldScope _world = new WorldScope();
 		private ComponentList<Canvas> _canvas = new ComponentList<Canvas>();
 
-		private void _addCanvas(string path)
+		private Scope_Canvas _addCanvas(string path)
 		{
 			var obj = new Scope_Canvas();
 			obj.Start(path);
 			_canvas.Add(obj);
+			return obj;
 		}
 
 		protected override void OnStart()
@@ -57,6 +58,7 @@ namespace PluggableVR_EC
 			_addCanvas("/Etc/ScreenCapture/Canvas Cap");
 			_addCanvas("/UI/ADV/Canvas");
 			_addCanvas("/UI/H/Canvas");
+			_addCanvas("/UI/System/Canvas").SortingOrder = 6;
 		}
 
 		protected override void OnTerminate()
