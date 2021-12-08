@@ -3,13 +3,14 @@
 	@author NullPopPoLab
 	@sa https://github.com/NullPopPoLab/NullPopPoSpecial
 */
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace NullPopPoSpecial
 {
 	//! Componentグループ基底 
-	public class ComponentGroup<T>
+	public class ComponentGroup<T> where T:Behaviour
 	{
 		public int Count{ get{ return OnCount(); } }
 
@@ -35,11 +36,17 @@ namespace NullPopPoSpecial
 			OnUpdate();
 		}
 
+		public void Broadcast(Action<ComponentScope<T>> func)
+		{
+			OnBroadcast(func);
+		}
+
 		protected virtual int OnCount() { return 0; }
 		protected virtual void OnReset() { }
 		protected virtual void OnCleanup() { }
 		protected virtual void OnTerminate() { }
 		protected virtual void OnUpdate() { }
+		protected virtual void OnBroadcast(Action<ComponentScope<T>> func) { }
 	}
 
 	//! 連番指定のオブジェクトグループ 
@@ -84,6 +91,16 @@ namespace NullPopPoSpecial
 				var obj = _grp[i];
 				if (obj == null) continue;
 				obj.Update();
+			}
+		}
+
+		protected override void OnBroadcast(Action<ComponentScope<T>> func) {
+
+			for (var i = 0; i < _grp.Count; ++i)
+			{
+				var obj = _grp[i];
+				if (obj == null) continue;
+				func(obj);
 			}
 		}
 
@@ -203,6 +220,17 @@ namespace NullPopPoSpecial
 				var obj = p.Value;
 				if (obj == null) continue;
 				obj.Update();
+			}
+		}
+
+		protected override void OnBroadcast(Action<ComponentScope<Tc>> func)
+		{
+
+			foreach (var p in _grp)
+			{
+				var obj = p.Value;
+				if (obj == null) continue;
+				func(obj);
 			}
 		}
 

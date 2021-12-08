@@ -61,6 +61,68 @@ namespace PluggableVR
 		public virtual bool IsButton2Pressed() { return false; }
 	}
 
+	//! GUI入力基底 
+	public class InputGUI
+	{
+		public VREventSystem ES;
+
+		private Transform _pointer;
+		private ComponentList<Canvas> _guis =new ComponentList<Canvas>();
+
+		public static InputGUI Setup(){
+			var t=new InputGUI();
+			t.ES=new VREventSystem();
+			return t;
+		}
+
+		public bool SetCursor(GameObject src)
+		{
+			if (src == null) return false;
+			return OnSetCursor(src);
+		}
+		protected virtual bool OnSetCursor(GameObject src) { return true; }
+
+		private void _setPointer(ComponentScope<Canvas> dst)
+		{
+			var vrc = dst as VRCanvas;
+			vrc.SetPointer(_pointer);
+		}
+
+		public bool SetPointer(Transform src)
+		{
+			if (src == null) return false;
+
+			_pointer = src;
+			_guis.Broadcast(_setPointer);
+
+			return OnSetPointer(src);
+		}
+		protected virtual bool OnSetPointer(Transform src) { return true; }
+
+		public VRCanvas AddCanvas(Canvas src){
+			var vrc = OnCreateCanvas();
+			_guis.Add(vrc);
+			vrc.SetPointer(_pointer);
+			vrc.Start(src);
+			return vrc;
+		}
+		public VRCanvas AddCanvas(string path)
+		{
+			var vrc = OnCreateCanvas();
+			vrc.SetPointer(_pointer);
+			vrc.Start(path);
+			return vrc;
+		}
+		protected virtual VRCanvas OnCreateCanvas() { return new VRCanvas(); }
+
+		public void Update(){
+			ES.Update();
+			OnUpdate();
+			_guis.Update();
+		}
+		protected virtual void OnUpdate() { }
+	}
+
 	//! 入力機能基底 
 	public class Input
 	{
@@ -69,6 +131,7 @@ namespace PluggableVR
 		public InputHandFixed HandRight; //!< 右コントローラ 
 		public InputHandSwitchable HandPrimary; //!< 主コントローラ(利き手と逆のコントローラ) 
 		public InputHandSwitchable HandSecondary; //!< 副コントローラ(利き手のコントローラ) 
+		public InputGUI GUI; //!< GUI操作 
 
 		//! コンストラクタで初期化動作書くの無駄なので使うべきでない宣言 
 		protected Input() { }
@@ -80,6 +143,7 @@ namespace PluggableVR
 			t.Head = new InputHead();
 			t.HandPrimary = t.HandLeft = new InputHandFixed();
 			t.HandSecondary = t.HandRight = new InputHandFixed();
+			t.GUI=InputGUI.Setup();
 			return t;
 		}
 
@@ -89,7 +153,9 @@ namespace PluggableVR
 		//! 物理フレーム毎の更新 
 		public virtual void FixedUpdate(){}
 		//! 描画フレーム毎の更新 
-		public virtual void Update(){}
+		public virtual void Update(){
+			GUI.Update();
+		}
 		//! アニメーション処理後の更新 
 		public virtual void LateUpdate(){}
 	}

@@ -49,6 +49,7 @@ namespace PluggableVR
 			public GameObject Node;
 			public AxesView Axes;
 			public GameObject Collider;
+			public GameObject Raycaster;
 		}
 
 
@@ -106,6 +107,7 @@ namespace PluggableVR
 				CreateChildPrimitive(PrimitiveType.Capsule, false, "Collider", LeftHand.Node.transform, new Loc(new Vector3(0.025f, 0, -0.01f) * scale, Quaternion.identity), false):
 				CreateChildObject("Collider", LeftHand.Node.transform, new Loc(new Vector3(0.025f, 0, -0.01f) * scale, Quaternion.identity), false);
 			LeftHand.Collider.transform.localScale = new Vector3(0.15f, 0.03f, 0.15f);
+			LeftHand.Raycaster = CreateChildObject("Raycaster", LeftHand.Node.transform, new Loc(new Vector3(), RotUt.RotY(-Rot2D.Right)), false);
 
 			RightHand = new HandView();
 			RightHand.Node = CreateChildObject("RightHand", Origin, Loc.Identity, false);
@@ -114,8 +116,9 @@ namespace PluggableVR
 				CreateChildPrimitive(PrimitiveType.Capsule, false, "Collider", RightHand.Node.transform, new Loc(new Vector3(-0.025f, 0, -0.01f) * scale, Quaternion.identity), false):
 				CreateChildObject("Collider", RightHand.Node.transform, new Loc(new Vector3(-0.025f, 0, -0.01f) * scale, Quaternion.identity), false);
 			RightHand.Collider.transform.localScale = new Vector3(0.15f, 0.03f, 0.15f);
+			RightHand.Raycaster = CreateChildObject("Raycaster", RightHand.Node.transform, new Loc(new Vector3(), RotUt.RotY(Rot2D.Right)), false);
 
-			if(UseStandardCollider){
+			if (UseStandardCollider){
 				_addCollider(Head.Collider);
 				_addCollider(LeftHand.Collider);
 				_addCollider(RightHand.Collider);

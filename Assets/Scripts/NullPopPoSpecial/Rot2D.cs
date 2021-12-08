@@ -64,6 +64,15 @@ namespace NullPopPoSpecial
 			}
 		}
 
+		//! 直角相当のインスタンス 
+		public static Rot2D Right
+		{
+			get
+			{
+				return new Rot2D(0, 1);
+			}
+		}
+
 		//! 回転量から生成 
 		public static Rot2D FromCycle(Cycle src)
 		{
@@ -153,6 +162,12 @@ namespace NullPopPoSpecial
 			C *= m;
 			S *= m;
 			return true;
+		}
+
+		//! 逆回転 
+		public static Rot2D operator -(Rot2D src)
+		{
+			return new Rot2D(src.C, -src.S);
 		}
 
 		//! 回転の加算 

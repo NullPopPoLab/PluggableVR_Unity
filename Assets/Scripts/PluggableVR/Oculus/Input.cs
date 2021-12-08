@@ -282,6 +282,80 @@ namespace PluggableVR.Oculus
 		}
 	}
 
+	public class InputGUICursor : ComponentScope<OVRGazePointer>
+	{
+		public Transform Pointer{
+			get{ return (Target==null)?null:Target.rayTransform; }
+			set{ if (Target != null) Target.rayTransform = value; }
+		}
+
+		protected override void OnStart() {
+			base.OnStart();
+			Target.enabled = false;
+		}
+
+		protected override bool OnAudit() {
+			if (!base.OnAudit()) return false;
+			if (Target.rayTransform == null) return false;
+			return true; 
+		}
+		protected override void OnAcquired() {
+			base.OnAcquired();
+			Target.enabled = true;
+		}
+		protected override void OnUnacquired() {
+			Target.enabled = false;
+			base.OnUnacquired();
+		}
+	}
+
+	//! GUI入力 
+	public class InputGUI : PluggableVR.InputGUI
+	{
+		private InputGUICursor _cursor = new InputGUICursor();
+
+		public new VREventSystem ES{ 
+			get{ return base.ES as VREventSystem; }
+			protected set { base.ES = value; }
+		}
+
+		public new static InputGUI Setup(){
+			var t=new InputGUI();
+			t.ES=new VREventSystem();
+			return t;
+		}
+
+		protected override bool OnSetCursor(GameObject src)
+		{
+			if (!base.OnSetCursor(src)) return false;
+
+			src.SetActive(false);
+			var ogp = src.GetComponent<OVRGazePointer>();
+			if (ogp == null) ogp=src.AddComponent<OVRGazePointer>();
+			ES.Cursor = ogp;
+			_cursor.Start(ogp);
+			src.SetActive(true);
+
+			return true;
+		}
+
+		protected override bool OnSetPointer(Transform src) {
+
+			if (!base.OnSetPointer(src)) return false;
+
+			_cursor.Pointer = src;
+			ES.Pointer = src;
+			return true; 
+		}
+
+		protected override PluggableVR.VRCanvas OnCreateCanvas() { return new VRCanvas(); }
+
+		protected override void OnUpdate() {
+			base.OnUpdate();
+			_cursor.Update();
+		}
+	}
+
 	//! 入力機能基底 
 	public class Input : PluggableVR.Input
 	{
@@ -293,6 +367,7 @@ namespace PluggableVR.Oculus
 			t.HandRight = new InputHandRight();
 			t.HandPrimary = new InputHandPrimary();
 			t.HandSecondary = new InputHandSecondary();
+			t.GUI=InputGUI.Setup();
 			return t;
 		}
 
@@ -311,6 +386,7 @@ namespace PluggableVR.Oculus
 		public override void Update()
 		{
 			OVRInput.Update();
+			GUI.Update();
 		}
 		//! アニメーション処理後の更新 
 		public override void LateUpdate()

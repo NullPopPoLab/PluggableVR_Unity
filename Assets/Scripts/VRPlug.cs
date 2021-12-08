@@ -155,7 +155,7 @@ public class VRPlug : MonoBehaviour
 		_flow.Update();
 
 #if UNITY_EDITOR
-		var inp = VRManager.Input;
+		var inp = _vrmng.Input;
 		var eye = inp.Head.GetEyeTracking();
 		_eyePos = eye.Pos;
 		_eyeRotXx = RotUt.Xx(eye.Rot);

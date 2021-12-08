@@ -672,13 +672,13 @@ public class OVROverlay : MonoBehaviour
 
 	void Awake()
 	{
-		Debug.Log("Overlay Awake");
-
+#if false
 		if (tex2DMaterial == null)
 			tex2DMaterial = new Material(Shader.Find("Oculus/Texture2D Blit"));
 
 		if (cubeMaterial == null)
 			cubeMaterial = new Material(Shader.Find("Oculus/Cubemap Blit"));
+#endif
 
 		rend = GetComponent<Renderer>();
 

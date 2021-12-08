@@ -19,10 +19,10 @@ namespace NullPopPoSpecial
 		public bool IsAvailable { get { return Target != null; } }
 		public bool IsEnabled { get { return (Target == null) ? false : Target.enabled; } }
 		public bool IsBusy { get; private set; }
+		public bool IsAcquired{get;private set;}
 
 		public Loc LocalLoc { get { return Loc.FromLocalTransform(Transform); } }
 		public Loc WorldLoc { get { return Loc.FromWorldTransform(Transform); } }
-
 
 		private ChangingCensor<string> _name;
 		public string Name { get { return _name.Current; } }
@@ -59,6 +59,20 @@ namespace NullPopPoSpecial
 			}
 		}
 
+		private void _acquire(){
+			var f=OnAudit();
+			if(IsAcquired==f)return;
+			IsAcquired=f;
+			if(f)OnAcquired();
+			else OnUnacquired();
+		}
+
+		private void _unacquire(){
+			if(!IsAcquired)return;
+			IsAcquired=false;
+			OnUnacquired();
+		}
+
 		public void Start(string path)
 		{
 			Terminate();
@@ -88,12 +102,14 @@ namespace NullPopPoSpecial
 			IsBusy = true;
 			_name.Reset(Target.name);
 			OnStart();
+			_acquire();
 		}
 
 		public void Terminate()
 		{
 			if (!IsBusy) return;
 			IsBusy = false;
+			_unacquire();
 			OnTerminate();
 			Target = null;
 		}
@@ -115,16 +131,21 @@ namespace NullPopPoSpecial
 		public void Update()
 		{
 			if (!IsBusy) Start();
+			else _acquire();
+
 			if (Target == null)
 			{
 				Terminate();
 				return;
 			}
-			OnUpdate();
+			if(IsAcquired)OnUpdate();
 		}
 
 		protected virtual void OnStart() { }
 		protected virtual void OnTerminate() { }
+		protected virtual bool OnAudit() {return true;}
+		protected virtual void OnAcquired() { }
+		protected virtual void OnUnacquired() { }
 		protected virtual void OnUpdate() { }
 	}
 }
