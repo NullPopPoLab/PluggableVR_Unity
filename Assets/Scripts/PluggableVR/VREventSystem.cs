@@ -12,19 +12,13 @@ namespace PluggableVR
 	//! VR対応EventSystem 
 	public class VREventSystem: ComponentScope<EventSystem>
 	{
+		public virtual VRCursor Cursor { get; set; }
 		public virtual Transform Pointer { get; set; }
 
-		protected override bool OnAudit() {
-			if (!base.OnAudit())return false;
-			return true;
-		}
-
-		protected override void OnAcquired() { 
-			base.OnAcquired();
-		}
-
-		protected override void OnUnacquired() {
-			base.OnUnacquired();
+		protected override void OnUpdate()
+		{
+			base.OnUpdate();
+			if (Cursor != null) Cursor.Update();
 		}
 	}
 }

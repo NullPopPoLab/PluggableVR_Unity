@@ -282,37 +282,10 @@ namespace PluggableVR.Oculus
 		}
 	}
 
-	public class InputGUICursor : ComponentScope<OVRGazePointer>
-	{
-		public Transform Pointer{
-			get{ return (Target==null)?null:Target.rayTransform; }
-			set{ if (Target != null) Target.rayTransform = value; }
-		}
-
-		protected override void OnStart() {
-			base.OnStart();
-			Target.enabled = false;
-		}
-
-		protected override bool OnAudit() {
-			if (!base.OnAudit()) return false;
-			if (Target.rayTransform == null) return false;
-			return true; 
-		}
-		protected override void OnAcquired() {
-			base.OnAcquired();
-			Target.enabled = true;
-		}
-		protected override void OnUnacquired() {
-			Target.enabled = false;
-			base.OnUnacquired();
-		}
-	}
-
 	//! GUI入力 
 	public class InputGUI : PluggableVR.InputGUI
 	{
-		private InputGUICursor _cursor = new InputGUICursor();
+		private OVRGazePointer _ogp;
 
 		public new VREventSystem ES{ 
 			get{ return base.ES as VREventSystem; }
@@ -325,16 +298,16 @@ namespace PluggableVR.Oculus
 			return t;
 		}
 
-		protected override bool OnSetCursor(GameObject src)
+		protected override bool OnSetCursor(VRCursor src)
 		{
 			if (!base.OnSetCursor(src)) return false;
 
-			src.SetActive(false);
-			var ogp = src.GetComponent<OVRGazePointer>();
-			if (ogp == null) ogp=src.AddComponent<OVRGazePointer>();
-			ES.Cursor = ogp;
-			_cursor.Start(ogp);
-			src.SetActive(true);
+			var gobj=src.Ctrl.gameObject;
+			gobj.SetActive(false);
+			_ogp = gobj.GetComponent<OVRGazePointer>();
+			if (_ogp == null) _ogp = gobj.AddComponent<OVRGazePointer>();
+			ES.Cursor = src;
+			gobj.SetActive(true);
 
 			return true;
 		}
@@ -343,8 +316,10 @@ namespace PluggableVR.Oculus
 
 			if (!base.OnSetPointer(src)) return false;
 
-			_cursor.Pointer = src;
+//			Cursor.View.Pointer = src;
 			ES.Pointer = src;
+			if (_ogp != null) _ogp.rayTransform = src;
+
 			return true; 
 		}
 
@@ -352,7 +327,6 @@ namespace PluggableVR.Oculus
 
 		protected override void OnUpdate() {
 			base.OnUpdate();
-			_cursor.Update();
 		}
 	}
 
@@ -386,7 +360,7 @@ namespace PluggableVR.Oculus
 		public override void Update()
 		{
 			OVRInput.Update();
-			GUI.Update();
+			base.Update();
 		}
 		//! アニメーション処理後の更新 
 		public override void LateUpdate()

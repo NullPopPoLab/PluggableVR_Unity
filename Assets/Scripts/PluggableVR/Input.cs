@@ -64,9 +64,8 @@ namespace PluggableVR
 	//! GUI入力基底 
 	public class InputGUI
 	{
-		public VREventSystem ES;
+		public VREventSystem ES { get; protected set; }
 
-		private Transform _pointer;
 		private ComponentList<Canvas> _guis =new ComponentList<Canvas>();
 
 		public static InputGUI Setup(){
@@ -75,24 +74,24 @@ namespace PluggableVR
 			return t;
 		}
 
-		public bool SetCursor(GameObject src)
+		public bool SetCursor(VRCursor src)
 		{
 			if (src == null) return false;
 			return OnSetCursor(src);
 		}
-		protected virtual bool OnSetCursor(GameObject src) { return true; }
+		protected virtual bool OnSetCursor(VRCursor src) { return true; }
 
 		private void _setPointer(ComponentScope<Canvas> dst)
 		{
 			var vrc = dst as VRCanvas;
-			vrc.SetPointer(_pointer);
+			vrc.SetPointer(ES.Pointer);
 		}
 
 		public bool SetPointer(Transform src)
 		{
 			if (src == null) return false;
 
-			_pointer = src;
+			ES.Pointer = src;
 			_guis.Broadcast(_setPointer);
 
 			return OnSetPointer(src);
@@ -102,14 +101,14 @@ namespace PluggableVR
 		public VRCanvas AddCanvas(Canvas src){
 			var vrc = OnCreateCanvas();
 			_guis.Add(vrc);
-			vrc.SetPointer(_pointer);
+			vrc.SetPointer(ES.Pointer);
 			vrc.Start(src);
 			return vrc;
 		}
 		public VRCanvas AddCanvas(string path)
 		{
 			var vrc = OnCreateCanvas();
-			vrc.SetPointer(_pointer);
+			vrc.SetPointer(ES.Pointer);
 			vrc.Start(path);
 			return vrc;
 		}

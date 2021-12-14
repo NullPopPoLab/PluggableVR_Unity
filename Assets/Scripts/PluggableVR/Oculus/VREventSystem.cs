@@ -12,16 +12,26 @@ namespace PluggableVR.Oculus
 	//! VR対応EventSystem Oculus用 
 	public class VREventSystem: PluggableVR.VREventSystem
 	{
-		private OVRInputModule _oim;
 		private StandaloneInputModule _sim;
+		private OVRInputModule _oim;
+		private OVRCursor _oc;
 
-		public OVRCursor Cursor{
-			get{ return (_oim==null)?null:_oim.m_Cursor; }
-			set{ if(_oim!=null)_oim.m_Cursor = value; }
+		private VRCursor _cursor;
+		public override VRCursor Cursor
+		{
+			get { return _cursor; }
+			set {
+				_cursor = value;
+				_oc = (value == null) ? null : value.Ctrl.GetComponent<OVRCursor>();
+				if (_oim != null) _oim.m_Cursor = _oc;
+			}
 		}
 		public override Transform Pointer{
 			get { return (_oim == null) ? null : _oim.rayTransform; }
-			set { if (_oim != null) _oim.rayTransform = value; }
+			set {
+				if (_oim != null) _oim.rayTransform = value;
+				if (_cursor != null) _cursor.Pointer = value;
+			}
 		}
 
 		protected override void OnStart(){
