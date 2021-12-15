@@ -306,6 +306,9 @@ namespace PluggableVR.Oculus
 			gobj.SetActive(false);
 			_ogp = gobj.GetComponent<OVRGazePointer>();
 			if (_ogp == null) _ogp = gobj.AddComponent<OVRGazePointer>();
+			_ogp.dimOnHideRequest = false;
+			_ogp.showTimeoutPeriod = 0.5f;
+			_ogp.hideTimeoutPeriod = 0.0f;
 			ES.Cursor = src;
 			gobj.SetActive(true);
 
@@ -316,7 +319,6 @@ namespace PluggableVR.Oculus
 
 			if (!base.OnSetPointer(src)) return false;
 
-//			Cursor.View.Pointer = src;
 			ES.Pointer = src;
 			if (_ogp != null) _ogp.rayTransform = src;
 
@@ -327,6 +329,9 @@ namespace PluggableVR.Oculus
 
 		protected override void OnUpdate() {
 			base.OnUpdate();
+			if (_ogp == null) return;
+			if (ES.Cursor == null) return;
+			ES.Cursor.Alpha = _ogp.visibilityStrength;
 		}
 	}
 
