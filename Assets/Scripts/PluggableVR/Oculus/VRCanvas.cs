@@ -14,6 +14,20 @@ namespace PluggableVR.Oculus
 		private GraphicRaycaster _grc;
 		private OVRRaycaster _orc;
 
+		public override Placing Place
+		{
+			set { 
+				base.Place = value; 
+			}
+		}
+
+		public new static VRCanvas Create(Placing place)
+		{
+			var t = new VRCanvas();
+			t.Place = place;
+			return t;
+		}
+
 		protected override void OnStart()
 		{
 			base.OnStart();

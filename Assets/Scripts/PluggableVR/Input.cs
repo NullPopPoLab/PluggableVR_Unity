@@ -98,21 +98,24 @@ namespace PluggableVR
 		}
 		protected virtual bool OnSetPointer(Transform src) { return true; }
 
-		public VRCanvas AddCanvas(Canvas src){
-			var vrc = OnCreateCanvas();
+		public VRCanvas AddCanvas(Canvas src, VRCanvas.Placing placing)
+		{
+			var vrc = OnCreateCanvas(placing);
 			_guis.Add(vrc);
 			vrc.SetPointer(ES.Pointer);
 			vrc.Start(src);
 			return vrc;
 		}
-		public VRCanvas AddCanvas(string path)
+		public VRCanvas AddCanvas(string path, VRCanvas.Placing placing)
 		{
-			var vrc = OnCreateCanvas();
+			var vrc = OnCreateCanvas(placing);
 			vrc.SetPointer(ES.Pointer);
 			vrc.Start(path);
 			return vrc;
 		}
-		protected virtual VRCanvas OnCreateCanvas() { return new VRCanvas(); }
+		public VRCanvas AddCanvas(Canvas src) { return AddCanvas(src, VRCanvas.Placing.Default); }
+		public VRCanvas AddCanvas(string path) { return AddCanvas(path, VRCanvas.Placing.Default); }
+		protected virtual VRCanvas OnCreateCanvas(VRCanvas.Placing place) { return VRCanvas.Create(place); }
 
 		public void Update(){
 			ES.Update();

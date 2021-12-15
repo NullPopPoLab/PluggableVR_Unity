@@ -323,7 +323,7 @@ namespace PluggableVR.Oculus
 			return true; 
 		}
 
-		protected override PluggableVR.VRCanvas OnCreateCanvas() { return new VRCanvas(); }
+		protected override PluggableVR.VRCanvas OnCreateCanvas(PluggableVR.VRCanvas.Placing place) { return VRCanvas.Create(place); }
 
 		protected override void OnUpdate() {
 			base.OnUpdate();
