@@ -3,6 +3,7 @@
 	@author NullPopPoLab
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
+using System;
 using UnityEngine;
 using NullPopPoSpecial;
 
@@ -65,6 +66,10 @@ namespace PluggableVR
 	public class InputGUI
 	{
 		public VREventSystem ES { get; protected set; }
+		public bool IsHit { get; protected set; }
+		public int WorldRaycatMask;
+		public Vector3 WorldRaycastAxis=new Vector3(0,0,1);
+		public Action<RaycastHit> OnHitWorldRaycast;
 
 		private ComponentList<Canvas> _guis =new ComponentList<Canvas>();
 
@@ -119,11 +124,26 @@ namespace PluggableVR
 		protected virtual VRCanvas OnCreateCanvas(VRCanvas.Placing place) { return VRCanvas.Create(place); }
 
 		public void Update(){
+			IsHit = false;
 			ES.Update();
 			OnUpdate();
 			_guis.Update();
+			if (IsHit) return;
+
+			// world raycastを試す 
+			if(ES.Pointer!=null && WorldRaycatMask!=0)
+			{
+				RaycastHit hit;
+				var f = Physics.Raycast(ES.Pointer.position, ES.Pointer.rotation * WorldRaycastAxis, out hit, Mathf.Infinity, WorldRaycatMask);
+				if (f)
+				{
+					OnHit(hit);
+					if (OnHitWorldRaycast != null) OnHitWorldRaycast(hit);
+				}
+			}
 		}
 		protected virtual void OnUpdate() { }
+		protected virtual void OnHit(RaycastHit hit) { }
 	}
 
 	//! 入力機能基底 

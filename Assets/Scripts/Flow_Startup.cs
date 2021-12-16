@@ -34,6 +34,9 @@ public class Flow_Startup : FlowBase
 		vrgui.AddCanvas("/Canvas");
 		vrgui.AddCanvas("/Canvas/Region/Panel/Dropdown/Dropdown List");
 
+		// world raycast対象 
+		vrgui.WorldRaycatMask = 1 << 8;
+
 		// 既存のAudioListener封印 
 		GameObject.Find("/Main Camera").GetComponent<AudioListener>().enabled = false;
 	}

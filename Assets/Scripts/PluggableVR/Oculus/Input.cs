@@ -331,7 +331,15 @@ namespace PluggableVR.Oculus
 			base.OnUpdate();
 			if (_ogp == null) return;
 			if (ES.Cursor == null) return;
-			ES.Cursor.Alpha = _ogp.visibilityStrength;
+			var a = _ogp.visibilityStrength;
+			ES.Cursor.Alpha = a;
+			IsHit = a > 0.95f;
+		}
+
+		protected override void OnHit(RaycastHit hit) {
+			base.OnHit(hit);
+
+			_ogp.SetCursorStartDest(ES.Pointer.position, hit.point, hit.normal);
 		}
 	}
 
