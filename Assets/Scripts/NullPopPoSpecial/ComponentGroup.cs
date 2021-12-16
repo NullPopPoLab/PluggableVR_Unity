@@ -15,7 +15,7 @@ namespace NullPopPoSpecial
 		public int Count{ get{ return OnCount(); } }
 
 		~ComponentGroup(){
-			Terminate();
+//			Terminate();
 		}
 
 		public void Reset(){

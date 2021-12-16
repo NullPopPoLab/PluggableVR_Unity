@@ -37,13 +37,15 @@ namespace PluggableVR
 				_place = value;
 				if (!IsAvailable) return;
 
-				// 現在のVRCameraから位置決め 
 				var cam = VRManager.Instance.Camera;
-				if (cam == null) return;
-				var loc = Loc.FromWorldTransform(cam.Transform);
-				loc.Pos += loc.Rot * new Vector3(value.Slide, value.Height, value.Distance);
-				loc.ToWorldTransform(Transform);
-				Transform.localScale = value.Scale;
+				if (cam != null && Target.isRootCanvas)
+				{
+					// 現在のVRCameraから位置決め 
+					var loc = Loc.FromWorldTransform(cam.Transform);
+					loc.Pos += loc.Rot * new Vector3(value.Slide, value.Height, value.Distance);
+					loc.ToWorldTransform(Transform);
+					Transform.localScale = value.Scale;
+				}
 			}
 		}
 
@@ -74,7 +76,7 @@ namespace PluggableVR
 
 		protected override void OnAcquired() { 
 			base.OnAcquired();
-			Target.renderMode = RenderMode.WorldSpace;
+			if(Target.isRootCanvas) Target.renderMode = RenderMode.WorldSpace;
 		}
 
 		protected override void OnUnacquired() {

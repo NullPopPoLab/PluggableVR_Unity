@@ -52,7 +52,7 @@ namespace PluggableVR.Oculus
 		}
 
 		protected override void OnUnacquired() {
-			_orc.enabled = false;
+			if(_orc!=null)_orc.enabled = false;
 			base.OnUnacquired();
 		}
 

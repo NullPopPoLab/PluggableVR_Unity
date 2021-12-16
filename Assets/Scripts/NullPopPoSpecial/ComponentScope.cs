@@ -131,7 +131,7 @@ namespace NullPopPoSpecial
 		public void Update()
 		{
 			if (!IsBusy) Start();
-			else _acquire();
+			else if (Target != null) _acquire();
 
 			if (Target == null)
 			{

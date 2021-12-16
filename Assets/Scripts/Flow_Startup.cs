@@ -32,6 +32,7 @@ public class Flow_Startup : FlowBase
 
 		// CanvasをVR入力対応にする 
 		vrgui.AddCanvas("/Canvas");
+		vrgui.AddCanvas("/Canvas/Region/Panel/Dropdown/Dropdown List");
 
 		// 既存のAudioListener封印 
 		GameObject.Find("/Main Camera").GetComponent<AudioListener>().enabled = false;

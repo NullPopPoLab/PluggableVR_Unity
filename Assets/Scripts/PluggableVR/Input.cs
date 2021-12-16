@@ -109,6 +109,7 @@ namespace PluggableVR
 		public VRCanvas AddCanvas(string path, VRCanvas.Placing placing)
 		{
 			var vrc = OnCreateCanvas(placing);
+			_guis.Add(vrc);
 			vrc.SetPointer(ES.Pointer);
 			vrc.Start(path);
 			return vrc;
