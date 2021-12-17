@@ -67,9 +67,7 @@ namespace PluggableVR
 	{
 		public VREventSystem ES { get; protected set; }
 		public bool IsHit { get; protected set; }
-		public int WorldRaycatMask;
-		public Vector3 WorldRaycastAxis=new Vector3(0,0,1);
-		public Action<RaycastHit> OnHitWorldRaycast;
+		public Aimer Aimer;
 
 		private ComponentList<Canvas> _guis =new ComponentList<Canvas>();
 
@@ -128,22 +126,23 @@ namespace PluggableVR
 			ES.Update();
 			OnUpdate();
 			_guis.Update();
-			if (IsHit) return;
+			if (IsHit)
+			{
+				if (Aimer != null) Aimer.Clear();
+				return;
+			}
 
 			// world raycastを試す 
-			if(ES.Pointer!=null && WorldRaycatMask!=0)
+			if(Aimer != null)
 			{
-				RaycastHit hit;
-				var f = Physics.Raycast(ES.Pointer.position, ES.Pointer.rotation * WorldRaycastAxis, out hit, Mathf.Infinity, WorldRaycatMask);
-				if (f)
-				{
-					OnHit(hit);
-					if (OnHitWorldRaycast != null) OnHitWorldRaycast(hit);
-				}
+				Aimer.Src = ES.Pointer;
+				if (Aimer.Update()) OnHit(Aimer.Info.Value);
+				else OnMiss();
 			}
 		}
 		protected virtual void OnUpdate() { }
-		protected virtual void OnHit(RaycastHit hit) { }
+		protected virtual void OnHit(RaycastHit info) { }
+		protected virtual void OnMiss() { }
 	}
 
 	//! 入力機能基底 
