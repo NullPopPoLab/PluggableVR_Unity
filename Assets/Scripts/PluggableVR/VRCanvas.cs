@@ -11,8 +11,8 @@ namespace PluggableVR
 	//! VR対応Canvas 
 	public class VRCanvas: ComponentScope<Canvas>
 	{
-		public const float DefaultDistance = 0.5f;
-		public const float DefaultScale = 0.005f;
+		public static float DefaultDistance = 0.5f;
+		public static float DefaultScale = 0.005f;
 
 		//! 配置先 
 		public struct Placing{
@@ -35,17 +35,7 @@ namespace PluggableVR
 			get { return _place; }
 			set {
 				_place = value;
-				if (!IsAvailable) return;
-
-				var cam = VRManager.Instance.Camera;
-				if (cam != null && Target.isRootCanvas)
-				{
-					// 現在のVRCameraから位置決め 
-					var loc = Loc.FromWorldTransform(cam.Transform);
-					loc.Pos += loc.Rot * new Vector3(value.Slide, value.Height, value.Distance);
-					loc.ToWorldTransform(Transform);
-					Transform.localScale = value.Scale;
-				}
+				Relocate();
 			}
 		}
 
@@ -76,7 +66,11 @@ namespace PluggableVR
 
 		protected override void OnAcquired() { 
 			base.OnAcquired();
-			if(Target.isRootCanvas) Target.renderMode = RenderMode.WorldSpace;
+			if (Target.isRootCanvas)
+			{
+				Target.renderMode = RenderMode.WorldSpace;
+				Relocate();
+			}
 		}
 
 		protected override void OnUnacquired() {
@@ -89,5 +83,22 @@ namespace PluggableVR
 			OnSetPointer(src);
 		}
 		protected virtual void OnSetPointer(Transform src) { }
+
+		public void Relocate(){
+
+			if (!IsAvailable) return;
+
+			var cam = VRManager.Instance.Camera;
+			if (cam != null && Target.isRootCanvas)
+			{
+				// 現在のVRCameraから位置決め 
+				var loc = Loc.FromWorldTransform(cam.Transform);
+				loc.Rot = RotUt.ReturnY(loc.Rot);
+				var p = new Vector3(_place.Slide, _place.Height, _place.Distance);
+				loc.Pos += loc.Rot * p;
+				loc.ToWorldTransform(Transform);
+				Transform.localScale = _place.Scale;
+			}
+		}
 	}
 }

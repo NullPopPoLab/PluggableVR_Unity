@@ -121,6 +121,15 @@ namespace PluggableVR
 		public VRCanvas AddCanvas(string path) { return AddCanvas(path, VRCanvas.Placing.Default); }
 		protected virtual VRCanvas OnCreateCanvas(VRCanvas.Placing place) { return VRCanvas.Create(place); }
 
+		private void _relocate(ComponentScope<Canvas> dst)
+		{
+			var vrc = dst as VRCanvas;
+			vrc.Relocate();
+		}
+		public void Relocate(){
+			_guis.Broadcast(_relocate);
+		}
+
 		public void Update(){
 			IsHit = false;
 			ES.Update();

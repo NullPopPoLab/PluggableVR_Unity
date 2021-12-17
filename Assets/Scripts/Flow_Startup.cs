@@ -28,7 +28,7 @@ public class Flow_Startup : FlowBase
 		var vrgui = vrmng.Input.GUI;
 		vrgui.ES.Start("/EventSystem");
 		vrgui.SetCursor(new DemoCursor());
-		vrgui.SetPointer(avatar.RightHand.Raycaster.transform);
+//		vrgui.SetPointer(avatar.RightHand.Raycaster.transform);
 
 		// CanvasをVR入力対応にする 
 		vrgui.AddCanvas("/Canvas");

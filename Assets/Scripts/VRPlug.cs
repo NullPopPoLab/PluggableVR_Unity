@@ -14,6 +14,7 @@ public class VRPlug : MonoBehaviour
 {
 	[SerializeField, Tooltip("メインカメラの扱い(初期設定)")] VRCamera.ESourceMode _cameraMode;
 	[SerializeField, Tooltip("Camera ModeがdisableのときVRカメラ位置をメインカメラに書き戻す")] bool _cameraFeedback;
+	[SerializeField, Tooltip("左ビームで開始")] bool _southpaw;
 
 #if UNITY_EDITOR
 	[SerializeField,Tooltip("Hierarchy状態をファイルに書き出す")] private bool _dumpHierarchy;
@@ -107,6 +108,7 @@ public class VRPlug : MonoBehaviour
 
 	private VRManager _vrmng = new VRManager();
 	private FlowStep _flow = new FlowStep();
+	private DemoBeam _beam;
 
 	//! 初期設定 
 	protected void Awake()
@@ -118,6 +120,8 @@ public class VRPlug : MonoBehaviour
 		OVRPlugin.SetTrackingOriginType(OVRPlugin.TrackingOrigin.EyeLevel);
 
 		_flow.Start(new Flow_Startup());
+		_beam=new DemoBeam(_southpaw);
+		_vrmng.Input.GUI.Relocate();
 	}
 
 	//! 終了 
