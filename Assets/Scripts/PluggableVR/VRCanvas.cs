@@ -11,7 +11,7 @@ namespace PluggableVR
 	//! VR対応Canvas 
 	public class VRCanvas: ComponentScope<Canvas>
 	{
-		public static float DefaultDistance = 0.5f;
+		public static float DefaultDistance = 1.0f;
 		public static float DefaultScale = 0.005f;
 
 		//! 配置先 

@@ -17,14 +17,14 @@ public class VRPlug : MonoBehaviour
 	[SerializeField, Tooltip("左ビームで開始")] bool _southpaw;
 
 #if UNITY_EDITOR
-	[SerializeField,Tooltip("Hierarchy状態をファイルに書き出す")] private bool _dumpHierarchy;
+	[SerializeField, Tooltip("Hierarchy状態をファイルに書き出す")] private bool _dumpHierarchy;
 
-	[SerializeField,Space(10)] private Transform _teleportTarget;
-	[SerializeField,Tooltip("Teleport Target 位置に移動")] private bool _repos;
-	[SerializeField,Tooltip("Teleport Target 向きを合わせる")] private bool _rerot;
-	[SerializeField,Tooltip("Teleport Target 位置に移動して向きを合わせる")] private bool _reloc;
+	[SerializeField, Space(10)] private Transform _teleportTarget;
+	[SerializeField, Tooltip("Teleport Target 位置に移動")] private bool _repos;
+	[SerializeField, Tooltip("Teleport Target 向きを合わせる")] private bool _rerot;
+	[SerializeField, Tooltip("Teleport Target 位置に移動して向きを合わせる")] private bool _reloc;
 
-	[SerializeField,Space(10)] private Vector3 _eyePos;
+	[SerializeField, Space(10)] private Vector3 _eyePos;
 	[SerializeField, Range(-1, 1)] private float _eyeRotXx;
 	[SerializeField, Range(-1, 1)] private float _eyeRotXy;
 	[SerializeField, Range(-1, 1)] private float _eyeRotXz;
@@ -35,7 +35,7 @@ public class VRPlug : MonoBehaviour
 	[SerializeField, Range(-1, 1)] private float _eyeRotZy;
 	[SerializeField, Range(-1, 1)] private float _eyeRotZz;
 
-	[SerializeField,Space(10)] private Vector3 _leftPos;
+	[SerializeField, Space(10)] private Vector3 _leftPos;
 	[SerializeField, Range(-1, 1)] private float _leftRotXx;
 	[SerializeField, Range(-1, 1)] private float _leftRotXy;
 	[SerializeField, Range(-1, 1)] private float _leftRotXz;
@@ -47,19 +47,19 @@ public class VRPlug : MonoBehaviour
 	[SerializeField, Range(-1, 1)] private float _leftRotZz;
 	[SerializeField] private bool _leftStickTouch;
 	[SerializeField] private bool _leftStickPressed;
-	[SerializeField,Range(-1,1)] private float _leftStickTiltingX;
-	[SerializeField,Range(-1,1)] private float _leftStickTiltingY;
+	[SerializeField, Range(-1, 1)] private float _leftStickTiltingX;
+	[SerializeField, Range(-1, 1)] private float _leftStickTiltingY;
 	[SerializeField] private bool _leftIndexTouch;
 	[SerializeField] private bool _leftIndexPressed;
-	[SerializeField,Range(0,1)] private float _leftIndexPressing;
+	[SerializeField, Range(0, 1)] private float _leftIndexPressing;
 	[SerializeField] private bool _leftHandPressed;
-	[SerializeField,Range(0,1)] private float _leftHandPressing;
+	[SerializeField, Range(0, 1)] private float _leftHandPressing;
 	[SerializeField] private bool _leftButton1Touch;
 	[SerializeField] private bool _leftButton1Pressed;
 	[SerializeField] private bool _leftButton2Touch;
 	[SerializeField] private bool _leftButton2Pressed;
 
-	[SerializeField,Space(10)] private Vector3 _rightPos;
+	[SerializeField, Space(10)] private Vector3 _rightPos;
 	[SerializeField, Range(-1, 1)] private float _rightRotXx;
 	[SerializeField, Range(-1, 1)] private float _rightRotXy;
 	[SerializeField, Range(-1, 1)] private float _rightRotXz;
@@ -71,45 +71,46 @@ public class VRPlug : MonoBehaviour
 	[SerializeField, Range(-1, 1)] private float _rightRotZz;
 	[SerializeField] private bool _rightStickTouch;
 	[SerializeField] private bool _rightStickPressed;
-	[SerializeField,Range(-1,1)] private float _rightStickTiltingX;
-	[SerializeField,Range(-1,1)] private float _rightStickTiltingY;
+	[SerializeField, Range(-1, 1)] private float _rightStickTiltingX;
+	[SerializeField, Range(-1, 1)] private float _rightStickTiltingY;
 	[SerializeField] private bool _rightIndexTouch;
 	[SerializeField] private bool _rightIndexPressed;
-	[SerializeField,Range(0,1)] private float _rightIndexPressing;
+	[SerializeField, Range(0, 1)] private float _rightIndexPressing;
 	[SerializeField] private bool _rightHandPressed;
-	[SerializeField,Range(0,1)] private float _rightHandPressing;
+	[SerializeField, Range(0, 1)] private float _rightHandPressing;
 	[SerializeField] private bool _rightButton1Touch;
 	[SerializeField] private bool _rightButton1Pressed;
 	[SerializeField] private bool _rightButton2Touch;
 	[SerializeField] private bool _rightButton2Pressed;
 
-	[SerializeField,Space(10)] private bool _primaryStickTouch;
+	[SerializeField, Space(10)] private bool _primaryStickTouch;
 	[SerializeField] private bool _primaryStickPressed;
-	[SerializeField,Range(-1,1)] private float _primaryStickTiltingX;
-	[SerializeField,Range(-1,1)] private float _primaryStickTiltingY;
+	[SerializeField, Range(-1, 1)] private float _primaryStickTiltingX;
+	[SerializeField, Range(-1, 1)] private float _primaryStickTiltingY;
 	[SerializeField] private bool _primaryRest;
 	[SerializeField] private bool _primaryIndexTouch;
 	[SerializeField] private bool _primaryIndexPressed;
-	[SerializeField,Range(0,1)] private float _primaryIndexPressing;
+	[SerializeField, Range(0, 1)] private float _primaryIndexPressing;
 	[SerializeField] private bool _primaryHandPressed;
-	[SerializeField,Range(0,1)] private float _primaryHandPressing;
+	[SerializeField, Range(0, 1)] private float _primaryHandPressing;
 
-	[SerializeField,Space(10)] private bool _secondaryStickTouch;
+	[SerializeField, Space(10)] private bool _secondaryStickTouch;
 	[SerializeField] private bool _secondaryStickPressed;
-	[SerializeField,Range(-1,1)] private float _secondaryStickTiltingX;
-	[SerializeField,Range(-1,1)] private float _secondaryStickTiltingY;
+	[SerializeField, Range(-1, 1)] private float _secondaryStickTiltingX;
+	[SerializeField, Range(-1, 1)] private float _secondaryStickTiltingY;
 	[SerializeField] private bool _secondaryRest;
 	[SerializeField] private bool _secondaryIndexTouch;
 	[SerializeField] private bool _secondaryIndexPressed;
-	[SerializeField,Range(0,1)] private float _secondaryIndexPressing;
+	[SerializeField, Range(0, 1)] private float _secondaryIndexPressing;
 	[SerializeField] private bool _secondaryHandPressed;
-	[SerializeField,Range(0,1)] private float _secondaryHandPressing;
+	[SerializeField, Range(0, 1)] private float _secondaryHandPressing;
 #endif
 
 	private VRManager _vrmng = new VRManager();
 	private FlowStep _flow = new FlowStep();
 	private DemoBeam _beam;
 	private RelativeBool _chgtrig = new RelativeBool();
+	private RelativeBool _reloctrig = new RelativeBool();
 
 	//! 初期設定 
 	protected void Awake()
@@ -121,7 +122,7 @@ public class VRPlug : MonoBehaviour
 		OVRPlugin.SetTrackingOriginType(OVRPlugin.TrackingOrigin.EyeLevel);
 
 		_flow.Start(new Flow_Startup());
-		_beam=new DemoBeam(_southpaw);
+		_beam = new DemoBeam(_southpaw);
 		_vrmng.Input.GUI.Relocate();
 	}
 
@@ -141,27 +142,36 @@ public class VRPlug : MonoBehaviour
 	protected void Update()
 	{
 #if UNITY_EDITOR
-		if(_repos){
-			_repos=false;
+		if (_repos)
+		{
+			_repos = false;
 			_vrmng.Repos(_teleportTarget.position);
 		}
-		if(_rerot){
-			_rerot=false;
+		if (_rerot)
+		{
+			_rerot = false;
 			_vrmng.Rerot(_teleportTarget.rotation);
 		}
-		if(_reloc){
-			_reloc=false;
+		if (_reloc)
+		{
+			_reloc = false;
 			_vrmng.Reloc(Loc.FromWorldTransform(_teleportTarget));
 		}
 #endif
 
-		var sh = _beam.Southpaw ? _vrmng.Input.HandRight : _vrmng.Input.HandLeft;
-		if (_chgtrig.Update(sh.IsButton1Pressed())>0){
+		var h1 = _beam.Southpaw ? _vrmng.Input.HandLeft : _vrmng.Input.HandRight;
+		var h2 = _beam.Southpaw ? _vrmng.Input.HandRight : _vrmng.Input.HandLeft;
+		if (_reloctrig.Update(h1.IsButton2Pressed()) > 0)
+		{
+			_vrmng.Input.GUI.Relocate();
+		}
+		if (_chgtrig.Update(h2.IsButton1Pressed()) > 0)
+		{
 			_vrmng.Input.Southpaw = _beam.Southpaw = !_beam.Southpaw;
 		}
 
 		_vrmng.Update();
-		if(_cameraFeedback)_vrmng.Camera.Feedback();
+		if (_cameraFeedback) _vrmng.Camera.Feedback();
 		_flow.Update();
 
 #if UNITY_EDITOR
@@ -202,57 +212,57 @@ public class VRPlug : MonoBehaviour
 		_rightRotZy = RotUt.Zy(rh.Rot);
 		_rightRotZz = RotUt.Zz(rh.Rot);
 
-		var ls=inp.HandLeft.GetStickTilting();
-		_leftStickTiltingX=ls.x;
-		_leftStickTiltingY=ls.y;
-		_leftStickTouch=inp.HandLeft.IsStickTouching();
-		_leftStickPressed=inp.HandLeft.IsStickPressed();
-		_leftIndexTouch=inp.HandLeft.IsIndexTouching();
-		_leftIndexPressed=inp.HandLeft.IsIndexPressed();
-		_leftIndexPressing=inp.HandLeft.GetIndexPressing();
-		_leftHandPressed=inp.HandLeft.IsHandPressed();
-		_leftHandPressing=inp.HandLeft.GetHandPressing();
-		_leftButton1Touch=inp.HandLeft.IsButton1Touching();
-		_leftButton1Pressed=inp.HandLeft.IsButton1Pressed();
-		_leftButton2Touch=inp.HandLeft.IsButton2Touching();
-		_leftButton2Pressed=inp.HandLeft.IsButton2Pressed();
+		var ls = inp.HandLeft.GetStickTilting();
+		_leftStickTiltingX = ls.x;
+		_leftStickTiltingY = ls.y;
+		_leftStickTouch = inp.HandLeft.IsStickTouching();
+		_leftStickPressed = inp.HandLeft.IsStickPressed();
+		_leftIndexTouch = inp.HandLeft.IsIndexTouching();
+		_leftIndexPressed = inp.HandLeft.IsIndexPressed();
+		_leftIndexPressing = inp.HandLeft.GetIndexPressing();
+		_leftHandPressed = inp.HandLeft.IsHandPressed();
+		_leftHandPressing = inp.HandLeft.GetHandPressing();
+		_leftButton1Touch = inp.HandLeft.IsButton1Touching();
+		_leftButton1Pressed = inp.HandLeft.IsButton1Pressed();
+		_leftButton2Touch = inp.HandLeft.IsButton2Touching();
+		_leftButton2Pressed = inp.HandLeft.IsButton2Pressed();
 
-		var rs=inp.HandRight.GetStickTilting();
-		_rightStickTiltingX=rs.x;
-		_rightStickTiltingY=rs.y;
-		_rightStickTouch=inp.HandRight.IsStickTouching();
-		_rightStickPressed=inp.HandRight.IsStickPressed();
-		_rightIndexTouch=inp.HandRight.IsIndexTouching();
-		_rightIndexPressed=inp.HandRight.IsIndexPressed();
-		_rightIndexPressing=inp.HandRight.GetIndexPressing();
-		_rightHandPressed=inp.HandRight.IsHandPressed();
-		_rightHandPressing=inp.HandRight.GetHandPressing();
-		_rightButton1Touch=inp.HandRight.IsButton1Touching();
-		_rightButton1Pressed=inp.HandRight.IsButton1Pressed();
-		_rightButton2Touch=inp.HandRight.IsButton2Touching();
-		_rightButton2Pressed=inp.HandRight.IsButton2Pressed();
+		var rs = inp.HandRight.GetStickTilting();
+		_rightStickTiltingX = rs.x;
+		_rightStickTiltingY = rs.y;
+		_rightStickTouch = inp.HandRight.IsStickTouching();
+		_rightStickPressed = inp.HandRight.IsStickPressed();
+		_rightIndexTouch = inp.HandRight.IsIndexTouching();
+		_rightIndexPressed = inp.HandRight.IsIndexPressed();
+		_rightIndexPressing = inp.HandRight.GetIndexPressing();
+		_rightHandPressed = inp.HandRight.IsHandPressed();
+		_rightHandPressing = inp.HandRight.GetHandPressing();
+		_rightButton1Touch = inp.HandRight.IsButton1Touching();
+		_rightButton1Pressed = inp.HandRight.IsButton1Pressed();
+		_rightButton2Touch = inp.HandRight.IsButton2Touching();
+		_rightButton2Pressed = inp.HandRight.IsButton2Pressed();
 
-		var ps=inp.HandPrimary.GetStickTilting();
-		_primaryStickTiltingX=ps.x;
-		_primaryStickTiltingY=ps.y;
-		_primaryStickTouch=inp.HandPrimary.IsStickTouching();
-		_primaryStickPressed=inp.HandPrimary.IsStickPressed();
-		_primaryIndexTouch=inp.HandPrimary.IsIndexTouching();
-		_primaryIndexPressed=inp.HandPrimary.IsIndexPressed();
-		_primaryIndexPressing=inp.HandPrimary.GetIndexPressing();
-		_primaryHandPressed=inp.HandPrimary.IsHandPressed();
-		_primaryHandPressing=inp.HandPrimary.GetHandPressing();
+		var ps = inp.HandPrimary.GetStickTilting();
+		_primaryStickTiltingX = ps.x;
+		_primaryStickTiltingY = ps.y;
+		_primaryStickTouch = inp.HandPrimary.IsStickTouching();
+		_primaryStickPressed = inp.HandPrimary.IsStickPressed();
+		_primaryIndexTouch = inp.HandPrimary.IsIndexTouching();
+		_primaryIndexPressed = inp.HandPrimary.IsIndexPressed();
+		_primaryIndexPressing = inp.HandPrimary.GetIndexPressing();
+		_primaryHandPressed = inp.HandPrimary.IsHandPressed();
+		_primaryHandPressing = inp.HandPrimary.GetHandPressing();
 
-		var ss=inp.HandSecondary.GetStickTilting();
-		_secondaryStickTiltingX=ss.x;
-		_secondaryStickTiltingY=ss.y;
-		_secondaryStickTouch=inp.HandSecondary.IsStickTouching();
-		_secondaryStickPressed=inp.HandSecondary.IsStickPressed();
-		_secondaryIndexTouch=inp.HandSecondary.IsIndexTouching();
-		_secondaryIndexPressed=inp.HandSecondary.IsIndexPressed();
-		_secondaryIndexPressing=inp.HandSecondary.GetIndexPressing();
-		_secondaryHandPressed=inp.HandSecondary.IsHandPressed();
-		_secondaryHandPressing=inp.HandSecondary.GetHandPressing();
+		var ss = inp.HandSecondary.GetStickTilting();
+		_secondaryStickTiltingX = ss.x;
+		_secondaryStickTiltingY = ss.y;
+		_secondaryStickTouch = inp.HandSecondary.IsStickTouching();
+		_secondaryStickPressed = inp.HandSecondary.IsStickPressed();
+		_secondaryIndexTouch = inp.HandSecondary.IsIndexTouching();
+		_secondaryIndexPressed = inp.HandSecondary.IsIndexPressed();
+		_secondaryIndexPressing = inp.HandSecondary.GetIndexPressing();
+		_secondaryHandPressed = inp.HandSecondary.IsHandPressed();
+		_secondaryHandPressing = inp.HandSecondary.GetHandPressing();
 
 		// Hierarchy書き出し 
 		if (_dumpHierarchy)

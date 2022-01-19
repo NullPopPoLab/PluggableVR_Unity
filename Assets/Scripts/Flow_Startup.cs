@@ -28,10 +28,13 @@ public class Flow_Startup : FlowBase
 		var vrgui = vrmng.Input.GUI;
 		vrgui.ES.Start("/EventSystem");
 		vrgui.SetCursor(new DemoCursor());
-//		vrgui.SetPointer(avatar.RightHand.Raycaster.transform);
+		//		vrgui.SetPointer(avatar.RightHand.Raycaster.transform);
 
 		// CanvasをVR入力対応にする 
-		vrgui.AddCanvas("/Canvas");
+		var plc = VRCanvas.Placing.Default;
+		plc.Distance = 1.5f;
+		plc.Height = -0.5f;
+		vrgui.AddCanvas("/Canvas",plc);
 		vrgui.AddCanvas("/Canvas/Region/Panel/Dropdown/Dropdown List");
 
 		// world raycast設定 
