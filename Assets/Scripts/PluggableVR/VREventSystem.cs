@@ -15,6 +15,16 @@ namespace PluggableVR
 		public virtual VRCursor Cursor { get; set; }
 		public virtual Transform Pointer { get; set; }
 
+		private bool _southpaw;
+		public virtual bool Southpaw
+		{
+			get { return _southpaw; }
+			set
+			{
+				_southpaw = value;
+			}
+		}
+
 		protected override void OnUpdate()
 		{
 			base.OnUpdate();

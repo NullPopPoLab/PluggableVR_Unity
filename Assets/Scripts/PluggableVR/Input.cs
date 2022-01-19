@@ -69,6 +69,17 @@ namespace PluggableVR
 		public bool IsHit { get; protected set; }
 		public Aimer Aimer;
 
+		private bool _southpaw;
+		public virtual bool Southpaw
+		{
+			get { return _southpaw; }
+			set
+			{
+				_southpaw = value;
+				ES.Southpaw = value;
+			}
+		}
+
 		private ComponentList<Canvas> _guis =new ComponentList<Canvas>();
 
 		public static InputGUI Setup(){
@@ -163,6 +174,15 @@ namespace PluggableVR
 		public InputHandSwitchable HandPrimary; //!< 主コントローラ(利き手と逆のコントローラ) 
 		public InputHandSwitchable HandSecondary; //!< 副コントローラ(利き手のコントローラ) 
 		public InputGUI GUI; //!< GUI操作 
+
+		private bool _southpaw;
+		public virtual bool Southpaw{
+			get { return _southpaw; }
+			set{
+				_southpaw = value;
+				GUI.Southpaw = value;
+			}
+		}
 
 		//! コンストラクタで初期化動作書くの無駄なので使うべきでない宣言 
 		protected Input() { }

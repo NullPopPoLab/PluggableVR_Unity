@@ -109,6 +109,7 @@ public class VRPlug : MonoBehaviour
 	private VRManager _vrmng = new VRManager();
 	private FlowStep _flow = new FlowStep();
 	private DemoBeam _beam;
+	private RelativeBool _chgtrig = new RelativeBool();
 
 	//! 初期設定 
 	protected void Awake()
@@ -153,6 +154,11 @@ public class VRPlug : MonoBehaviour
 			_vrmng.Reloc(Loc.FromWorldTransform(_teleportTarget));
 		}
 #endif
+
+		var sh = _beam.Southpaw ? _vrmng.Input.HandRight : _vrmng.Input.HandLeft;
+		if (_chgtrig.Update(sh.IsButton1Pressed())>0){
+			_vrmng.Input.Southpaw = _beam.Southpaw = !_beam.Southpaw;
+		}
 
 		_vrmng.Update();
 		if(_cameraFeedback)_vrmng.Camera.Feedback();

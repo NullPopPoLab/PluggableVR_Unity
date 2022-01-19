@@ -34,6 +34,22 @@ namespace PluggableVR.Oculus
 			}
 		}
 
+		public override bool Southpaw
+		{
+			get { return base.Southpaw; }
+			set
+			{
+				base.Southpaw = value;
+				_reassign();
+			}
+		}
+
+		private void _reassign()
+		{
+			if (_oim == null) return;
+			_oim.joyPadClickButton = Southpaw ? OVRInput.Button.Three : OVRInput.Button.One;
+		}
+
 		protected override void OnStart(){
 			base.OnStart();
 			var gobj=Target.gameObject;
@@ -44,6 +60,7 @@ namespace PluggableVR.Oculus
 			_oim =gobj.GetComponent<OVRInputModule>();
 			if(_oim==null)_oim=gobj.AddComponent<OVRInputModule>();
 			_oim.enabled=false;
+			_reassign();
 		}
 
 		protected override void OnTerminate()
