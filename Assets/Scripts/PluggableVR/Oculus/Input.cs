@@ -306,8 +306,9 @@ namespace PluggableVR.Oculus
 			gobj.SetActive(false);
 			_ogp = gobj.GetComponent<OVRGazePointer>();
 			if (_ogp == null) _ogp = gobj.AddComponent<OVRGazePointer>();
+			_ogp.hideByDefault = false;
 			_ogp.dimOnHideRequest = false;
-			_ogp.showTimeoutPeriod = 0.5f;
+			_ogp.showTimeoutPeriod = 0.0f;
 			_ogp.hideTimeoutPeriod = 0.0f;
 			ES.Cursor = src;
 			gobj.SetActive(true);
