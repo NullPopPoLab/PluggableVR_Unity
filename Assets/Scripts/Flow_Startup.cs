@@ -34,8 +34,8 @@ public class Flow_Startup : FlowBase
 		var plc = VRCanvas.Placing.Default;
 		plc.Distance = 1.5f;
 		plc.Height = -0.5f;
-		vrgui.AddCanvas("/Canvas",plc);
-		vrgui.AddCanvas("/Canvas/Region/Panel/Dropdown/Dropdown List");
+		vrgui.AddCanvas("/TestGUI",plc);
+		vrgui.AddCanvas("/TestGUI/Region/Panel/Dropdown/Dropdown List");
 
 		// world raycast設定 
 		vrgui.Aimer=TestAimer.Create();
