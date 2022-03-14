@@ -282,6 +282,70 @@ namespace PluggableVR.Oculus
 		}
 	}
 
+	//! GUI入力 
+	public class InputGUI : PluggableVR.InputGUI
+	{
+		private OVRGazePointer _ogp;
+
+		public new VREventSystem ES{ 
+			get{ return base.ES as VREventSystem; }
+			protected set { base.ES = value; }
+		}
+
+		public new static InputGUI Setup(){
+			var t=new InputGUI();
+			t.ES=new VREventSystem();
+			return t;
+		}
+
+		protected override bool OnSetCursor(VRCursor src)
+		{
+			if (!base.OnSetCursor(src)) return false;
+
+			var gobj=src.Ctrl.gameObject;
+			gobj.SetActive(false);
+			_ogp = gobj.GetComponent<OVRGazePointer>();
+			if (_ogp == null) _ogp = gobj.AddComponent<OVRGazePointer>();
+			_ogp.hideByDefault = false;
+			_ogp.dimOnHideRequest = false;
+			_ogp.showTimeoutPeriod = 0.0f;
+			_ogp.hideTimeoutPeriod = 0.0f;
+			ES.Cursor = src;
+			gobj.SetActive(true);
+
+			return true;
+		}
+
+		protected override bool OnSetPointer(Transform src) {
+
+			if (!base.OnSetPointer(src)) return false;
+
+			ES.Pointer = src;
+			if (_ogp != null) _ogp.rayTransform = src;
+
+			return true; 
+		}
+
+		protected override PluggableVR.VRCanvas OnCreateCanvas(PluggableVR.VRCanvas.Placing place) { return VRCanvas.Create(place); }
+
+		protected override void OnUpdate() {
+			base.OnUpdate();
+			if (_ogp == null) return;
+			if (ES.Cursor == null) return;
+			var a = _ogp.visibilityStrength;
+			ES.Cursor.Alpha = a;
+
+			// 実際の情報と差異あるが、必要なメンバがpublicになってないので次善策 
+			IsHit = a > 0.95f;
+		}
+
+		protected override void OnHit(RaycastHit info) {
+			base.OnHit(info);
+
+			_ogp.SetCursorStartDest(ES.Pointer.position, info.point, info.normal);
+		}
+	}
+
 	//! 入力機能基底 
 	public class Input : PluggableVR.Input
 	{
@@ -293,6 +357,7 @@ namespace PluggableVR.Oculus
 			t.HandRight = new InputHandRight();
 			t.HandPrimary = new InputHandPrimary();
 			t.HandSecondary = new InputHandSecondary();
+			t.GUI=InputGUI.Setup();
 			return t;
 		}
 
@@ -311,6 +376,7 @@ namespace PluggableVR.Oculus
 		public override void Update()
 		{
 			OVRInput.Update();
+			base.Update();
 		}
 		//! アニメーション処理後の更新 
 		public override void LateUpdate()

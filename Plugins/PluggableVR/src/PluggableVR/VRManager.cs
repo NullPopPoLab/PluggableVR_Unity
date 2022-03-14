@@ -16,14 +16,13 @@ namespace PluggableVR
 		public bool IsReady { get; private set; }
 
 		//! ユーザ入力部 
-		public static Input Input { get; private set; }
+		public Input Input { get; private set; }
 		//! VR操作元 
 		public VRPlayer Player { get; private set; }
 		//! VR操作先 
 		public VRAvatar Avatar { get { return Player.Avatar; } }
 		//! VRカメラ 
 		public VRCamera Camera { get { return Player.Camera; } }
-
 
 		public VRManager()
 		{

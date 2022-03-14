@@ -53,7 +53,7 @@ namespace PluggableVR
 
 		protected override void OnUpdate()
 		{
-			var inp = VRManager.Input;
+			var inp = VRManager.Instance.Input;
 
 			// スティックの指載せで操作の主観/俯瞰を切り替える 
 			var stk1 = inp.HandPrimary.IsStickTouching();
@@ -146,7 +146,7 @@ namespace PluggableVR
 		//! VRカメラを所定の位置に戻す 
 		public void ResetRig()
 		{
-			var inp = VRManager.Input;
+			var inp = VRManager.Instance.Input;
 
 			// カメラ位置 
 			var ce = Loc.FromWorldTransform(Camera.Transform);
