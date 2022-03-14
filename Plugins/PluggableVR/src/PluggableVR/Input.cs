@@ -3,6 +3,7 @@
 	@author NullPopPoLab
 	@sa https://github.com/NullPopPoLab/PluggableVR_Unity
 */
+using System;
 using UnityEngine;
 using NullPopPoSpecial;
 
@@ -61,6 +62,109 @@ namespace PluggableVR
 		public virtual bool IsButton2Pressed() { return false; }
 	}
 
+	//! GUI入力基底 
+	public class InputGUI
+	{
+		public VREventSystem ES { get; protected set; }
+		public bool IsHit { get; protected set; }
+		public Aimer Aimer;
+
+		private bool _southpaw;
+		public virtual bool Southpaw
+		{
+			get { return _southpaw; }
+			set
+			{
+				_southpaw = value;
+				ES.Southpaw = value;
+			}
+		}
+
+		private ComponentList<Canvas> _guis =new ComponentList<Canvas>();
+
+		public static InputGUI Setup(){
+			var t=new InputGUI();
+			t.ES=new VREventSystem();
+			return t;
+		}
+
+		public bool SetCursor(VRCursor src)
+		{
+			if (src == null) return false;
+			return OnSetCursor(src);
+		}
+		protected virtual bool OnSetCursor(VRCursor src) { return true; }
+
+		private void _setPointer(ComponentScope<Canvas> dst)
+		{
+			var vrc = dst as VRCanvas;
+			vrc.SetPointer(ES.Pointer);
+		}
+
+		public bool SetPointer(Transform src)
+		{
+			if (src == null) return false;
+
+			ES.Pointer = src;
+			_guis.Broadcast(_setPointer);
+
+			return OnSetPointer(src);
+		}
+		protected virtual bool OnSetPointer(Transform src) { return true; }
+
+		public VRCanvas AddCanvas(Canvas src, VRCanvas.Placing placing)
+		{
+			var vrc = OnCreateCanvas(placing);
+			_guis.Add(vrc);
+			vrc.SetPointer(ES.Pointer);
+			vrc.Start(src);
+			return vrc;
+		}
+		public VRCanvas AddCanvas(string path, VRCanvas.Placing placing)
+		{
+			var vrc = OnCreateCanvas(placing);
+			_guis.Add(vrc);
+			vrc.SetPointer(ES.Pointer);
+			vrc.Start(path);
+			return vrc;
+		}
+		public VRCanvas AddCanvas(Canvas src) { return AddCanvas(src, VRCanvas.Placing.Default); }
+		public VRCanvas AddCanvas(string path) { return AddCanvas(path, VRCanvas.Placing.Default); }
+		protected virtual VRCanvas OnCreateCanvas(VRCanvas.Placing place) { return VRCanvas.Create(place); }
+
+		private void _relocate(ComponentScope<Canvas> dst)
+		{
+			var vrc = dst as VRCanvas;
+			vrc.Relocate();
+		}
+		public void Relocate(){
+			_guis.Broadcast(_relocate);
+		}
+
+		public void Update(){
+			IsHit = false;
+			ES.Update();
+			OnUpdate();
+			_guis.Update();
+			if (IsHit)
+			{
+				if (Aimer != null) Aimer.Clear();
+				return;
+			}
+
+			// world raycastを試す 
+			if(Aimer != null)
+			{
+				Aimer.Src = ES.Pointer;
+				if (Aimer.Update()) OnHit(Aimer.Info.Value);
+				else OnMiss();
+			}
+		}
+		protected virtual void OnUpdate() { }
+		protected virtual void OnHit(RaycastHit info) { }
+		protected virtual void OnMiss() { }
+	}
+
 	//! 入力機能基底 
 	public class Input
 	{
@@ -69,6 +173,16 @@ namespace PluggableVR
 		public InputHandFixed HandRight; //!< 右コントローラ 
 		public InputHandSwitchable HandPrimary; //!< 主コントローラ(利き手と逆のコントローラ) 
 		public InputHandSwitchable HandSecondary; //!< 副コントローラ(利き手のコントローラ) 
+		public InputGUI GUI; //!< GUI操作 
+
+		private bool _southpaw;
+		public virtual bool Southpaw{
+			get { return _southpaw; }
+			set{
+				_southpaw = value;
+				GUI.Southpaw = value;
+			}
+		}
 
 		//! コンストラクタで初期化動作書くの無駄なので使うべきでない宣言 
 		protected Input() { }
@@ -80,6 +194,7 @@ namespace PluggableVR
 			t.Head = new InputHead();
 			t.HandPrimary = t.HandLeft = new InputHandFixed();
 			t.HandSecondary = t.HandRight = new InputHandFixed();
+			t.GUI=InputGUI.Setup();
 			return t;
 		}
 
@@ -89,7 +204,9 @@ namespace PluggableVR
 		//! 物理フレーム毎の更新 
 		public virtual void FixedUpdate(){}
 		//! 描画フレーム毎の更新 
-		public virtual void Update(){}
+		public virtual void Update(){
+			GUI.Update();
+		}
 		//! アニメーション処理後の更新 
 		public virtual void LateUpdate(){}
 	}
