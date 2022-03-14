@@ -21,7 +21,25 @@ public class Flow_Startup : FlowBase
 		var scale = 1.0f;
 		var avatar = new DemoAvatar(Loc.Identity, scale);
 		var player = new DemoPlayer(avatar, scale);
-		VRManager.Instance.SetPlayer(player);
+
+		// VR入力カーソル,ポインタ 
+		var vrmng=VRManager.Instance;
+		vrmng.SetPlayer(player);
+		var vrgui = vrmng.Input.GUI;
+		vrgui.ES.Start("/EventSystem");
+		vrgui.SetCursor(new DemoCursor());
+		//		vrgui.SetPointer(avatar.RightHand.Raycaster.transform);
+
+		// CanvasをVR入力対応にする 
+		var plc = VRCanvas.Placing.Default;
+		plc.Distance = 1.5f;
+		plc.Height = -0.5f;
+		vrgui.AddCanvas("/TestGUI",plc);
+		vrgui.AddCanvas("/TestGUI/Region/Panel/Dropdown/Dropdown List");
+
+		// world raycast設定 
+		vrgui.Aimer=TestAimer.Create();
+		vrgui.Aimer.Include(TestAimee.Create(GameObject.Find("/TeleportTarget/Cube").transform));
 
 		// 既存のAudioListener封印 
 		GameObject.Find("/Main Camera").GetComponent<AudioListener>().enabled = false;

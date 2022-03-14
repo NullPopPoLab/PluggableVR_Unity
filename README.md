@@ -17,14 +17,16 @@ Oculus Integrationの古いバージョンを入手しなければならない�
 ## ブランチ説明
 
 - main: 通常の機能実装用
-- Plugin_CS: (コイカツ版)CharaStudio用プラグイン (Unity 5.6.2f1)
-- Plugin_CS2: (コイカツサンシャイン版)CharaStudio用プラグイン (Unity 2019.4.9f1)
 - Plugin_EC: エモーションクリエイターズ用プラグイン (Unity 2017.4.24f1)
-- Plugin_HS2: ハニーセレクト2用プラグイン (Unity 2018.2.21f1)
-- Plugin_KK: コイカツ用プラグイン (Unity 5.6.2f1)
-- Plugin_KKS: コイカツサンシャイン用プラグイン (Unity 2019.4.9f1)
-- Plugin_SN2: StudioNEOV2用プラグイン (Unity 2018.4.11f1)
+- Plugin_HS2: ハニーセレクト2,StudioNEOV2用プラグイン (Unity 2018.2.21f1~2018.4.11f1)
+- Plugin_KK: コイカツ,CharaStudio用プラグイン (Unity 5.6.2f1)
+- Plugin_KKS: コイカツサンシャイン,CharaStudio用プラグイン (Unity 2019.4.9f1)
 
+### 以下廃止
+
+- Plugin_CS: (コイカツ版)CharaStudio用プラグイン → Plugin_KK に統合済
+- Plugin_CS2: (コイカツサンシャイン版)CharaStudio用プラグイン → Plugin_KKS に統合済
+- Plugin_SN2: StudioNEOV2用プラグイン → Plugin_HS2 に統合済
 
 ## 能書きはさておき、ひとまず動作デモ
 

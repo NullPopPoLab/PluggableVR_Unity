@@ -35,11 +35,17 @@ namespace NullPopPoSpecial
 			OnUpdate();
 		}
 
+		public void Broadcast(Action<GameObjectScope> func)
+		{
+			OnBroadcast(func);
+		}
+
 		protected virtual int OnCount() { return 0; }
 		protected virtual void OnReset() { }
 		protected virtual void OnCleanup() { }
 		protected virtual void OnTerminate() { }
 		protected virtual void OnUpdate() { }
+		protected virtual void OnBroadcast(Action<GameObjectScope> func) { }
 	}
 
 	//! 連番指定のオブジェクトグループ 
@@ -84,6 +90,16 @@ namespace NullPopPoSpecial
 				var obj = _grp[i];
 				if (obj == null) continue;
 				obj.Update();
+			}
+		}
+
+		protected override void OnBroadcast(Action<GameObjectScope> func)
+		{
+			for (var i = 0; i < _grp.Count; ++i)
+			{
+				var obj = _grp[i];
+				if (obj == null) continue;
+				func(obj);
 			}
 		}
 
@@ -203,6 +219,16 @@ namespace NullPopPoSpecial
 				var obj = p.Value;
 				if (obj == null) continue;
 				obj.Update();
+			}
+		}
+
+		protected override void OnBroadcast(Action<GameObjectScope> func)
+		{
+			foreach (var p in _grp)
+			{
+				var obj = p.Value;
+				if (obj == null) continue;
+				func(obj);
 			}
 		}
 

@@ -71,6 +71,11 @@ namespace NullPopPoSpecial
 			return new Cycle(r / 360.0f);
 		}
 
+		public static Cycle operator -(Cycle src)
+		{
+			return new Cycle(-src.O);
+		}
+
 		public static Cycle operator +(Cycle dst, Cycle src)
 		{
 			return new Cycle(dst.O + src.O);
