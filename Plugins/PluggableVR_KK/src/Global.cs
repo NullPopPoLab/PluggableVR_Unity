@@ -25,8 +25,6 @@ namespace PluggableVR_KK
 		private static VRManager _vrmng;
 		private static Scenewalk _scenes;
 
-		private static RelativeBool _push_rbtn2 = new RelativeBool();
-
 		internal static DemoAvatarExtra DemoAvatarExtra;
 
 		internal static void Enable()
@@ -53,13 +51,6 @@ namespace PluggableVR_KK
 		{
 			_scenes.Update();
 			_vrmng.Update();
-
-			var inp = VRManager.Instance.Input;
-			_push_rbtn2.Update(inp.HandRight.IsButton2Pressed());
-			if (inp.HandLeft.IsButton2Pressed() && _push_rbtn2.Delta > 0)
-			{
-				HierarchyDumper.Dumper.Dump2File("Hier_" + Paths.ProcessName);
-			}
 		}
 
 		internal static void LateUpdate()

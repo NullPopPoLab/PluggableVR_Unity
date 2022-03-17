@@ -19,17 +19,20 @@ namespace HierarchyDumper
 
 		public static Main Instance;
 
-		private RelativeBool _push_rbtn2 = new RelativeBool();
+		private ConfigEntry<KeyboardShortcut> _dumpTrigger;
 
 		protected void Awake()
 		{
 			Instance = this;
+
+			_dumpTrigger = Config.Bind("Keyboard Shortcuts", "Dump the Hierarchy", new KeyboardShortcut(KeyCode.P, KeyCode.RightAlt, KeyCode.AltGr), new ConfigDescription("Dump GameObject info to File"));
+
 			Harmony.CreateAndPatchAll(typeof(Main));
 		}
 
 		protected void Update()
 		{
-			if ((Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)) && Input.GetKeyDown(KeyCode.P))
+			if (_dumpTrigger.Value.IsDown())
 			{
 				Dumper.Dump2File("Hier_"+Paths.ProcessName);
 			}
