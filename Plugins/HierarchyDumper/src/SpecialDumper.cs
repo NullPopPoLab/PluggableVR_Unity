@@ -60,6 +60,7 @@ namespace HierarchyDumper
 
 		public static string Dump(object obj, string indent = "")
 		{
+			if (obj == null) return "";
 			if (_instance == null) _instance = new SpecialDumper();
 			var type = obj.GetType();
 			var name = type.Name;
