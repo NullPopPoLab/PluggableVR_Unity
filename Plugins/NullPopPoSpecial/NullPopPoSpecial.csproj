@@ -45,6 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\Aimee.cs" />
+    <Compile Include="src\Aimer.cs" />
+    <Compile Include="src\BuiltIn.cs" />
     <Compile Include="src\ChangingCensor.cs" />
     <Compile Include="src\Chaser.cs" />
     <Compile Include="src\ComponentGroup.cs" />

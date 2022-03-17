@@ -54,7 +54,7 @@ namespace PluggableVR_CS
 			_scenes.Update();
 			_vrmng.Update();
 
-			var inp = VRManager.Input;
+			var inp = VRManager.Instance.Input;
 			_push_rbtn2.Update(inp.HandRight.IsButton2Pressed());
 			if (inp.HandLeft.IsButton2Pressed() && _push_rbtn2.Delta > 0)
 			{

@@ -42,6 +42,9 @@
     <Reference Include="UnityEngine">
       <HintPath>..\game\Koikatu_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>..\game\Koikatu_Data\Managed\UnityEngine.UI.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -63,24 +66,39 @@
     <Compile Include="src\Oculus\OVRPlugin.cs" />
     <Compile Include="src\Oculus\OVRProfile.cs" />
     <Compile Include="src\Oculus\OVRTracker.cs" />
+    <Compile Include="src\Oculus\Util\OVRCursor.cs" />
+    <Compile Include="src\Oculus\Util\OVRGazePointer.cs" />
+    <Compile Include="src\Oculus\Util\OVRInputModule.cs" />
     <Compile Include="src\Oculus\Util\OVRMixedRealityCaptureSettings.cs" />
     <Compile Include="src\Oculus\Util\OVRNetwork.cs" />
+    <Compile Include="src\Oculus\Util\OVRPhysicsRaycaster.cs" />
+    <Compile Include="src\Oculus\Util\OVRPointerEventData.cs" />
+    <Compile Include="src\Oculus\Util\OVRProgressIndicator.cs" />
+    <Compile Include="src\Oculus\Util\OVRRaycaster.cs" />
     <Compile Include="src\Oculus\Util\OVRSystemPerfMetrics.cs" />
     <Compile Include="src\PluggableVR\DemoAvatar.cs" />
+    <Compile Include="src\PluggableVR\DemoBeam.cs" />
     <Compile Include="src\PluggableVR\DemoControl.cs" />
+    <Compile Include="src\PluggableVR\DemoCursor.cs" />
     <Compile Include="src\PluggableVR\DemoPlayer.cs" />
     <Compile Include="src\PluggableVR\Input.cs" />
     <Compile Include="src\PluggableVR\Oculus\Input.cs" />
+    <Compile Include="src\PluggableVR\Oculus\VRCanvas.cs" />
+    <Compile Include="src\PluggableVR\Oculus\VREventSystem.cs" />
     <Compile Include="src\PluggableVR\PlugCommon.cs" />
     <Compile Include="src\PluggableVR\VRAvatar.cs" />
     <Compile Include="src\PluggableVR\VRCamera.cs" />
     <Compile Include="src\PluggableVR\VRCameraController.cs" />
     <Compile Include="src\PluggableVR\VRCameraSource.cs" />
+    <Compile Include="src\PluggableVR\VRCanvas.cs" />
     <Compile Include="src\PluggableVR\VRControl.cs" />
+    <Compile Include="src\PluggableVR\VRCursor.cs" />
+    <Compile Include="src\PluggableVR\VREventSystem.cs" />
     <Compile Include="src\PluggableVR\VRManager.cs" />
     <Compile Include="src\PluggableVR\VRPlayer.cs" />
     <Compile Include="src\ThirdParty\openvr_api.cs" />
     <Compile Include="src\ThirdParty\SimpleJSON.cs" />
+    <Compile Include="src\ThirdParty\SimpleJSONUnity.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NullPopPoSpecial\NullPopPoSpecial.csproj">
