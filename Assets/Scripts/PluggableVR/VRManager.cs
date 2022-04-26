@@ -23,6 +23,8 @@ namespace PluggableVR
 		public VRAvatar Avatar { get { return Player.Avatar; } }
 		//! VRカメラ 
 		public VRCamera Camera { get { return Player.Camera; } }
+		//! VRビーム 
+		public VRBeam Beam { get; private set; }
 
 		public VRManager()
 		{
@@ -53,6 +55,13 @@ namespace PluggableVR
 		{
 			if (!IsReady) return;
 			Player = player;
+		}
+
+		//! ビーム設定 
+		public void SetBeam(VRBeam beam)
+		{
+			if (!IsReady) return;
+			Beam = beam;
 		}
 
 		//! 位置だけ変更 
@@ -86,6 +95,7 @@ namespace PluggableVR
 		public void Update()
 		{
 			if (!IsReady) return;
+			if (Beam != null) Beam.Update();
 			Input.Update();
 			if (Player != null) Player.Update();
 		}

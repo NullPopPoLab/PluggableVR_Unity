@@ -8,34 +8,28 @@ using NullPopPoSpecial;
 namespace PluggableVR
 {
 	//! デモ用VR操作ビーム 
-	public class DemoBeam
+	public class DemoBeam: VRBeam
 	{
-		private bool _southpaw;
-		public bool Southpaw{
-			get{return _southpaw;}
-			set{
-				if(value==_southpaw)return;
-				_southpaw=value;
-				Change();
-			}
+		private RelativeBool _chgtrig = new RelativeBool();
+		private RelativeBool _reloctrig = new RelativeBool();
+
+		public DemoBeam(){
 		}
 
-		public DemoBeam(bool southpaw){
-			_southpaw=southpaw;
-			Change();
-		}
+		protected override void OnUpdate() {
+			base.OnUpdate();
 
-		public void Change(){
-
-			var vrmng=VRManager.Instance;
-			var vrgui = vrmng.Input.GUI;
-			var avatar=vrmng.Avatar as DemoAvatar;
-
-			if(_southpaw){
-				vrgui.SetPointer(avatar.LeftHand.Raycaster.transform);
+			var vrmng = VRManager.Instance;
+			var input = vrmng.Input;
+			var h1 = Southpaw ? input.HandLeft : input.HandRight;
+			var h2 = Southpaw ? input.HandRight : input.HandLeft;
+			if (_reloctrig.Update(h1.IsButton2Pressed()) > 0)
+			{
+				input.GUI.Relocate();
 			}
-			else{
-				vrgui.SetPointer(avatar.RightHand.Raycaster.transform);
+			if (_chgtrig.Update(h2.IsButton1Pressed()) > 0)
+			{
+				input.Southpaw = Southpaw = !Southpaw;
 			}
 		}
 	}
